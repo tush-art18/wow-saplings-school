@@ -163,7 +163,7 @@ export default function GalleryPage() {
                       <h2 className="font-heading font-bold text-3xl">{selectedPhoto.title}</h2>
                     </div>
                     <div className="hidden md:flex bg-white/20 backdrop-blur-md px-4 py-2 rounded-full text-sm font-medium items-center gap-2">
-                       <Info size={16} /> Taken on {selectedPhoto.date}
+                       <Info size={16} /> WOW Saplings Gallery
                     </div>
                   </div>
                </motion.div>
