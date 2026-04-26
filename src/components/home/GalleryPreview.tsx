@@ -1,0 +1,98 @@
+"use client";
+
+import { useRef } from "react";
+import Link from "next/link";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+
+export default function GalleryPreview() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const photos = [
+    { title: "Fun with Colors", cat: "Activity", color: "bg-accent-yellow", text: "text-[#5D4037]", img: "/child-activiti-01.jpeg" },
+    { title: "Story Time", cat: "Creative", color: "bg-accent-blue", text: "text-white", img: "/child-activiti-02.jpeg" },
+    { title: "Outdoor Play", cat: "Sports", color: "bg-accent-orange", text: "text-white", img: "/child-activiti-03.jpeg" },
+    { title: "Building Blocks", cat: "Learning", color: "bg-accent-pink", text: "text-white", img: "/child-activiti-04.jpeg" },
+    { title: "Annual Day Prep", cat: "Events", color: "bg-accent-purple", text: "text-white", img: "/child-activiti-05.jpeg" },
+    { title: "Junior Scientists", cat: "Science", color: "bg-accent-blue", text: "text-white", img: "/child-activiti-06.jpeg" },
+    { title: "Music & Movement", cat: "Music", color: "bg-accent-yellow", text: "text-[#5D4037]", img: "/child-activiti-07.jpeg" },
+  ];
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const { scrollLeft, clientWidth } = scrollRef.current;
+      const scrollTo = direction === 'left' ? scrollLeft - clientWidth : scrollLeft + clientWidth;
+      scrollRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <section className="py-20 md:py-32 bg-white overflow-hidden relative">
+
+      {/* Background Decor */}
+      <div className="absolute top-0 left-0 w-full h-24 md:h-32 bg-primary-light/30 wavy-bottom"></div>
+      <div className="absolute top-10 md:top-20 right-10 w-32 h-32 md:w-48 md:h-48 opacity-100 floating-cloud pointer-events-none">
+        <img src="/sticker-sun.png" alt="Sticker" className="w-full h-full object-contain" />
+      </div>
+
+      <div className="container mx-auto px-4 md:px-8 mb-12 md:mb-16 relative z-10">
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-end gap-6 text-center md:text-left">
+          <div>
+            <h2 className="font-heading font-extrabold text-4xl md:text-7xl text-primary-dark leading-tight">Life at WOW! 🌈</h2>
+            <p className="text-gray-500 mt-3 md:mt-4 text-base md:text-xl font-bold uppercase tracking-widest">A peek into our magical world</p>
+          </div>
+          <div className="flex gap-4">
+            <button
+              onClick={() => scroll('left')}
+              className="bg-white border-4 border-primary text-primary p-4 rounded-full shadow-lg hover:bg-primary-light transition-all active:scale-95 cursor-pointer"
+              title="Previous"
+            >
+              <ArrowLeft />
+            </button>
+            <button
+              onClick={() => scroll('right')}
+              className="bg-primary text-white p-4 rounded-full shadow-lg hover:bg-primary-dark transition-all active:scale-95 cursor-pointer"
+              title="Next"
+            >
+              <ArrowRight />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        ref={scrollRef}
+        className="flex gap-6 md:gap-8 overflow-x-auto scroll-smooth no-scrollbar snap-x snap-mandatory px-4 md:px-8 pb-12 pt-4 relative z-10"
+      >
+        {photos.map((item, i) => (
+          <div
+            key={i}
+            className="min-w-[240px] h-64 sm:min-w-[320px] sm:h-[400px] md:min-w-[380px] md:h-[480px] rounded-[2rem] md:rounded-[3rem] bg-gray-100 flex-shrink-0 relative overflow-hidden group sticker-shadow border-4 md:border-8 border-white snap-center"
+          >
+            {item.img ? (
+              <img
+                src={item.img}
+                alt={item.title}
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s]"
+              />
+            ) : (
+              <div
+                className={`absolute inset-0 ${item.color} flex items-center justify-center text-6xl md:text-8xl`}
+              >
+                🎭
+              </div>
+            )}
+
+            <div className="absolute inset-x-3 md:inset-x-6 bottom-3 md:bottom-6 transform group-hover:-translate-y-2 transition-transform duration-500">
+              <div className={`${item.color} ${item.text} p-4 md:p-6 rounded-[1.8rem] md:rounded-[2.5rem] border-2 md:border-4 border-white shadow-xl`}>
+                <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest block mb-1 md:mb-2 opacity-80">{item.cat}</span>
+                <h3 className="font-heading font-extrabold text-lg md:text-2xl leading-tight">{item.title}</h3>
+              </div>
+            </div>
+          </div>
+        ))}
+        {/* End Spacer */}
+        <div className="min-w-[40px] md:min-w-[100px] h-full flex-shrink-0"></div>
+      </div>
+    </section>
+  );
+}
