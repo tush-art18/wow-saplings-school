@@ -52,11 +52,11 @@ export default function CTASection() {
               Start Your <br/> <span className="text-white drop-shadow-xl block mt-2">WOW Journey!</span>
            </h2>
            <p className="text-lg md:text-2xl text-[#5D4037] font-bold mb-10 md:mb-14 opacity-80 underline decoration-white decoration-2 underline-offset-8">
-             Admissions are open for 2025-26.
+             Admissions are open for 2026-27.
            </p>
            <div className="flex flex-col sm:flex-row justify-center gap-4 md:gap-6">
              <Link href="/admission" className="bg-primary text-white px-10 md:px-14 py-4 md:py-6 rounded-full font-black text-xl md:text-2xl shadow-xl hover:scale-105 transition-all sticker-shadow border-2 md:border-4 border-white">
-                Enrol Today 🚀
+                Enquiry Today 🚀
              </Link>
              <Link href="/contact" className="bg-white text-primary px-10 md:px-14 py-4 md:py-6 rounded-full font-black text-xl md:text-2xl shadow-xl hover:scale-105 transition-all sticker-shadow border-2 md:border-4 border-primary/20">
                 Contact Us

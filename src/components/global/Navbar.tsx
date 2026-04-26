@@ -72,7 +72,7 @@ export default function Navbar() {
               href="/admission" 
               className="bg-accent-yellow text-primary-dark hover:bg-primary hover:text-white px-8 py-3 rounded-full font-extrabold shadow-lg hover:shadow-primary/20 transition-all active:scale-95 border-b-4 border-black/10"
             >
-              Enrol Now 🚀
+              Enquiry Now 🚀
             </Link>
           </div>
 

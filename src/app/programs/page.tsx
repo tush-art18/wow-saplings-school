@@ -8,7 +8,6 @@ import { Clock, Users, ArrowRight, CheckCircle2, Award, BookOpen, ShieldCheck, M
 
 export default function ProgramsPage() {
   const [activeCategory, setActiveCategory] = useState("All");
-  const headingRef = useRef<HTMLHeadingElement>(null);
 
   const categories = ["All", "Playgroup", "Nursery", "Jr KG", "Sr KG", "Phonics", "Abacus"];
 
@@ -85,48 +84,34 @@ export default function ProgramsPage() {
     ? programs 
     : programs.filter(p => p.category === activeCategory);
 
-  useEffect(() => {
-    // GSAP Text Stagger for H1
-    if (headingRef.current) {
-      const text = headingRef.current.innerText;
-      headingRef.current.innerHTML = "";
-      const words = text.split(" ");
-      words.forEach(word => {
-        const span = document.createElement("span");
-        span.innerText = word + " ";
-        span.style.display = "inline-block";
-        span.style.opacity = "0";
-        span.style.transform = "translateY(20px)";
-        span.className = "hero-word-prog";
-        headingRef.current?.appendChild(span);
-      });
 
-      gsap.to(".hero-word-prog", {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        stagger: 0.05,
-        ease: "power2.out",
-        delay: 0.1
-      });
-    }
-  }, []);
 
   return (
     <div className="min-h-screen bg-background pt-32 pb-20">
       <div className="container mx-auto px-4 md:px-8">
         
         {/* Header Section */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-block bg-primary-light text-primary font-bold px-4 py-1.5 rounded-full text-sm mb-4">
-            Kolhapur's Best Curriculum
+        <div className="text-center max-w-4xl mx-auto mb-16 relative">
+          <div className="inline-block bg-accent-yellow/20 text-primary-dark font-bold px-6 py-2 rounded-full text-sm mb-6 border-2 border-accent-yellow/30 animate-bounce">
+            🌈 Discover the Joy of Learning
           </div>
-          <h1 ref={headingRef} className="font-heading font-extrabold text-5xl md:text-6xl text-primary-dark mb-6 leading-tight">
-            Programs Designed for Every Stage of Growth
+          
+          <h1 className="font-heading font-extrabold text-5xl md:text-7xl mb-6 leading-[1.1]">
+            <span className="text-primary-dark block md:inline">Programs</span>{" "}
+            <span className="text-accent-pink">Designed</span>{" "}
+            <span className="text-primary-dark block md:inline">for Every</span>{" "}
+            <span className="text-accent-blue">Stage</span>{" "}
+            <span className="text-primary-dark block md:inline">of</span>{" "}
+            <span className="text-accent-orange">Growth</span>
           </h1>
-          <p className="text-gray-600 text-lg md:text-xl font-sans">
-            From their first steps in playgroup to mental math mastery in Abacus, discover the perfect learning path for your child.
+          
+          <p className="text-gray-600 text-lg md:text-2xl font-sans max-w-2xl mx-auto font-medium leading-relaxed">
+            From their first steps in <span className="text-primary font-bold">Playgroup</span> to mastering skills in <span className="text-accent-purple font-bold">Abacus</span>, we nurture every child's potential. 🌟
           </p>
+
+          {/* Decorative Accents */}
+          <div className="absolute -top-10 -left-10 text-6xl opacity-20 hidden lg:block">🎨</div>
+          <div className="absolute -top-10 -right-10 text-6xl opacity-20 hidden lg:block">📚</div>
         </div>
 
         {/* Filters */}

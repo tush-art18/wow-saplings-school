@@ -29,7 +29,7 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative min-h-[95vh] flex items-center justify-center pt-32 pb-20 overflow-hidden bg-primary-light/30">
+    <section ref={containerRef} className="relative min-h-screen pt-32 overflow-hidden bg-primary-light/30 flex flex-col">
 
       {/* Storybook Elements */}
       <div className="absolute top-20 left-10 w-32 h-32 md:w-48 md:h-48 opacity-100 floating-cloud cloud-l pointer-events-none">
@@ -40,7 +40,7 @@ export default function HeroSection() {
         <img src="/sticker-sun.png" alt="Sticker Sun" className="w-full h-full object-contain" />
       </div>
 
-      <div className="container mx-auto px-4 z-10 text-center">
+      <div className="container mx-auto px-4 z-10 text-center flex-1 flex flex-col justify-center pt-10">
 
         {/* Playful Hero Text */}
         <div className="inline-block bg-accent-yellow/20 text-primary-dark font-bold px-6 py-2 rounded-full text-sm mb-8 border-2 border-accent-yellow/30 hero-bounce">
@@ -66,30 +66,25 @@ export default function HeroSection() {
             Our Programs
           </Link>
         </div>
+      </div>
 
-        {/* Feature Image Frame */}
-        <div className="relative max-w-8xl mx-auto hero-bounce px-2 md:px-0">
-          <div className="absolute -inset-2 md:-inset-4 bg-accent-pink/20 rounded-[3rem] md:rounded-[5rem] rotate-2 -z-10 animate-pulse"></div>
-          <div className="absolute -inset-2 md:-inset-4 bg-accent-yellow/20 rounded-[3rem] md:rounded-[5rem] -rotate-2 -z-10"></div>
-          <div className="relative rounded-[2.5rem] md:rounded-[4rem] overflow-hidden border-4 md:border-8 border-white shadow-2xl group">
-            <img
-              src="/hero-bg-2.png"
-              alt="WOW Saplings Infrastructure"
-              className="w-full h-[300px] sm:h-[500px] md:h-[650px] lg:h-[750px] object-cover group-hover:scale-105 transition-transform duration-[2s]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6 md:p-12">
-              <div className="bg-white/90 backdrop-blur-md p-4 md:p-6 rounded-2xl md:rounded-3xl text-left border-t-4 md:border-t-8 border-accent-pink w-full sm:w-auto">
-                <h3 className="font-heading font-bold text-xl md:text-2xl text-primary-dark">A Space to Thrive</h3>
-                <p className="text-xs md:text-base text-gray-600 font-medium">Safe, creative, and colorful infrastructure in Kolhapur.</p>
-              </div>
-            </div>
+      {/* Feature Image Frame - Full Screen */}
+      <div className="relative w-full hero-bounce mt-12 group shrink-0 overflow-hidden">
+        <img
+          src="/hero-bg-2.png"
+          alt="WOW Saplings Infrastructure"
+          className="w-full h-[300px] sm:h-[500px] md:h-[650px] lg:h-[750px] object-cover group-hover:scale-105 transition-transform duration-[2s]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6 md:p-12 md:px-20">
+          <div className="bg-white/90 backdrop-blur-md p-4 md:p-6 rounded-2xl md:rounded-3xl text-left border-t-4 md:border-t-8 border-accent-pink w-full sm:w-auto shadow-2xl">
+            <h3 className="font-heading font-bold text-xl md:text-2xl text-primary-dark">A Space to Thrive</h3>
+            <p className="text-xs md:text-base text-gray-600 font-medium">Safe, creative, and colorful infrastructure in Kolhapur.</p>
           </div>
-
-          {/* Floating Accents - Hidden on small mobile */}
-          <div className="hidden sm:block absolute -top-10 -right-10 text-6xl animate-bounce">🐝</div>
-          <div className="hidden sm:block absolute -bottom-10 -left-10 text-6xl animate-bounce" style={{ animationDelay: '0.5s' }}>🎨</div>
         </div>
 
+        {/* Floating Accents */}
+        <div className="hidden sm:block absolute top-10 right-10 text-6xl animate-bounce">🐝</div>
+        <div className="hidden sm:block absolute top-1/2 left-10 text-6xl animate-bounce" style={{ animationDelay: '0.5s' }}>🎨</div>
       </div>
 
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-gray-400">
