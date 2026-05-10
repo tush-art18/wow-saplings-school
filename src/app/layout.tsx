@@ -7,6 +7,7 @@ import ChatBotWidget from "@/components/global/ChatBotWidget";
 import LoadingScreen from "@/components/global/LoadingScreen";
 import Navbar from "@/components/global/Navbar";
 import Footer from "@/components/global/Footer";
+import CustomCursor from "@/components/global/CustomCursor";
 
 const baloo = Baloo_2({
   subsets: ["latin"],
@@ -43,6 +44,7 @@ export default function RootLayout({
       className={`${baloo.variable} ${nunito.variable} antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground overflow-x-hidden">
+        <CustomCursor />
         <LoadingScreen />
         <LenisProvider>
           <Navbar />

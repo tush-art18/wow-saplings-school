@@ -84,6 +84,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body, html {
+  cursor: auto !important;
+}
+
 /* Lenis */
 html.lenis, html.lenis body {
   height: auto;

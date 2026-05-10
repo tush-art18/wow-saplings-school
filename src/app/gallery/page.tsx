@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { X, ZoomIn, Info } from "lucide-react";
+import ScrollReveal from "@/components/global/ScrollReveal";
 
 export default function GalleryPage() {
   const [activeTab, setActiveTab] = useState("All");
@@ -56,14 +57,19 @@ export default function GalleryPage() {
       
       {/* Hero Section */}
       <div className="container mx-auto px-4 text-center max-w-3xl mb-12">
-        <h1 className="font-heading font-extrabold text-5xl md:text-6xl text-primary-dark mb-6">
-          Life at WOW Saplings
-        </h1>
-        <p className="text-xl text-gray-600 mb-8">
-          A visual diary of smiles, learning, and little triumphs happening every day.
-        </p>
+        <ScrollReveal animation="fade-up">
+          <h1 className="font-heading font-extrabold text-5xl md:text-6xl text-primary-dark mb-6">
+            Life at WOW Saplings
+          </h1>
+        </ScrollReveal>
+        <ScrollReveal animation="fade-up" delay={0.1}>
+          <p className="text-xl text-gray-600 mb-8">
+            A visual diary of smiles, learning, and little triumphs happening every day.
+          </p>
+        </ScrollReveal>
 
         {/* Filter Pills */}
+        <ScrollReveal animation="fade-up" delay={0.2}>
         <div className="flex flex-wrap justify-center gap-3">
           {categories.map((cat) => (
             <button
@@ -79,9 +85,11 @@ export default function GalleryPage() {
             </button>
           ))}
         </div>
+        </ScrollReveal>
       </div>
 
       {/* Masonry Grid Setup (CSS Columns) */}
+      <ScrollReveal animation="fade-up" delay={0.3}>
       <div className="container mx-auto px-4 md:px-8">
         {filteredPhotos.length === 0 ? (
            <div className="text-center py-20 bg-white rounded-3xl border border-gray-100">
@@ -127,6 +135,7 @@ export default function GalleryPage() {
           </div>
         )}
       </div>
+      </ScrollReveal>
 
       {/* Full Screen Lightbox Modal */}
       <AnimatePresence>

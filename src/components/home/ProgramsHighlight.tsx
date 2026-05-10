@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -121,7 +121,7 @@ export default function ProgramsHighlight() {
                    <div className="md:w-1/3 bg-gray-50 rounded-3xl p-6 border border-gray-100 relative shadow-inner">
                      <div className="absolute -top-4 -right-4 text-5xl">🌟</div>
                      <p className="italic text-gray-600 text-sm leading-relaxed relative z-10 font-medium">
-                       "The TTC program at WOW Saplings completely transformed my teaching approach. I got a placement immediately after my certification!"
+                       &quot;The TTC program at WOW Saplings completely transformed my teaching approach. I got a placement immediately after my certification!&quot;
                      </p>
                      <div className="mt-4 flex items-center gap-3">
                        <div className="w-10 h-10 bg-accent-pink rounded-full flex items-center justify-center text-white font-bold">P</div>

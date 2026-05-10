@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
+import { motion, AnimatePresence } from "motion/react";
 import gsap from "gsap";
+import Link from "next/link";
+import ScrollReveal from "@/components/global/ScrollReveal";
 import { Clock, Users, ArrowRight, CheckCircle2, Award, BookOpen, ShieldCheck, MonitorPlay, CalendarHeart, UserCheck, Baby, Palette, Music, Tent } from "lucide-react";
 
 export default function ProgramsPage() {
@@ -92,22 +93,28 @@ export default function ProgramsPage() {
         
         {/* Header Section */}
         <div className="text-center max-w-4xl mx-auto mb-16 relative">
-          <div className="inline-block bg-accent-yellow/20 text-primary-dark font-bold px-6 py-2 rounded-full text-sm mb-6 border-2 border-accent-yellow/30 animate-bounce">
-            🌈 Discover the Joy of Learning
-          </div>
+          <ScrollReveal animation="fade-up">
+            <div className="inline-block bg-accent-yellow/20 text-primary-dark font-bold px-6 py-2 rounded-full text-sm mb-6 border-2 border-accent-yellow/30 animate-bounce">
+              🌈 Discover the Joy of Learning
+            </div>
+          </ScrollReveal>
           
-          <h1 className="font-heading font-extrabold text-5xl md:text-7xl mb-6 leading-[1.1]">
-            <span className="text-primary-dark block md:inline">Programs</span>{" "}
-            <span className="text-accent-pink">Designed</span>{" "}
-            <span className="text-primary-dark block md:inline">for Every</span>{" "}
-            <span className="text-accent-blue">Stage</span>{" "}
-            <span className="text-primary-dark block md:inline">of</span>{" "}
-            <span className="text-accent-orange">Growth</span>
-          </h1>
+          <ScrollReveal animation="fade-up" delay={0.1}>
+            <h1 className="font-heading font-extrabold text-5xl md:text-7xl mb-6 leading-[1.1]">
+              <span className="text-primary-dark block md:inline">Programs</span>{" "}
+              <span className="text-accent-pink">Designed</span>{" "}
+              <span className="text-primary-dark block md:inline">for Every</span>{" "}
+              <span className="text-accent-blue">Stage</span>{" "}
+              <span className="text-primary-dark block md:inline">of</span>{" "}
+              <span className="text-accent-orange">Growth</span>
+            </h1>
+          </ScrollReveal>
           
-          <p className="text-gray-600 text-lg md:text-2xl font-sans max-w-2xl mx-auto font-medium leading-relaxed">
-            From their first steps in <span className="text-primary font-bold">Playgroup</span> to mastering skills in <span className="text-accent-purple font-bold">Abacus</span>, we nurture every child's potential. 🌟
-          </p>
+          <ScrollReveal animation="fade-up" delay={0.2}>
+            <p className="text-gray-600 text-lg md:text-2xl font-sans max-w-2xl mx-auto font-medium leading-relaxed">
+              From their first steps in <span className="text-primary font-bold">Playgroup</span> to mastering skills in <span className="text-accent-purple font-bold">Abacus</span>, we nurture every child&apos;s potential. 🌟
+            </p>
+          </ScrollReveal>
 
           {/* Decorative Accents */}
           <div className="absolute -top-10 -left-10 text-6xl opacity-20 hidden lg:block">🎨</div>
@@ -149,59 +156,47 @@ export default function ProgramsPage() {
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
                 key={program.id}
-                className="group relative h-[450px] perspective-1000"
+                className="group relative h-auto perspective-1000"
                 id={program.id}
               >
-                {/* Card Inner Container (handles the 3D flip) */}
-                <div className="relative w-full h-full transition-transform duration-700 transform-style-3d group-hover:rotate-y-180">
-                  
-                  {/* FRONT OF CARD */}
-                  <div className={`absolute inset-0 w-full h-full backface-hidden rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-lg border-2 border-white ${program.color}`}>
-                    <div className="text-7xl mb-6 bg-white/20 w-32 h-32 rounded-full flex items-center justify-center shadow-inner">
+                <div className={`w-full h-full rounded-3xl p-8 flex flex-col shadow-lg border-2 border-white transition-transform duration-300 hover:-translate-y-2 ${program.color}`}>
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="text-5xl bg-white/20 w-20 h-20 rounded-full flex items-center justify-center shadow-inner">
                       {program.icon}
                     </div>
-                    <span className="bg-white/20 px-4 py-1 rounded-full text-sm font-bold uppercase tracking-widest mb-4">
+                    <span className="bg-white/20 px-4 py-1 rounded-full text-sm font-bold uppercase tracking-widest">
                       {program.age}
                     </span>
-                    <h2 className="font-heading font-extrabold text-4xl mb-4 drop-shadow-sm">
-                      {program.title}
-                    </h2>
-                    <p className="font-medium opacity-90 mt-auto flex items-center gap-2">
-                      Hover for highlights <ArrowRight size={18} className="animate-pulse" />
-                    </p>
                   </div>
+                  
+                  <h2 className="font-heading font-extrabold text-3xl mb-4 drop-shadow-sm">
+                    {program.title}
+                  </h2>
+                  
+                  <ul className="space-y-2 mb-6 flex-1 text-sm md:text-base">
+                    {program.points.map((point, i) => (
+                      <li key={i} className="flex items-start gap-2 font-medium opacity-90">
+                        <span className="mt-0.5">🌟</span>
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
 
-                  {/* BACK OF CARD */}
-                  <div className="absolute inset-0 w-full h-full backface-hidden rounded-3xl p-8 flex flex-col bg-white shadow-xl rotate-y-180 border-t-8 border-primary">
-                    <h3 className="font-heading font-bold text-2xl text-primary-dark mb-4 border-b border-gray-100 pb-3">
-                      What They'll Learn
-                    </h3>
-                    <ul className="space-y-3 mb-6 flex-1">
-                      {program.points.map((point, i) => (
-                        <li key={i} className="flex items-start gap-3 text-gray-700">
-                          <span className="text-accent-yellow font-bold mt-0.5">🌟</span>
-                          <span className="font-medium">{point}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    
-                    <div className="grid grid-cols-2 gap-4 mb-6 pt-4 border-t border-gray-100">
-                      <div className="flex items-center gap-2 text-sm text-gray-600 font-bold">
-                        <Users size={16} className="text-primary" /> {program.ratio}
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-600 font-bold">
-                        <Clock size={16} className="text-primary" /> {program.time}
-                      </div>
+                  <div className="flex items-center justify-between gap-2 mt-auto mb-6 bg-white/10 p-3 rounded-xl">
+                    <div className="flex items-center gap-2 text-sm font-bold">
+                      <Users size={16} /> {program.ratio}
                     </div>
-
-                    <Link 
-                      href={`/admission?program=${program.id}`}
-                      className="w-full py-3 bg-primary text-white rounded-xl font-bold text-center hover:bg-primary-dark transition-colors shadow-md"
-                    >
-                      Enquire Now
-                    </Link>
+                    <div className="flex items-center gap-2 text-sm font-bold">
+                      <Clock size={16} /> {program.time}
+                    </div>
                   </div>
 
+                  <Link 
+                    href={`/admission?program=${program.id}`}
+                    className="w-full py-3 bg-white text-gray-800 rounded-xl font-bold text-center hover:bg-gray-50 transition-colors shadow-md flex items-center justify-center gap-2"
+                  >
+                    Enquire Now <ArrowRight size={18} />
+                  </Link>
                 </div>
               </motion.div>
             ))}
@@ -210,10 +205,12 @@ export default function ProgramsPage() {
 
         {/* Our Features Section (From Poster) */}
         <div className="mt-32">
-          <div className="text-center mb-16">
-            <h2 className="font-heading font-extrabold text-4xl md:text-5xl text-primary-dark mb-4">Why Choose WOW Saplings?</h2>
-            <p className="text-gray-600 text-lg uppercase tracking-widest font-bold">Our Exclusive Features</p>
-          </div>
+          <ScrollReveal animation="fade-up">
+            <div className="text-center mb-16">
+              <h2 className="font-heading font-extrabold text-4xl md:text-5xl text-primary-dark mb-4">Why Choose WOW Saplings?</h2>
+              <p className="text-gray-600 text-lg uppercase tracking-widest font-bold">Our Exclusive Features</p>
+            </div>
+          </ScrollReveal>
           
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
@@ -230,25 +227,29 @@ export default function ProgramsPage() {
               { icon: <CheckCircle2 size={24} className="text-[#4A90D9]" />, title: "Transport Facility", desc: "Safe and convenient transport options available." },
               { icon: <CheckCircle2 size={24} className="text-[#F06292]" />, title: "Well Furnished", desc: "A peaceful atmosphere inside a beautiful, child-friendly building." }
             ].map((feat, i) => (
-              <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex gap-4">
-                <div className="shrink-0 mt-1 bg-gray-50 w-12 h-12 rounded-full flex items-center justify-center border border-gray-100">
-                  {feat.icon}
+              <ScrollReveal key={i} animation="fade-up" delay={i * 0.05}>
+                <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex gap-4 h-full">
+                  <div className="shrink-0 mt-1 bg-gray-50 w-12 h-12 rounded-full flex items-center justify-center border border-gray-100">
+                    {feat.icon}
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-800 text-lg mb-1 leading-tight">{feat.title}</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">{feat.desc}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-bold text-gray-800 text-lg mb-1 leading-tight">{feat.title}</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">{feat.desc}</p>
-                </div>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
 
         {/* Extra Activities & Special Programs (From Poster Page 2) */}
         <div className="mt-32">
-          <div className="text-center mb-16">
-            <h2 className="font-heading font-extrabold text-4xl md:text-5xl text-primary-dark mb-4">Extra Curricular & Special Focus</h2>
-            <p className="text-gray-600 text-lg uppercase tracking-widest font-bold">Beyond the regular classroom</p>
-          </div>
+          <ScrollReveal animation="fade-up">
+            <div className="text-center mb-16">
+              <h2 className="font-heading font-extrabold text-4xl md:text-5xl text-primary-dark mb-4">Extra Curricular & Special Focus</h2>
+              <p className="text-gray-600 text-lg uppercase tracking-widest font-bold">Beyond the regular classroom</p>
+            </div>
+          </ScrollReveal>
 
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
             {[
@@ -257,24 +258,28 @@ export default function ProgramsPage() {
               { title: "Karate", desc: "Building self-confidence, Discipline, Self Defence", icon: "🥋", color: "bg-[#fbebe9]" },
               { title: "Dance", desc: "Builds Physical Skills & Encourages Creativity", icon: "💃", color: "bg-[#f4ebf8]" },
             ].map((activity, i) => (
-              <div key={i} className={`rounded-3xl p-6 flex flex-col items-center text-center ${activity.color} border border-white shadow-sm hover:scale-105 transition-transform`}>
-                <div className="text-5xl mb-4">{activity.icon}</div>
-                <h3 className="font-heading font-bold text-xl text-gray-800 mb-2">{activity.title}</h3>
-                <p className="text-sm text-gray-600 font-medium">{activity.desc}</p>
-              </div>
+              <ScrollReveal key={i} animation="fade-up" delay={i * 0.1}>
+                <div className={`rounded-3xl p-6 flex flex-col items-center text-center ${activity.color} border border-white shadow-sm hover:scale-105 transition-transform h-full`}>
+                  <div className="text-5xl mb-4">{activity.icon}</div>
+                  <h3 className="font-heading font-bold text-xl text-gray-800 mb-2">{activity.title}</h3>
+                  <p className="text-sm text-gray-600 font-medium">{activity.desc}</p>
+                </div>
+              </ScrollReveal>
             ))}
           </div>
           
-          <div className="mt-12 bg-primary-light/20 rounded-[3rem] p-8 md:p-12 border border-primary/10 flex flex-col md:flex-row items-center gap-8 shadow-inner">
-             <div className="text-6xl md:text-8xl">👩‍🏫</div>
-             <div>
-               <h3 className="font-heading font-extrabold text-3xl text-primary-dark mb-3">Shivaji University Affiliated TTC</h3>
-               <p className="text-lg text-gray-700 font-medium mb-4">We don't just teach kids; we train the next generation of educators. Enroll in our specialized Teacher Training Course.</p>
-               <Link href="/teacher-training" className="inline-block bg-primary text-white font-bold px-8 py-3 rounded-full hover:bg-primary-dark transition-colors">
-                 Explore TTC Program
-               </Link>
-             </div>
-          </div>
+          <ScrollReveal animation="fade-up" delay={0.2}>
+            <div className="mt-12 bg-primary-light/20 rounded-[3rem] p-8 md:p-12 border border-primary/10 flex flex-col md:flex-row items-center gap-8 shadow-inner">
+               <div className="text-6xl md:text-8xl">👩‍🏫</div>
+               <div>
+                 <h3 className="font-heading font-extrabold text-3xl text-primary-dark mb-3">Shivaji University Affiliated TTC</h3>
+                 <p className="text-lg text-gray-700 font-medium mb-4">We don&apos;t just teach kids; we train the next generation of educators. Enroll in our specialized Teacher Training Course.</p>
+                 <Link href="/teacher-training" className="inline-block bg-primary text-white font-bold px-8 py-3 rounded-full hover:bg-primary-dark transition-colors">
+                   Explore TTC Program
+                 </Link>
+               </div>
+            </div>
+          </ScrollReveal>
         </div>
 
       </div>
