@@ -40,13 +40,13 @@ export default function HeroSection() {
           transition={{ duration: 0.6, delay: 0.1, type: "spring", stiffness: 200 }}
           className="inline-block bg-accent-yellow/20 text-primary-dark font-bold px-6 py-2 rounded-full text-sm mb-8 border-2 border-accent-yellow/30"
         >
-          🌈 Welcome to Kolhapur&apos;s Happiest Preschool
+          🌈 Step into a world of curiosity, creativity & joyful learning.
         </motion.div>
 
         {/* Hero Heading */}
         <h1 className="font-heading font-extrabold text-4xl sm:text-4xl md:text-5xl lg:text-[5.5rem] mb-4 md:mb-6 leading-[1] md:leading-[0.85]">
           {[
-            { text: "Chain of", color: "text-primary-dark" },
+            { text: "Chain of", color: "text-[#9C6DD8]" },
             { text: "Preschool", color: "text-accent-pink" },
             { text: "where Every", color: "text-accent-orange" },
             { text: "Child Blooms", color: "text-accent-blue" },
@@ -71,7 +71,7 @@ export default function HeroSection() {
           transition={{ duration: 0.7, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
           className="text-base sm:text-xl md:text-2xl text-gray-600 mb-8 md:mb-12 max-w-2xl mx-auto font-sans font-bold leading-relaxed"
         >
-          Experience the joy of learning where curiosity takes flight and every child is a superstar! 🌟
+          Experience the joy of learning where tiny saplings bloom with confidence into bright futures! 🌟
         </motion.p>
 
         <motion.div

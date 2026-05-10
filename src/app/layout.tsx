@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Baloo_2, Nunito } from "next/font/google";
 import "./globals.css";
-import LenisProvider from "@/components/global/LenisProvider";
 import WhatsAppButton from "@/components/global/WhatsAppButton";
 import ChatBotWidget from "@/components/global/ChatBotWidget";
 import LoadingScreen from "@/components/global/LoadingScreen";
@@ -46,13 +45,11 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground overflow-x-hidden">
         <CustomCursor />
         <LoadingScreen />
-        <LenisProvider>
           <Navbar />
           <main className="flex-1 w-full relative">
             {children}
           </main>
           <Footer />
-        </LenisProvider>
         <WhatsAppButton />
         <ChatBotWidget />
       </body>

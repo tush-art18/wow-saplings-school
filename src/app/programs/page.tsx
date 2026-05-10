@@ -1,11 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import gsap from "gsap";
 import Link from "next/link";
 import ScrollReveal from "@/components/global/ScrollReveal";
-import { Clock, Users, ArrowRight, CheckCircle2, Award, BookOpen, ShieldCheck, MonitorPlay, CalendarHeart, UserCheck, Baby, Palette, Music, Tent } from "lucide-react";
+import { Clock, Users, ArrowRight, CheckCircle2, Award, BookOpen, ShieldCheck, MonitorPlay, CalendarHeart, UserCheck, Baby, Tent } from "lucide-react";
 
 export default function ProgramsPage() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -101,18 +100,18 @@ export default function ProgramsPage() {
           
           <ScrollReveal animation="fade-up" delay={0.1}>
             <h1 className="font-heading font-extrabold text-5xl md:text-7xl mb-6 leading-[1.1]">
-              <span className="text-primary-dark block md:inline">Programs</span>{" "}
-              <span className="text-accent-pink">Designed</span>{" "}
-              <span className="text-primary-dark block md:inline">for Every</span>{" "}
-              <span className="text-accent-blue">Stage</span>{" "}
-              <span className="text-primary-dark block md:inline">of</span>{" "}
-              <span className="text-accent-orange">Growth</span>
+              <span className="text-primary-dark block md:inline">Helping</span>{" "}
+              <span className="text-accent-pink">Every</span>{" "}
+              <span className="text-primary-dark block md:inline">Little</span>{" "}
+              <span className="text-accent-blue">Sapling</span>{" "}
+              <span className="text-primary-dark block md:inline">to</span>{" "}
+              <span className="text-accent-orange">Bloom</span>
             </h1>
           </ScrollReveal>
           
           <ScrollReveal animation="fade-up" delay={0.2}>
             <p className="text-gray-600 text-lg md:text-2xl font-sans max-w-2xl mx-auto font-medium leading-relaxed">
-              From their first steps in <span className="text-primary font-bold">Playgroup</span> to mastering skills in <span className="text-accent-purple font-bold">Abacus</span>, we nurture every child&apos;s potential. 🌟
+              From their first steps in <span className="text-primary font-bold">Playgroup</span> to mastering skills in <span className="text-accent-purple font-bold">Abacus</span>, we help every child grow. 🌟
             </p>
           </ScrollReveal>
 

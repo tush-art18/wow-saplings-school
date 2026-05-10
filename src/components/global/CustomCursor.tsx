@@ -37,6 +37,13 @@ export default function CustomCursor() {
   const lastRef   = useRef<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(true); // Assume true initially for SSR safety, or false. Better: false initially, check in effect.
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    }
+  }, []);
  
   // Throttled mouse-move: store position in a ref (no re-render)
   const onMouseMove = useCallback((e: MouseEvent) => {
@@ -47,6 +54,8 @@ export default function CustomCursor() {
   const onMouseLeave = useCallback(() => setVisible(false), []);
  
   useEffect(() => {
+    if (isTouchDevice) return;
+
     // Inject global styles to replace the default arrow cursor with a tiny flower
     const style = document.createElement("style");
     const flowerSvg = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="%23F9C846"/><circle cx="12" cy="6" r="4" fill="%23F06292"/><circle cx="12" cy="18" r="4" fill="%23F06292"/><circle cx="6" cy="12" r="4" fill="%23F06292"/><circle cx="18" cy="12" r="4" fill="%23F06292"/></svg>`;
@@ -96,8 +105,10 @@ export default function CustomCursor() {
       document.documentElement.removeEventListener("mouseleave", onMouseLeave);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [onMouseMove, onMouseLeave]);
+  }, [onMouseMove, onMouseLeave, isTouchDevice]);
  
+  if (isTouchDevice) return null;
+
   return (
     <div
       ref={containerRef}
