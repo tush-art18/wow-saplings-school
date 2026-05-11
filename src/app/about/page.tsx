@@ -80,7 +80,7 @@ export default function AboutPage() {
                 &quot;Our philosophy is simple: we believe that when children feel completely loved and secure, their natural curiosity instantly turns them into brilliant learners. We don&apos;t just school them; we nurture their saplings of thought.&quot;
                 </p>
                 <div>
-                  <div className="font-bold text-2xl font-heading text-accent-yellow">Mrs. Anjali Desai</div>
+                  <div className="font-bold text-2xl font-heading text-accent-yellow">Mrs. Yasmeen Shaikh</div>
                   <div className="text-gray-400 font-bold tracking-widest uppercase text-sm">Principal & Founder</div>
                 </div>
               </div>
@@ -89,7 +89,7 @@ export default function AboutPage() {
                 className="relative h-[400px] lg:h-[500px] rounded-[2rem] overflow-hidden group"
               >
                 <img 
-                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=800" 
+                  src="/principal.jpeg" 
                   className="w-full h-full object-cover transform transition-transform duration-[10000ms] group-hover:scale-110" 
                   alt="Principal" 
                 />

@@ -9,9 +9,9 @@ export default function ProgramsHighlight() {
   const [activeTab, setActiveTab] = useState<"child" | "teacher">("child");
 
   const childPrograms = [
-    { name: "Playgroup", age: "2-3 Years", icon: "🧸", outcomes: ["Social Skills", "Sensory Play", "Motor Skills"] },
-    { name: "Nursery", age: "3-4 Years", icon: "🎨", outcomes: ["Pre-writing", "Creative Art", "Vocabulary"] },
-    { name: "Jr KG", age: "4-5 Years", icon: "🧩", outcomes: ["Phonics Intro", "Early Math", "Independence"] },
+    { name: "Playgroup", age: "2-3 Years", icon: "🧸", outcomes: ["Social Skills", "Sensory Play", "Motor Skills"], color: "bg-accent-pink", lightBg: "bg-accent-pink/10", textColor: "text-accent-pink" },
+    { name: "Nursery", age: "3-4 Years", icon: "🎨", outcomes: ["Pre-writing", "Creative Art", "Vocabulary"], color: "bg-accent-orange", lightBg: "bg-accent-orange/10", textColor: "text-accent-orange" },
+    { name: "Jr KG", age: "4-5 Years", icon: "🧩", outcomes: ["Phonics Intro", "Early Math", "Independence"], color: "bg-accent-blue", lightBg: "bg-accent-blue/10", textColor: "text-accent-blue" },
   ];
 
   return (
@@ -58,22 +58,22 @@ export default function ProgramsHighlight() {
                       
                       {/* Front Face */}
                       <div className="absolute w-full h-full backface-hidden bg-white rounded-[2rem] p-8 shadow-md border border-gray-100 flex flex-col items-center justify-center text-center">
-                        <div className="text-6xl mb-6 bg-primary-light w-24 h-24 rounded-full flex items-center justify-center shadow-inner border border-white">{prog.icon}</div>
-                        <h3 className="font-heading font-bold text-3xl text-primary-dark mb-3">{prog.name}</h3>
-                        <span className="inline-block bg-accent-yellow/30 text-yellow-800 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">{prog.age}</span>
+                        <div className={`text-6xl mb-6 ${prog.lightBg} w-24 h-24 rounded-full flex items-center justify-center shadow-inner border border-white`}>{prog.icon}</div>
+                        <h3 className={`font-heading font-bold text-3xl ${prog.textColor} mb-3`}>{prog.name}</h3>
+                        <span className={`inline-block ${prog.lightBg} ${prog.textColor} px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider`}>{prog.age}</span>
                       </div>
 
                       {/* Back Face */}
-                      <div className="absolute w-full h-full backface-hidden rotate-y-180 bg-primary text-white rounded-[2rem] p-8 shadow-xl flex flex-col justify-center border border-primary-dark">
+                      <div className={`absolute w-full h-full backface-hidden rotate-y-180 ${prog.color} text-white rounded-[2rem] p-8 shadow-xl flex flex-col justify-center border border-white/20`}>
                         <h3 className="font-heading font-bold text-2xl mb-4 border-b border-white/20 pb-2">Key Outcomes</h3>
                         <ul className="mb-6 space-y-3">
                           {prog.outcomes.map((out, idx) => (
                             <li key={idx} className="flex items-center gap-3 text-sm font-sans font-medium">
-                              <span className="w-2 h-2 bg-accent-yellow rounded-full shadow-sm"></span> {out}
+                              <span className="w-2 h-2 bg-white rounded-full shadow-sm opacity-80"></span> {out}
                             </li>
                           ))}
                         </ul>
-                        <Link href="/programs" className="mt-auto bg-white text-primary text-center py-3 rounded-full font-bold hover:bg-accent-yellow hover:text-primary-dark transition-colors text-sm shadow-md">
+                        <Link href="/programs" className={`mt-auto bg-white ${prog.textColor} text-center py-3 rounded-full font-bold hover:bg-gray-50 transition-colors text-sm shadow-md`}>
                           Enquire About {prog.name}
                         </Link>
                       </div>

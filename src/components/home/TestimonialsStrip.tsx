@@ -14,12 +14,6 @@ export default function TestimonialsStrip() {
 
   return (
     <section className="py-32 bg-[#c3cfab] relative overflow-hidden font-sans">
-      {/* Background FEEDBACK text */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center overflow-hidden pointer-events-none opacity-[0.04] z-0 w-full select-none">
-        <div className="text-[12rem] md:text-[20rem] font-black leading-[0.85] text-center whitespace-nowrap text-[#1a2f1c]">FEEDBACK</div>
-        <div className="text-[12rem] md:text-[20rem] font-black leading-[0.85] text-center whitespace-nowrap text-[#1a2f1c]">FEEDBACK</div>
-        <div className="text-[12rem] md:text-[20rem] font-black leading-[0.85] text-center whitespace-nowrap text-[#1a2f1c]">FEEDBACK</div>
-      </div>
 
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         <div className="text-center mb-24">

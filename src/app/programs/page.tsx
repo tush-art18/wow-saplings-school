@@ -17,7 +17,7 @@ export default function ProgramsPage() {
       title: "Playgroup",
       age: "2 to 3 Years",
       category: "Playgroup",
-      color: "bg-accent-yellow text-foreground",
+      color: "bg-accent-yellow text-primary-dark",
       icon: "🎨",
       points: ["Sensorimotor skills", "Basic vocabulary", "Social interaction", "Musical activities"],
       ratio: "1:10",
@@ -28,7 +28,7 @@ export default function ProgramsPage() {
       title: "Nursery",
       age: "3 to 4 Years",
       category: "Nursery",
-      color: "bg-accent-blue text-white",
+      color: "bg-accent-pink text-white",
       icon: "🌱",
       points: ["Pre-writing skills", "Number recognition", "Creative arts", "Physical development"],
       ratio: "1:12",
@@ -39,7 +39,7 @@ export default function ProgramsPage() {
       title: "Junior KG",
       age: "4 to 5 Years",
       category: "Jr KG",
-      color: "bg-accent-pink text-white",
+      color: "bg-accent-blue text-white",
       icon: "📚",
       points: ["Phonics basics", "Simple math concepts", "Environmental awareness", "Collaborative play"],
       ratio: "1:15",
@@ -61,7 +61,7 @@ export default function ProgramsPage() {
       title: "Phonics Classes",
       age: "4 to 8 Years",
       category: "Phonics",
-      color: "bg-[#FF7043] text-white",
+      color: "bg-accent-orange text-white",
       icon: "🔤",
       points: ["Letter sounds", "Blending & Segmenting", "Spelling rules", "Reading comprehension"],
       ratio: "1:8",
@@ -72,7 +72,7 @@ export default function ProgramsPage() {
       title: "Abacus Learning",
       age: "5 to 12 Years",
       category: "Abacus",
-      color: "bg-[#9C6DD8] text-white",
+      color: "bg-accent-purple text-white",
       icon: "🧮",
       points: ["Mental arithmetic", "Concentration focus", "Speed calculation", "Memory enhancement"],
       ratio: "1:8",
@@ -80,8 +80,8 @@ export default function ProgramsPage() {
     },
   ];
 
-  const filteredPrograms = activeCategory === "All" 
-    ? programs 
+  const filteredPrograms = activeCategory === "All"
+    ? programs
     : programs.filter(p => p.category === activeCategory);
 
 
@@ -89,7 +89,7 @@ export default function ProgramsPage() {
   return (
     <div className="min-h-screen bg-background pt-32 pb-20">
       <div className="container mx-auto px-4 md:px-8">
-        
+
         {/* Header Section */}
         <div className="text-center max-w-4xl mx-auto mb-16 relative">
           <ScrollReveal animation="fade-up">
@@ -97,7 +97,7 @@ export default function ProgramsPage() {
               🌈 Discover the Joy of Learning
             </div>
           </ScrollReveal>
-          
+
           <ScrollReveal animation="fade-up" delay={0.1}>
             <h1 className="font-heading font-extrabold text-5xl md:text-7xl mb-6 leading-[1.1]">
               <span className="text-primary-dark block md:inline">Helping</span>{" "}
@@ -108,7 +108,7 @@ export default function ProgramsPage() {
               <span className="text-accent-orange">Bloom</span>
             </h1>
           </ScrollReveal>
-          
+
           <ScrollReveal animation="fade-up" delay={0.2}>
             <p className="text-gray-600 text-lg md:text-2xl font-sans max-w-2xl mx-auto font-medium leading-relaxed">
               From their first steps in <span className="text-primary font-bold">Playgroup</span> to mastering skills in <span className="text-accent-purple font-bold">Abacus</span>, we help every child grow. 🌟
@@ -126,11 +126,10 @@ export default function ProgramsPage() {
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`relative px-6 py-2.5 rounded-full font-bold text-sm transition-all duration-300 ${
-                activeCategory === cat 
-                  ? "text-white shadow-md transform scale-105" 
+              className={`relative px-6 py-2.5 rounded-full font-bold text-sm transition-all duration-300 ${activeCategory === cat
+                  ? "text-white shadow-md transform scale-105"
                   : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200 hover:border-gray-300"
-              }`}
+                }`}
             >
               {activeCategory === cat && (
                 <motion.div
@@ -167,11 +166,11 @@ export default function ProgramsPage() {
                       {program.age}
                     </span>
                   </div>
-                  
+
                   <h2 className="font-heading font-extrabold text-3xl mb-4 drop-shadow-sm">
                     {program.title}
                   </h2>
-                  
+
                   <ul className="space-y-2 mb-6 flex-1 text-sm md:text-base">
                     {program.points.map((point, i) => (
                       <li key={i} className="flex items-start gap-2 font-medium opacity-90">
@@ -190,7 +189,7 @@ export default function ProgramsPage() {
                     </div>
                   </div>
 
-                  <Link 
+                  <Link
                     href={`/admission?program=${program.id}`}
                     className="w-full py-3 bg-white text-gray-800 rounded-xl font-bold text-center hover:bg-gray-50 transition-colors shadow-md flex items-center justify-center gap-2"
                   >
@@ -210,7 +209,7 @@ export default function ProgramsPage() {
               <p className="text-gray-600 text-lg uppercase tracking-widest font-bold">Our Exclusive Features</p>
             </div>
           </ScrollReveal>
-          
+
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               { icon: <Award size={24} className="text-accent-yellow" />, title: "10 Years of Excellence", desc: "Our school proudly celebrates 10 years of excellence in education." },
@@ -250,33 +249,41 @@ export default function ProgramsPage() {
             </div>
           </ScrollReveal>
 
-          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { title: "STEAM Education", desc: "Science, Innovation, Creativity & Thinking Ability", icon: "🔬", color: "bg-[#e8f4f8]" },
-              { title: "Story Telling", desc: "Enhances Imaginations & Listening Abilities", icon: "📖", color: "bg-[#fff6e5]" },
-              { title: "Karate", desc: "Building self-confidence, Discipline, Self Defence", icon: "🥋", color: "bg-[#fbebe9]" },
-              { title: "Dance", desc: "Builds Physical Skills & Encourages Creativity", icon: "💃", color: "bg-[#f4ebf8]" },
+              { title: "STEAM Education", desc: "Science, Innovation, Creativity & Thinking Ability", icon: "🔬", color: "bg-accent-blue/10", img: "/child-activiti-06.jpeg" },
+              { title: "Story Telling", desc: "Enhances Imaginations & Listening Abilities", icon: "📖", color: "bg-accent-yellow/10", img: "/child-activiti-02.jpeg" },
+              { title: "Karate", desc: "Building self-confidence, Discipline, Self Defence", icon: "🥋", color: "bg-accent-pink/10", img: "/child-activiti-08.jpeg" },
+              { title: "Dance", desc: "Builds Physical Skills & Encourages Creativity", icon: "💃", color: "bg-accent-purple/10", img: "/child-activiti-07.jpeg" },
             ].map((activity, i) => (
               <ScrollReveal key={i} animation="fade-up" delay={i * 0.1}>
-                <div className={`rounded-3xl p-6 flex flex-col items-center text-center ${activity.color} border border-white shadow-sm hover:scale-105 transition-transform h-full`}>
-                  <div className="text-5xl mb-4">{activity.icon}</div>
-                  <h3 className="font-heading font-bold text-xl text-gray-800 mb-2">{activity.title}</h3>
-                  <p className="text-sm text-gray-600 font-medium">{activity.desc}</p>
+                <div className="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-shadow h-full bg-white">
+                  <div className="h-48 overflow-hidden relative">
+                    <img src={activity.img} alt={activity.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
+                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm w-12 h-12 rounded-full flex items-center justify-center text-2xl shadow-md">
+                      {activity.icon}
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="font-heading font-bold text-xl text-primary-dark mb-2">{activity.title}</h3>
+                    <p className="text-sm text-gray-600 font-medium leading-relaxed">{activity.desc}</p>
+                  </div>
                 </div>
               </ScrollReveal>
             ))}
           </div>
-          
+
           <ScrollReveal animation="fade-up" delay={0.2}>
             <div className="mt-12 bg-primary-light/20 rounded-[3rem] p-8 md:p-12 border border-primary/10 flex flex-col md:flex-row items-center gap-8 shadow-inner">
-               <div className="text-6xl md:text-8xl">👩‍🏫</div>
-               <div>
-                 <h3 className="font-heading font-extrabold text-3xl text-primary-dark mb-3">Shivaji University Affiliated TTC</h3>
-                 <p className="text-lg text-gray-700 font-medium mb-4">We don&apos;t just teach kids; we train the next generation of educators. Enroll in our specialized Teacher Training Course.</p>
-                 <Link href="/teacher-training" className="inline-block bg-primary text-white font-bold px-8 py-3 rounded-full hover:bg-primary-dark transition-colors">
-                   Explore TTC Program
-                 </Link>
-               </div>
+              <div className="text-6xl md:text-8xl">👩‍🏫</div>
+              <div>
+                <h3 className="font-heading font-extrabold text-3xl text-primary-dark mb-3">Shivaji University Affiliated TTC</h3>
+                <p className="text-lg text-gray-700 font-medium mb-4">We don&apos;t just teach kids; we train the next generation of educators. Enroll in our specialized Teacher Training Course.</p>
+                <Link href="/teacher-training" className="inline-block bg-primary text-white font-bold px-8 py-3 rounded-full hover:bg-primary-dark transition-colors">
+                  Explore TTC Program
+                </Link>
+              </div>
             </div>
           </ScrollReveal>
         </div>

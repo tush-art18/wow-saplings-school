@@ -6,30 +6,12 @@ import { ArrowDown } from "lucide-react";
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen pt-32 overflow-hidden bg-primary-light/30 flex flex-col">
+    <section
+      className="relative min-h-screen pt-32 overflow-hidden flex flex-col bg-cover bg-center"
+    >
+      {/* Overlay for text readability */}
+      <div className="absolute inset-0 bg-white/60 z-0"></div>
 
-      {/* Storybook Elements */}
-      <motion.div
-        animate={{ x: [-20, 20, -20] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-20 left-10 w-32 h-32 md:w-48 md:h-48 opacity-100 pointer-events-none"
-      >
-        <img src="/sticker-plane.png" alt="Sticker" className="w-full h-full object-contain -rotate-12" />
-      </motion.div>
-
-      <motion.div
-        animate={{ x: [20, -20, 20] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-40 right-20 text-[6rem] opacity-20 pointer-events-none"
-      >☁️</motion.div>
-
-      <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        className="absolute top-10 right-1/4 w-32 h-32 md:w-56 md:h-56 opacity-100 pointer-events-none"
-      >
-        <img src="/sticker-sun.png" alt="Sticker Sun" className="w-full h-full object-contain" />
-      </motion.div>
 
       <div className="container mx-auto px-4 z-10 text-center flex-1 flex flex-col justify-center pt-10">
 
@@ -43,24 +25,25 @@ export default function HeroSection() {
           🌈 Step into a world of curiosity, creativity & joyful learning.
         </motion.div>
 
-        {/* Hero Heading */}
-        <h1 className="font-heading font-extrabold text-4xl sm:text-4xl md:text-5xl lg:text-[5.5rem] mb-4 md:mb-6 leading-[1] md:leading-[0.85]">
+        <h1 className="font-heading font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] mb-4 md:mb-6 leading-[1.1] md:leading-[0.85] flex flex-wrap justify-center gap-x-3 gap-y-2 md:gap-y-4">
           {[
-            { text: "Chain of", color: "text-[#9C6DD8]" },
+            { text: "Chain", color: "text-[#9C6DD8]" },
+            { text: "of", color: "text-[#9C6DD8]" },
             { text: "Preschool", color: "text-accent-pink" },
-            { text: "where Every", color: "text-accent-orange" },
-            { text: "Child Blooms", color: "text-accent-blue" },
+            { text: "where", color: "text-accent-orange" },
+            { text: "Every", color: "text-accent-orange" },
+            { text: "Child", color: "text-accent-blue" },
+            { text: "Blooms", color: "text-accent-blue" },
           ].map((word, i) => (
             <motion.span
               key={i}
               initial={{ opacity: 0, y: 50, rotate: -3 }}
               animate={{ opacity: 1, y: 0, rotate: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 + i * 0.12, type: "spring", stiffness: 120 }}
+              transition={{ duration: 0.7, delay: 0.2 + i * 0.1, type: "spring", stiffness: 120 }}
               whileHover={{ scale: 1.06 }}
-              className={`${word.color} inline-block mr-3 mt-2 md:mt-0`}
+              className={`${word.color} inline-block whitespace-nowrap`}
             >
               {word.text}
-              {i === 1 && <br className="hidden md:block" />}
             </motion.span>
           ))}
         </h1>
