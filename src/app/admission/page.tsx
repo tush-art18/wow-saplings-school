@@ -12,7 +12,7 @@ export default function AdmissionPage() {
   const steps = [
     { num: 1, title: "Parent Details", desc: "Basic contact info" },
     { num: 2, title: "Child Details", desc: "Age & program logic" },
-    { num: 3, title: "Finish", desc: "Choose visit slot" },
+    { num: 3, title: "Finish", desc: "Reference & visit slot" },
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -25,17 +25,17 @@ export default function AdmissionPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background pt-32 pb-20">
+    <div className="min-h-screen bg-background pt-32 pb-20 font-sans">
       <div className="container mx-auto px-4 max-w-5xl">
         
         <div className="text-center mb-16">
           <ScrollReveal animation="fade-up">
-            <h1 className="font-heading font-extrabold text-5xl md:text-6xl text-primary-dark mb-6">
+            <h1 className="font-heading font-extrabold text-4xl md:text-6xl text-primary-dark mb-6">
               Admissions Open 2026–27
             </h1>
           </ScrollReveal>
           <ScrollReveal animation="fade-up" delay={0.1}>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
               Take the first step towards a vibrant foundation for your child. Follow our simple application process below.
             </p>
           </ScrollReveal>
@@ -61,8 +61,8 @@ export default function AdmissionPage() {
                 >
                   {item.icon}
                 </motion.div>
-                <div className="text-xs font-bold text-accent-yellow tracking-widest mb-1">STEP {item.step}</div>
-                <div className="font-bold text-gray-800">{item.name}</div>
+                <div className="text-[10px] font-bold text-accent-yellow tracking-widest mb-1 uppercase">STEP {item.step}</div>
+                <div className="font-bold text-gray-800 text-sm md:text-base">{item.name}</div>
               </motion.div>
             </ScrollReveal>
           ))}
@@ -107,7 +107,7 @@ export default function AdmissionPage() {
                       <CheckCircle2 size={48} />
                     </div>
                     <h2 className="font-heading font-extrabold text-3xl text-primary-dark mb-4">Application Received!</h2>
-                    <p className="text-gray-600 mb-8 text-lg">
+                    <p className="text-gray-600 mb-8 text-lg leading-relaxed">
                       Thank you. Your details have been securely passed to our admissions team. We will call you within 24 hours to schedule your campus tour.
                     </p>
                     <button onClick={() => { setSuccess(false); setStep(1); }} className="text-primary font-bold border-b border-primary pb-1">
@@ -145,18 +145,32 @@ export default function AdmissionPage() {
                             <input type="tel" required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
                           </div>
                           <div>
-                            <label className="block text-sm font-bold text-gray-600 mb-2">Email Address *</label>
-                            <input type="email" required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
+                            <label className="block text-sm font-bold text-gray-600 mb-2">WhatsApp Number *</label>
+                            <input type="tel" required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" placeholder="Required for updates" />
                           </div>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-bold text-gray-600 mb-2">House Address *</label>
+                          <textarea rows={2} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none resize-none" placeholder="Enter your full residential address"></textarea>
                         </div>
                        </>
                     )}
 
                     {step === 2 && (
                        <>
-                        <div>
-                          <label className="block text-sm font-bold text-gray-600 mb-2">Child&apos;s Full Name</label>
-                          <input type="text" required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
+                        <div className="grid md:grid-cols-2 gap-6">
+                          <div className="md:col-span-1">
+                            <label className="block text-sm font-bold text-gray-600 mb-2">Child&apos;s Full Name</label>
+                            <input type="text" required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-bold text-gray-600 mb-2">Gender</label>
+                            <select required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none">
+                              <option value="">Select Gender</option>
+                              <option>Boy</option>
+                              <option>Girl</option>
+                            </select>
+                          </div>
                         </div>
                         <div className="grid md:grid-cols-2 gap-6">
                           <div>
@@ -172,6 +186,7 @@ export default function AdmissionPage() {
                               <option>Junior KG (4-5 yrs)</option>
                               <option>Senior KG (5-6 yrs)</option>
                               <option>Phonics / Abacus</option>
+                              <option>Day-care (Baby sitting)</option>
                             </select>
                           </div>
                         </div>
@@ -180,17 +195,24 @@ export default function AdmissionPage() {
 
                     {step === 3 && (
                        <>
-                        <div>
-                          <label className="block text-sm font-bold text-gray-600 mb-4">Preferred Campus Visit Time</label>
-                          <div className="grid grid-cols-2 gap-4">
-                            <label className="flex items-center gap-3 p-4 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
-                              <input type="radio" name="timing" value="morning" required className="w-5 h-5 text-primary" />
-                              <span className="font-bold text-gray-700">Morning (9am - 12pm)</span>
-                            </label>
-                            <label className="flex items-center gap-3 p-4 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
-                              <input type="radio" name="timing" value="afternoon" required className="w-5 h-5 text-primary" />
-                              <span className="font-bold text-gray-700">Afternoon (12pm - 4pm)</span>
-                            </label>
+                        <div className="grid md:grid-cols-2 gap-6">
+                          <div>
+                            <label className="block text-sm font-bold text-gray-600 mb-2">How did you hear about us?</label>
+                            <select required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none">
+                              <option value="">Select an option...</option>
+                              <option>Visited website</option>
+                              <option>Neighbour</option>
+                              <option>Already one student is in our school</option>
+                              <option>Newspaper</option>
+                              <option>Instagram</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-bold text-gray-600 mb-2">Preferred Campus Visit Time</label>
+                            <select required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none">
+                              <option value="">Select a slot...</option>
+                              <option>Morning (9am - 12pm)</option>
+                            </select>
                           </div>
                         </div>
                         <div>

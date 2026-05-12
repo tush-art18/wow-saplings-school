@@ -31,15 +31,15 @@ export default function TeacherTrainingPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background pt-28">
-
+    <div className="min-h-screen bg-background pt-28 font-sans">
+      
       {/* Hero Section */}
       <section ref={heroRef} className="relative bg-primary-dark text-white overflow-hidden py-24 px-4">
         {/* Particles */}
         <div className="absolute top-10 right-20 text-4xl opacity-50 flying-hat">🎓</div>
         <div className="absolute bottom-20 right-1/4 text-5xl opacity-30 flying-hat">📚</div>
         <div className="absolute top-32 left-20 text-3xl opacity-40 flying-hat">🌟</div>
-
+        
         <div className="container mx-auto relative z-10 grid lg:grid-cols-2 gap-12 items-center">
           <ScrollReveal animation="fade-right">
             <div>
@@ -50,7 +50,7 @@ export default function TeacherTrainingPage() {
               <h1 className="font-heading font-extrabold text-5xl md:text-6xl mb-6 leading-tight">
                 Transform Your Passion Into a <span className="text-accent-yellow">Profession</span>
               </h1>
-              <p className="text-lg md:text-xl text-gray-300 font-sans mb-8">
+              <p className="text-base md:text-lg text-gray-300 mb-8 leading-relaxed">
                 Join Kolhapur&apos;s most comprehensive Pre-Primary Teacher Training Course. Gain hands-on experience, university certification, and 100% placement assistance.
               </p>
               <div className="flex flex-wrap gap-4">
@@ -69,20 +69,20 @@ export default function TeacherTrainingPage() {
               <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 shadow-2xl">
                 <div className="grid grid-cols-2 gap-6">
                   <div>
-                    <div className="text-4xl text-accent-yellow font-bold mb-2 font-heading">1 Year</div>
-                    <div className="text-sm font-bold text-gray-400 uppercase">Duration</div>
+                    <div className="text-3xl md:text-4xl text-accent-yellow font-bold mb-2">1 Year</div>
+                    <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Duration</div>
                   </div>
                   <div>
-                    <div className="text-4xl text-accent-yellow font-bold mb-2 font-heading">100%</div>
-                    <div className="text-sm font-bold text-gray-400 uppercase">Placement Help</div>
+                    <div className="text-3xl md:text-4xl text-accent-yellow font-bold mb-2">100%</div>
+                    <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Placement Help</div>
                   </div>
                   <div>
-                    <div className="text-4xl text-accent-yellow font-bold mb-2 font-heading">Offline</div>
-                    <div className="text-sm font-bold text-gray-400 uppercase">Flexible Mode</div>
+                    <div className="text-3xl md:text-4xl text-accent-yellow font-bold mb-2">Offline</div>
+                    <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Flexible Mode</div>
                   </div>
                   <div>
-                    <div className="text-4xl text-accent-yellow font-bold mb-2 font-heading">200+</div>
-                    <div className="text-sm font-bold text-gray-400 uppercase">Certified Alumni</div>
+                    <div className="text-3xl md:text-4xl text-accent-yellow font-bold mb-2">200+</div>
+                    <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Certified Alumni</div>
                   </div>
                 </div>
               </div>
@@ -94,17 +94,17 @@ export default function TeacherTrainingPage() {
       {/* Details Section */}
       <section className="py-20 px-4">
         <div className="container mx-auto grid lg:grid-cols-12 gap-16">
-
+          
           <div className="lg:col-span-8" id="syllabus">
             <ScrollReveal animation="fade-up">
-              <h2 className="font-heading font-bold text-4xl text-primary-dark mb-8">Course Curriculum</h2>
+              <h2 className="font-heading font-bold text-3xl md:text-4xl text-primary-dark mb-8">Course Curriculum</h2>
             </ScrollReveal>
-
+            
             <div className="space-y-4">
               {syllabus.map((mod, i) => (
                 <ScrollReveal key={i} animation="fade-up" delay={i * 0.1}>
                   <div className="border border-gray-200 bg-white rounded-2xl overflow-hidden shadow-sm">
-                    <button
+                    <button 
                       onClick={() => setOpenFaq(openFaq === i ? null : i)}
                       className="w-full flex items-center justify-between p-6 text-left hover:bg-gray-50 transition-colors"
                     >
@@ -119,7 +119,7 @@ export default function TeacherTrainingPage() {
                           exit={{ height: 0, opacity: 0 }}
                           className="overflow-hidden"
                         >
-                          <div className="p-6 pt-0 text-gray-600 font-medium">
+                          <div className="p-6 pt-0 text-gray-600 font-medium leading-relaxed">
                             {mod.content}
                           </div>
                         </motion.div>
@@ -132,21 +132,21 @@ export default function TeacherTrainingPage() {
 
             <ScrollReveal animation="fade-up" delay={0.2}>
               <div className="mt-16 bg-primary-light rounded-3xl p-8 md:p-12">
-                <h3 className="font-heading font-bold text-3xl text-primary-dark mb-6">Career Opportunities</h3>
+                <h3 className="font-sans font-bold text-2xl md:text-3xl text-primary-dark mb-6">Career Opportunities</h3>
                 <div className="grid md:grid-cols-2 gap-4">
-                  {[
-                    "Pre-Primary School Teacher",
-                    "Childcare Center Director",
-                    "Education Consultant",
-                    "Curriculum Developer",
-                    "Special Education Assistant",
-                    "Start Your Own Preschool"
-                  ].map((career, i) => (
-                    <div key={i} className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-sm border border-white">
-                      <Briefcase className="text-primary shrink-0" size={20} />
-                      <span className="font-bold text-gray-700">{career}</span>
-                    </div>
-                  ))}
+                   {[
+                     "Pre-Primary School Teacher",
+                     "Childcare Center Director",
+                     "Education Consultant",
+                     "Curriculum Developer",
+                     "Special Education Assistant",
+                     "Start Your Own Preschool"
+                   ].map((career, i) => (
+                     <div key={i} className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-sm border border-white">
+                       <Briefcase className="text-primary shrink-0" size={20} />
+                       <span className="font-bold text-gray-700 text-sm md:text-base">{career}</span>
+                     </div>
+                   ))}
                 </div>
               </div>
             </ScrollReveal>
@@ -156,40 +156,50 @@ export default function TeacherTrainingPage() {
             {/* Sticky Application Form Form Mock */}
             <ScrollReveal animation="fade-left" delay={0.2}>
               <div id="apply" className="sticky top-32 bg-white p-8 rounded-3xl shadow-xl border border-gray-100">
-                <h3 className="font-heading font-bold text-2xl text-primary-dark mb-6">Apply for Next Batch</h3>
+                <h3 className="font-sans font-bold text-xl md:text-2xl text-primary-dark mb-6">Apply for Next Batch</h3>
                 <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); alert('Application Submitted (Mock)'); }}>
                   <div>
-                    <label className="block text-sm font-bold text-gray-600 mb-2">Full Name</label>
-                    <input type="text" className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Jane Doe" required />
+                    <label className="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-widest">Full Name</label>
+                    <input type="text" className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors text-sm" placeholder="Jane Doe" required />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-widest">Date of Birth</label>
+                      <input type="date" className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors text-sm" required />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-widest">Phone Number</label>
+                      <input type="tel" className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors text-sm" placeholder="+91 XXXXX" required />
+                    </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-bold text-gray-600 mb-2">Phone Number</label>
-                    <input type="tel" className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="+91 XXXXX XXXXX" required />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-bold text-gray-600 mb-2">Education Qualification</label>
-                    <select className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors">
+                    <label className="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-widest">Education Qualification</label>
+                    <select className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors text-sm">
                       <option>Graduate</option>
                       <option>Undergraduate</option>
                       <option>Post Graduate</option>
                     </select>
                   </div>
+                  <div>
+                    <label className="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-widest">Residential Address</label>
+                    <textarea rows={2} className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors text-sm resize-none" placeholder="Enter full address" required></textarea>
+                  </div>
                   <button type="submit" className="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg hover:bg-primary-dark transition-all hover:-translate-y-1 mt-4">
                     Submit Application
                   </button>
                 </form>
-                <p className="text-xs text-gray-500 text-center mt-4 font-medium">
-                  Our counselor will call you within 24 hours with fee and schedule details.
+                <p className="text-[10px] text-gray-500 text-center mt-4 font-medium uppercase tracking-widest">
+                  Our counselor will call you within 24 hours.
                 </p>
               </div>
             </ScrollReveal>
           </div>
-
+          
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-24 bg-[#c3cfab] relative overflow-hidden font-sans">
+      <section className="py-24 bg-[#c3cfab] relative overflow-hidden">
         {/* Huge Background Text */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center overflow-hidden pointer-events-none opacity-[0.04] z-0 w-full select-none">
           <div className="text-[12rem] md:text-[20rem] font-black leading-[0.85] text-center whitespace-nowrap text-[#1a2f1c]">ALUMNI</div>
@@ -200,11 +210,11 @@ export default function TeacherTrainingPage() {
         <div className="container mx-auto px-4 md:px-8 relative z-10">
           <ScrollReveal animation="fade-up">
             <div className="text-center mb-24">
-              <h2 className="font-heading font-extrabold text-5xl md:text-6xl text-[#1a2f1c] mb-4">Alumni Success</h2>
-              <p className="text-[#1a2f1c]/70 font-bold uppercase tracking-widest text-lg">Hear from our certified teachers</p>
+               <h2 className="font-heading font-extrabold text-3xl md:text-4xl text-[#1a2f1c] mb-4">Alumni Success</h2>
+               <p className="text-[#1a2f1c]/70 font-bold uppercase tracking-widest text-base md:text-lg">Hear from our certified teachers</p>
             </div>
           </ScrollReveal>
-
+          
           <div className="flex flex-wrap justify-center gap-y-16 gap-x-6 md:gap-8">
             {[
               { name: "Sneha Kulkarni", role: "Certified Teacher, Batch '24", content: "The teacher training program here is top-notch. I feel so confident after my certification and getting placed was a breeze.", img: "https://randomuser.me/api/portraits/women/24.jpg" },
@@ -214,40 +224,40 @@ export default function TeacherTrainingPage() {
               { name: "Ritu Patel", role: "Preschool Founder", content: "Thanks to this certification, I successfully opened my own preschool. The management module was a game-changer!", img: "https://randomuser.me/api/portraits/women/8.jpg" }
             ].map((r, i) => (
               <ScrollReveal key={i} animation="fade-up" delay={i * 0.1} width="fit-content" className="relative pt-12 pb-4 w-[calc(100%-20px)] sm:w-[calc(50%-20px)] lg:w-[calc(33.33%-24px)] max-w-[380px] group">
+                 
+                 {/* Main Dark Body */}
+                 <div className="bg-[#1a2f1c] text-[#e8eddf] rounded-[2rem] p-8 pt-16 border-2 border-[#1a2f1c] shadow-2xl relative h-full flex flex-col hover:-translate-y-2 transition-transform duration-300">
+                   {/* Hearts */}
+                   <div className="flex justify-center gap-1.5 mb-6">
+                     {[1,2,3,4,5].map(s => <Heart key={s} size={20} fill="#f9c846" className="text-[#f9c846]" />)}
+                   </div>
+                   
+                   {/* Text */}
+                   <p className="text-center text-sm md:text-base leading-relaxed mb-8 font-medium flex-1">
+                     {r.content}
+                   </p>
 
-                {/* Main Dark Body */}
-                <div className="bg-[#1a2f1c] text-[#e8eddf] rounded-[2rem] p-8 pt-16 border-2 border-[#1a2f1c] shadow-2xl relative h-full flex flex-col hover:-translate-y-2 transition-transform duration-300">
-                  {/* Hearts */}
-                  <div className="flex justify-center gap-1.5 mb-6">
-                    {[1, 2, 3, 4, 5].map(s => <Heart key={s} size={20} fill="#f9c846" className="text-[#f9c846]" />)}
-                  </div>
+                   {/* Bottom Info */}
+                   <p className="text-center text-[10px] opacity-50 uppercase tracking-widest font-bold">WOW TTC | 2024</p>
+                 </div>
 
-                  {/* Text */}
-                  <p className="text-center text-[15px] leading-relaxed mb-8 font-medium flex-1">
-                    {r.content}
-                  </p>
-
-                  {/* Bottom Info */}
-                  <p className="text-center text-[11px] opacity-50 uppercase tracking-widest font-bold">WOW TTC | 2024</p>
-                </div>
-
-                {/* Top overlapping Avatar Box */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-[#e8eddf] text-[#1a2f1c] px-4 py-3 rounded-[1.2rem] border-2 border-[#1a2f1c] shadow-lg flex items-center gap-3 w-[85%] z-10 group-hover:-translate-y-2 transition-transform duration-300">
-                  <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 border-2 border-[#1a2f1c]/10 bg-white flex items-center justify-center">
-                    <img src={r.img} alt={r.name} className="w-full h-full object-cover" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-bold text-sm leading-tight truncate">{r.name}</p>
-                    <p className="text-[10px] font-bold text-[#1a2f1c]/60 truncate">{r.role}</p>
-                  </div>
-                </div>
+                 {/* Top overlapping Avatar Box */}
+                 <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-[#e8eddf] text-[#1a2f1c] px-4 py-3 rounded-[1.2rem] border-2 border-[#1a2f1c] shadow-lg flex items-center gap-3 w-[85%] z-10 group-hover:-translate-y-2 transition-transform duration-300">
+                    <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 border-2 border-[#1a2f1c]/10 bg-white flex items-center justify-center">
+                      <img src={r.img} alt={r.name} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-bold text-sm leading-tight truncate">{r.name}</p>
+                      <p className="text-[10px] font-bold text-[#1a2f1c]/60 truncate">{r.role}</p>
+                    </div>
+                 </div>
 
               </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
-
+      
     </div>
   );
 }

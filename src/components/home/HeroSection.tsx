@@ -7,7 +7,8 @@ import { ArrowDown } from "lucide-react";
 export default function HeroSection() {
   return (
     <section
-      className="relative min-h-screen pt-32 overflow-hidden flex flex-col bg-cover bg-center"
+      className="relative min-h-screen pt-32 overflow-hidden flex flex-col bg-cover bg-bottom"
+      style={{ backgroundImage: "url('/hero-banner.png')" }}
     >
       {/* Overlay for text readability - reduced to keep image clear */}
       <div className="absolute inset-0 bg-white/10 z-0"></div>
@@ -115,7 +116,7 @@ export default function HeroSection() {
       </div>
 
       {/* Feature Image Frame */}
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0, y: 80 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 1, ease: [0.22, 1, 0.36, 1] }}
@@ -137,7 +138,7 @@ export default function HeroSection() {
             <p className="text-xs md:text-base text-gray-600 font-medium">Where learning is an adventure every single day.</p>
           </motion.div>
         </div>
-      </motion.div>
+      </motion.div> */}
 
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-gray-400">
         <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>

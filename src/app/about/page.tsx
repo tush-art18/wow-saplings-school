@@ -16,21 +16,21 @@ export default function AboutPage() {
 
 
   return (
-    <div className="min-h-screen bg-background">
-
+    <div className="min-h-screen bg-background font-sans">
+      
       {/* Hero Section */}
       <section ref={heroRef} className="pt-32 pb-20 px-4">
         <div className="container mx-auto text-center max-w-4xl">
           <ScrollReveal animation="fade-up">
             <h1
-              className="font-heading font-extrabold text-5xl md:text-7xl text-primary-dark mb-6"
+              className="font-heading font-extrabold text-5xl md:text-6xl text-primary-dark mb-6"
             >
               10 Years of <span className="text-primary hover:text-accent-pink transition-colors">Excellence</span>
             </h1>
           </ScrollReveal>
           <ScrollReveal animation="fade-up" delay={0.2}>
             <p
-              className="text-xl text-gray-600 mb-12"
+              className="text-lg md:text-xl text-gray-600 mb-12 leading-relaxed"
             >
               Started with a vision to revolutionize early childhood education in Kolhapur, WOW Saplings has grown into a bustling campus where thousands of little minds have taken their first steps into learning.
             </p>
@@ -43,7 +43,7 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 grid md:grid-cols-3 gap-8">
           {values.map((v, i) => (
             <ScrollReveal key={i} animation="fade-up" delay={i * 0.1}>
-              <motion.div
+              <motion.div 
                 whileHover={{ y: -10, scale: 1.02 }}
                 className="p-8 rounded-3xl bg-gray-50 border border-gray-100 shadow-sm hover:shadow-xl transition-shadow h-full"
               >
@@ -54,7 +54,7 @@ export default function AboutPage() {
                 >
                   {v.icon}
                 </motion.div>
-                <h3 className="font-heading font-bold text-2xl text-primary-dark mb-4">{v.title}</h3>
+                <h3 className="font-sans font-bold text-2xl text-primary-dark mb-4">{v.title}</h3>
                 <p className="text-gray-600 font-medium leading-relaxed">{v.content}</p>
               </motion.div>
             </ScrollReveal>
@@ -73,20 +73,20 @@ export default function AboutPage() {
             ].map((milestone, i) => (
               <ScrollReveal key={i} animation="fade-up" delay={i * 0.1}>
                 <div className="text-center group">
-                  <motion.div
+                  <motion.div 
                     whileHover={{ scale: 1.1 }}
-                    className={`font-heading font-black text-6xl md:text-8xl ${milestone.color} mb-4 flex items-center justify-center`}
+                    className={`font-heading font-black text-5xl md:text-6xl ${milestone.color} mb-4 flex items-center justify-center`}
                   >
                     {milestone.number}
                   </motion.div>
-                  <h4 className="font-heading font-bold text-xl md:text-2xl text-primary-dark mb-2">{milestone.label}</h4>
+                  <h4 className="font-sans font-bold text-xl md:text-2xl text-primary-dark mb-2">{milestone.label}</h4>
                   <p className="text-gray-500 font-bold uppercase tracking-widest text-xs">{milestone.sub}</p>
                 </div>
               </ScrollReveal>
             ))}
           </div>
         </div>
-
+        
         {/* Background Decor */}
         <div className="absolute top-1/2 left-0 -translate-y-1/2 text-[15rem] md:text-[25rem] font-black opacity-[0.03] select-none pointer-events-none -rotate-12">
           WOW
@@ -103,26 +103,26 @@ export default function AboutPage() {
               <div className="relative z-10">
                 <Quote size={64} className="text-primary-light/20 mb-6" />
                 <h2
-                  className="font-heading font-bold text-4xl mb-6"
+                  className="font-heading font-bold text-3xl md:text-4xl mb-6"
                 >A Message from Our Director</h2>
                 <p
-                  className="text-lg text-gray-300 font-medium mb-8 leading-relaxed italic"
+                  className="text-base md:text-lg text-gray-300 font-medium mb-8 leading-relaxed italic"
                 >
-                  &quot;Our philosophy is simple: we believe that when children feel completely loved and secure, their natural curiosity instantly turns them into brilliant learners. We don&apos;t just school them; we nurture their saplings of thought.&quot;
+                &quot;Our philosophy is simple: we believe that when children feel completely loved and secure, their natural curiosity instantly turns them into brilliant learners. We don&apos;t just school them; we nurture their saplings of thought.&quot;
                 </p>
                 <div>
-                  <div className="font-bold text-2xl font-heading text-accent-yellow">Mrs. Yasmeen Shaikh</div>
+                  <div className="font-bold text-xl md:text-2xl font-heading text-accent-yellow">Mrs. Yasmeen Shaikh</div>
                   <div className="text-gray-400 font-bold tracking-widest uppercase text-sm">Principal & Founder</div>
                 </div>
               </div>
-
+              
               <div
                 className="relative h-[400px] lg:h-[500px] rounded-[2rem] overflow-hidden group"
               >
-                <img
-                  src="/principal.jpeg"
-                  className="w-full h-full object-cover transform transition-transform duration-[10000ms] group-hover:scale-110"
-                  alt="Principal"
+                <img 
+                  src="/principal.jpeg" 
+                  className="w-full h-full object-cover transform transition-transform duration-[10000ms] group-hover:scale-110" 
+                  alt="Principal" 
                 />
                 <div className="absolute inset-0 bg-primary-dark/20 group-hover:bg-transparent transition-colors duration-700"></div>
               </div>
@@ -131,48 +131,47 @@ export default function AboutPage() {
         </ScrollReveal>
       </section>
 
-
-
       {/* A Day at WOW */}
       <section className="py-24 px-4 bg-white border-t border-gray-100">
         <div className="container mx-auto max-w-4xl text-center">
           <ScrollReveal animation="fade-up">
             <h2
-              className="font-heading font-extrabold text-4xl text-primary-dark mb-16"
+              className="font-heading font-extrabold text-3xl md:text-4xl text-primary-dark mb-16"
             >A Day at WOW Saplings</h2>
           </ScrollReveal>
-
+          
           <div className="space-y-12 relative before:absolute before:inset-0 before:ml-5 md:before:mx-auto md:before:left-0 md:before:right-0 before:h-full before:w-1 before:bg-gray-100">
-
+            
             {[
-              { time: " 10:00 AM", title: "Warm Welcome & Circle Time", desc: "Greeting friends, discussing the day, and building social bonds." },
-              { time: "11:00 AM", title: "Creative Exploration", desc: "Art, craft, and sensory activities tailored to age groups." },
-              { time: "12:00 PM", title: "Snack & Story", desc: "Healthy habits and immersive storytelling sessions." },
-              { time: "01:00 PM", title: "Physical Play", desc: "Safe outdoor/indoor activities focusing on motor skills." }
+              { time: "10:00 AM", title: "Assembly & Sports", desc: "Circle time and sports activities including Karate sessions." },
+              { time: "11:00 AM", title: "Learning & Writing", desc: "Core academic part focused on writing and fundamental learning." },
+              { time: "12:00 PM", title: "Lunch & Activity", desc: "Healthy meal time followed by engaging activity sessions." },
+              { time: "01:00 PM", title: "Creativity Exploration", desc: "Crafting, art, and immersive storytelling for creative minds." },
+              { time: "02:00 PM", title: "Skill Focus", desc: "Specialized sessions for Phonics and Abacus development." }
             ].map((schedule, i) => (
               <ScrollReveal key={i} animation={i % 2 === 0 ? "fade-right" : "fade-left"} delay={i * 0.1}>
                 <div
                   className="relative flex items-center justify-between md:justify-around group"
                 >
                   <div className="hidden md:block w-5/12 text-right pr-8">
-                    <div className="font-heading font-bold text-2xl text-primary">{schedule.time}</div>
+                    <div className="font-heading font-bold text-xl md:text-2xl text-primary">{schedule.time}</div>
                   </div>
-
+                  
                   <motion.div
                     whileHover={{ scale: 1.3 }}
                     transition={{ type: "spring", stiffness: 400 }}
                     className="absolute left-0 md:left-1/2 -ml-2 md:-ml-4 w-8 h-8 rounded-full bg-accent-yellow border-4 border-white shadow-md z-10"
                   />
-
+                  
                   <div className="pl-12 md:pl-0 md:w-5/12 text-left md:ml-8">
                     <div className="md:hidden font-heading font-bold text-lg text-primary mb-1">{schedule.time}</div>
-                    <h3 className="font-heading font-bold text-xl text-primary-dark mb-2">{schedule.title}</h3>
-                    <p className="text-gray-600 font-medium">{schedule.desc}</p>
+                    <h3 className="font-sans font-bold text-lg md:text-xl text-primary-dark mb-2">{schedule.title}</h3>
+                    <p className="text-gray-600 font-medium leading-relaxed">{schedule.desc}</p>
                   </div>
                 </div>
               </ScrollReveal>
             ))}
-
+            
           </div>
         </div>
       </section>
