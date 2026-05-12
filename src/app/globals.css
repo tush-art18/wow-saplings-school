@@ -3,11 +3,11 @@
 :root {
   --background: #FCFAFB;
   --foreground: #2C1E29;
-  
+
   --color-primary: #a43c8c;
   --color-primary-light: #F6EAF3;
   --color-primary-dark: #621B52;
-  
+
   --color-accent-yellow: #ecd437;
   --color-accent-orange: #FF7043;
   --color-accent-pink: #aa5693;
@@ -18,34 +18,55 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  
+
   --color-primary: var(--color-primary);
   --color-primary-light: var(--color-primary-light);
   --color-primary-dark: var(--color-primary-dark);
-  
+
   --color-accent-yellow: var(--color-accent-yellow);
   --color-accent-orange: var(--color-accent-orange);
   --color-accent-pink: var(--color-accent-pink);
   --color-accent-purple: var(--color-accent-purple);
   --color-accent-blue: var(--color-accent-blue);
-  
+
   --font-sans: var(--font-nunito), Arial, sans-serif;
   --font-heading: var(--font-baloo), cursive;
 }
 
 @keyframes cloud-float {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(10px, -15px); }
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(10px, -15px);
+  }
 }
 
 @keyframes wiggle {
-  0%, 100% { transform: rotate(-1deg); }
-  50% { transform: rotate(1deg); }
+
+  0%,
+  100% {
+    transform: rotate(-1deg);
+  }
+
+  50% {
+    transform: rotate(1deg);
+  }
 }
 
 @keyframes hero-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .hero-bounce {
@@ -84,8 +105,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-body, html {
+body,
+html {
   cursor: auto !important;
 }
-
-

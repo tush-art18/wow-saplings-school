@@ -32,14 +32,14 @@ export default function TeacherTrainingPage() {
 
   return (
     <div className="min-h-screen bg-background pt-28">
-      
+
       {/* Hero Section */}
       <section ref={heroRef} className="relative bg-primary-dark text-white overflow-hidden py-24 px-4">
         {/* Particles */}
         <div className="absolute top-10 right-20 text-4xl opacity-50 flying-hat">🎓</div>
         <div className="absolute bottom-20 right-1/4 text-5xl opacity-30 flying-hat">📚</div>
         <div className="absolute top-32 left-20 text-3xl opacity-40 flying-hat">🌟</div>
-        
+
         <div className="container mx-auto relative z-10 grid lg:grid-cols-2 gap-12 items-center">
           <ScrollReveal animation="fade-right">
             <div>
@@ -94,17 +94,17 @@ export default function TeacherTrainingPage() {
       {/* Details Section */}
       <section className="py-20 px-4">
         <div className="container mx-auto grid lg:grid-cols-12 gap-16">
-          
+
           <div className="lg:col-span-8" id="syllabus">
             <ScrollReveal animation="fade-up">
               <h2 className="font-heading font-bold text-4xl text-primary-dark mb-8">Course Curriculum</h2>
             </ScrollReveal>
-            
+
             <div className="space-y-4">
               {syllabus.map((mod, i) => (
                 <ScrollReveal key={i} animation="fade-up" delay={i * 0.1}>
                   <div className="border border-gray-200 bg-white rounded-2xl overflow-hidden shadow-sm">
-                    <button 
+                    <button
                       onClick={() => setOpenFaq(openFaq === i ? null : i)}
                       className="w-full flex items-center justify-between p-6 text-left hover:bg-gray-50 transition-colors"
                     >
@@ -134,19 +134,19 @@ export default function TeacherTrainingPage() {
               <div className="mt-16 bg-primary-light rounded-3xl p-8 md:p-12">
                 <h3 className="font-heading font-bold text-3xl text-primary-dark mb-6">Career Opportunities</h3>
                 <div className="grid md:grid-cols-2 gap-4">
-                   {[
-                     "Pre-Primary School Teacher",
-                     "Childcare Center Director",
-                     "Education Consultant",
-                     "Curriculum Developer",
-                     "Special Education Assistant",
-                     "Start Your Own Preschool"
-                   ].map((career, i) => (
-                     <div key={i} className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-sm border border-white">
-                       <Briefcase className="text-primary shrink-0" size={20} />
-                       <span className="font-bold text-gray-700">{career}</span>
-                     </div>
-                   ))}
+                  {[
+                    "Pre-Primary School Teacher",
+                    "Childcare Center Director",
+                    "Education Consultant",
+                    "Curriculum Developer",
+                    "Special Education Assistant",
+                    "Start Your Own Preschool"
+                  ].map((career, i) => (
+                    <div key={i} className="flex items-center gap-3 bg-white p-4 rounded-xl shadow-sm border border-white">
+                      <Briefcase className="text-primary shrink-0" size={20} />
+                      <span className="font-bold text-gray-700">{career}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </ScrollReveal>
@@ -184,7 +184,7 @@ export default function TeacherTrainingPage() {
               </div>
             </ScrollReveal>
           </div>
-          
+
         </div>
       </section>
 
@@ -200,11 +200,11 @@ export default function TeacherTrainingPage() {
         <div className="container mx-auto px-4 md:px-8 relative z-10">
           <ScrollReveal animation="fade-up">
             <div className="text-center mb-24">
-               <h2 className="font-heading font-extrabold text-5xl md:text-6xl text-[#1a2f1c] mb-4">Alumni Success</h2>
-               <p className="text-[#1a2f1c]/70 font-bold uppercase tracking-widest text-lg">Hear from our certified teachers</p>
+              <h2 className="font-heading font-extrabold text-5xl md:text-6xl text-[#1a2f1c] mb-4">Alumni Success</h2>
+              <p className="text-[#1a2f1c]/70 font-bold uppercase tracking-widest text-lg">Hear from our certified teachers</p>
             </div>
           </ScrollReveal>
-          
+
           <div className="flex flex-wrap justify-center gap-y-16 gap-x-6 md:gap-8">
             {[
               { name: "Sneha Kulkarni", role: "Certified Teacher, Batch '24", content: "The teacher training program here is top-notch. I feel so confident after my certification and getting placed was a breeze.", img: "https://randomuser.me/api/portraits/women/24.jpg" },
@@ -214,40 +214,40 @@ export default function TeacherTrainingPage() {
               { name: "Ritu Patel", role: "Preschool Founder", content: "Thanks to this certification, I successfully opened my own preschool. The management module was a game-changer!", img: "https://randomuser.me/api/portraits/women/8.jpg" }
             ].map((r, i) => (
               <ScrollReveal key={i} animation="fade-up" delay={i * 0.1} width="fit-content" className="relative pt-12 pb-4 w-[calc(100%-20px)] sm:w-[calc(50%-20px)] lg:w-[calc(33.33%-24px)] max-w-[380px] group">
-                 
-                 {/* Main Dark Body */}
-                 <div className="bg-[#1a2f1c] text-[#e8eddf] rounded-[2rem] p-8 pt-16 border-2 border-[#1a2f1c] shadow-2xl relative h-full flex flex-col hover:-translate-y-2 transition-transform duration-300">
-                   {/* Hearts */}
-                   <div className="flex justify-center gap-1.5 mb-6">
-                     {[1,2,3,4,5].map(s => <Heart key={s} size={20} fill="#f9c846" className="text-[#f9c846]" />)}
-                   </div>
-                   
-                   {/* Text */}
-                   <p className="text-center text-[15px] leading-relaxed mb-8 font-medium flex-1">
-                     {r.content}
-                   </p>
 
-                   {/* Bottom Info */}
-                   <p className="text-center text-[11px] opacity-50 uppercase tracking-widest font-bold">WOW TTC | 2024</p>
-                 </div>
+                {/* Main Dark Body */}
+                <div className="bg-[#1a2f1c] text-[#e8eddf] rounded-[2rem] p-8 pt-16 border-2 border-[#1a2f1c] shadow-2xl relative h-full flex flex-col hover:-translate-y-2 transition-transform duration-300">
+                  {/* Hearts */}
+                  <div className="flex justify-center gap-1.5 mb-6">
+                    {[1, 2, 3, 4, 5].map(s => <Heart key={s} size={20} fill="#f9c846" className="text-[#f9c846]" />)}
+                  </div>
 
-                 {/* Top overlapping Avatar Box */}
-                 <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-[#e8eddf] text-[#1a2f1c] px-4 py-3 rounded-[1.2rem] border-2 border-[#1a2f1c] shadow-lg flex items-center gap-3 w-[85%] z-10 group-hover:-translate-y-2 transition-transform duration-300">
-                    <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 border-2 border-[#1a2f1c]/10 bg-white flex items-center justify-center">
-                      <img src={r.img} alt={r.name} className="w-full h-full object-cover" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-bold text-sm leading-tight truncate">{r.name}</p>
-                      <p className="text-[10px] font-bold text-[#1a2f1c]/60 truncate">{r.role}</p>
-                    </div>
-                 </div>
+                  {/* Text */}
+                  <p className="text-center text-[15px] leading-relaxed mb-8 font-medium flex-1">
+                    {r.content}
+                  </p>
+
+                  {/* Bottom Info */}
+                  <p className="text-center text-[11px] opacity-50 uppercase tracking-widest font-bold">WOW TTC | 2024</p>
+                </div>
+
+                {/* Top overlapping Avatar Box */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-[#e8eddf] text-[#1a2f1c] px-4 py-3 rounded-[1.2rem] border-2 border-[#1a2f1c] shadow-lg flex items-center gap-3 w-[85%] z-10 group-hover:-translate-y-2 transition-transform duration-300">
+                  <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 border-2 border-[#1a2f1c]/10 bg-white flex items-center justify-center">
+                    <img src={r.img} alt={r.name} className="w-full h-full object-cover" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-sm leading-tight truncate">{r.name}</p>
+                    <p className="text-[10px] font-bold text-[#1a2f1c]/60 truncate">{r.role}</p>
+                  </div>
+                </div>
 
               </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
-      
+
     </div>
   );
 }

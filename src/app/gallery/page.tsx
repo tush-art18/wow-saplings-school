@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, ZoomIn, Info } from "lucide-react";
+import Image from "next/image";
 import ScrollReveal from "@/components/global/ScrollReveal";
 
 export default function GalleryPage() {
@@ -114,10 +115,13 @@ export default function GalleryPage() {
                     onClick={() => setLightboxOpen(photo.id)}
                     className={`relative ${photo.height} w-full rounded-2xl overflow-hidden group cursor-pointer shadow-sm`}
                   >
-                    <img 
+                    <Image 
                       src={photo.img} 
                       alt={photo.title}
-                      className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110"
+                      fill
+                      loading="lazy"
+                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      className="object-cover transform transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-primary-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
                       <div className="absolute inset-0 flex items-center justify-center">
@@ -154,12 +158,19 @@ export default function GalleryPage() {
             </button>
             
             <div className="w-full max-w-5xl max-h-[85vh] relative flex flex-col relative">
-               <motion.img 
+               <motion.div
                  initial={{ y: 20, opacity: 0 }}
                  animate={{ y: 0, opacity: 1 }}
-                 src={selectedPhoto.img} 
-                 className="w-full h-full object-contain max-h-[75vh]"
-               />
+                 className="relative w-full h-[75vh]"
+               >
+                 <Image 
+                   src={selectedPhoto.img} 
+                   alt={selectedPhoto.title}
+                   fill
+                   priority
+                   className="object-contain"
+                 />
+               </motion.div>
                <motion.div 
                  initial={{ y: 10, opacity: 0 }}
                  animate={{ y: 0, opacity: 1 }}

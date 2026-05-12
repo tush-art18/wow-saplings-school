@@ -4,6 +4,7 @@ import { useRef } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 export default function GalleryPreview() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -101,10 +102,13 @@ export default function GalleryPreview() {
             className="min-w-[240px] h-64 sm:min-w-[320px] sm:h-[400px] md:min-w-[380px] md:h-[480px] rounded-[2rem] md:rounded-[3rem] bg-gray-100 flex-shrink-0 relative overflow-hidden group sticker-shadow border-4 md:border-8 border-white snap-center"
           >
             {item.img ? (
-              <img
+              <Image
                 src={item.img}
                 alt={item.title}
-                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s]"
+                fill
+                loading="lazy"
+                sizes="(max-width: 768px) 320px, 400px"
+                className="object-cover group-hover:scale-105 transition-transform duration-[2s]"
               />
             ) : (
               <div className={`absolute inset-0 ${item.color} flex items-center justify-center text-6xl md:text-8xl`}>

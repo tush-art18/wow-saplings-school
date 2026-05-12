@@ -31,7 +31,7 @@ export default function AdmissionPage() {
         <div className="text-center mb-16">
           <ScrollReveal animation="fade-up">
             <h1 className="font-heading font-extrabold text-5xl md:text-6xl text-primary-dark mb-6">
-              Admissions Open 2025–26
+              Admissions Open 2026–27
             </h1>
           </ScrollReveal>
           <ScrollReveal animation="fade-up" delay={0.1}>

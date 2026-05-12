@@ -127,8 +127,8 @@ export default function ProgramsPage() {
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={`relative px-6 py-2.5 rounded-full font-bold text-sm transition-all duration-300 ${activeCategory === cat
-                  ? "text-white shadow-md transform scale-105"
-                  : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200 hover:border-gray-300"
+                ? "text-white shadow-md transform scale-105"
+                : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200 hover:border-gray-300"
                 }`}
             >
               {activeCategory === cat && (

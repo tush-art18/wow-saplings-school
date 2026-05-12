@@ -29,26 +29,24 @@ export default function Navbar() {
   ];
 
   return (
-    <nav 
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-4 md:px-8 py-4 ${
-        scrolled ? "md:py-2" : "md:py-6"
-      }`}
+    <nav
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-4 md:px-8 py-4 ${scrolled ? "md:py-2" : "md:py-6"
+        }`}
     >
-      <div className={`container mx-auto transition-all duration-500 ${
-        scrolled 
-          ? "bg-white/90 backdrop-blur-xl shadow-xl rounded-full border-b-4 border-primary/10 max-w-6xl px-6" 
+      <div className={`container mx-auto transition-all duration-500 ${scrolled
+          ? "bg-white/90 backdrop-blur-xl shadow-xl rounded-full border-b-4 border-primary/10 max-w-6xl px-6"
           : "bg-white/50 backdrop-blur-md rounded-[2.5rem] max-w-7xl px-8"
-      }`}>
+        }`}>
         <div className="flex items-center justify-between h-16 md:h-20">
-          
+
           {/* Logo Section */}
           <Link href="/" className="flex items-center gap-2 md:gap-3 group">
             <div className="relative w-10 h-10 md:w-12 md:h-12 bg-white rounded-full p-1 shadow-md group-hover:rotate-6 transition-transform overflow-hidden">
-               <img 
-                 src="/sapling-logo-0003.jpg" 
-                 alt="Logo" 
-                 className="w-full h-full object-cover rounded-full"
-               />
+              <img
+                src="/sapling-logo-0003.jpg"
+                alt="Logo"
+                className="w-full h-full object-cover rounded-full"
+              />
             </div>
             <div className="flex flex-col">
               <span className="font-heading font-extrabold text-xl md:text-2xl text-primary-dark tracking-tight leading-none">
@@ -67,17 +65,16 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.07, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               >
-                <Link 
+                <Link
                   href={link.href}
-                  className={`font-bold transition-colors hover:scale-110 active:scale-95 ${
-                    pathname === link.href ? "text-accent-yellow" : "text-primary-dark/80 hover:text-primary"
-                  }`}
+                  className={`font-bold transition-colors hover:scale-110 active:scale-95 ${pathname === link.href ? "text-accent-yellow" : "text-primary-dark/80 hover:text-primary"
+                    }`}
                 >
                   {link.name}
                 </Link>
               </motion.div>
             ))}
-            
+
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -85,8 +82,8 @@ export default function Navbar() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Link 
-                href="/admission" 
+              <Link
+                href="/admission"
                 className="bg-accent-yellow text-primary-dark hover:bg-primary hover:text-white px-8 py-3 rounded-full font-extrabold shadow-lg hover:shadow-primary/20 transition-all border-b-4 border-black/10 inline-block"
               >
                 Enquiry Now 🚀
@@ -95,7 +92,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Toggle */}
-          <button 
+          <button
             className="xl:hidden p-3 bg-primary-light text-primary rounded-2xl"
             onClick={() => setIsOpen(!isOpen)}
           >
@@ -122,11 +119,10 @@ export default function Navbar() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.06, duration: 0.3 }}
                 >
-                  <Link 
+                  <Link
                     href={link.href}
-                    className={`font-heading font-bold text-2xl ${
-                      pathname === link.href ? "text-accent-yellow" : "text-primary-dark"
-                    }`}
+                    className={`font-heading font-bold text-2xl ${pathname === link.href ? "text-accent-yellow" : "text-primary-dark"
+                      }`}
                     onClick={() => setIsOpen(false)}
                   >
                     {link.name}
@@ -135,11 +131,11 @@ export default function Navbar() {
               ))}
               <div className="h-px bg-gray-100 my-2"></div>
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
-                <Link 
-                  href="tel:+91123456789"
+                <Link
+                  href="tel:+918999640602"
                   className="flex items-center justify-center gap-3 text-primary font-bold text-lg"
                 >
-                  <Phone size={20} /> +91 98765 43210
+                  <Phone size={20} /> +91 89996 40602
                 </Link>
               </motion.div>
               <motion.div
@@ -148,8 +144,8 @@ export default function Navbar() {
                 transition={{ delay: 0.45, type: "spring", stiffness: 260 }}
                 whileTap={{ scale: 0.96 }}
               >
-                <Link 
-                  href="/admission" 
+                <Link
+                  href="/admission"
                   className="bg-primary text-white py-5 rounded-[2rem] font-bold text-2xl shadow-xl block"
                   onClick={() => setIsOpen(false)}
                 >

@@ -48,7 +48,7 @@ export default function TestimonialsStrip() {
               <div className={`text-white rounded-[2rem] p-8 pt-16 shadow-2xl relative h-full flex flex-col ${r.color}`}>
                 {/* Hearts */}
                 <div className="flex justify-center gap-1.5 mb-6">
-                  {[1,2,3,4,5].map((s, si) => (
+                  {[1, 2, 3, 4, 5].map((s, si) => (
                     <motion.div
                       key={s}
                       initial={{ scale: 0 }}

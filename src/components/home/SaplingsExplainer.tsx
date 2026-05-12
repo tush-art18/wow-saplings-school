@@ -7,10 +7,10 @@ const steps = [
   {
     icon: (
       <svg viewBox="0 0 48 48" fill="none" className="w-10 h-10">
-        <ellipse cx="24" cy="38" rx="14" ry="6" fill="#795548" opacity="0.25"/>
-        <path d="M24 36 L24 24" stroke="#795548" strokeWidth="2.5" strokeLinecap="round"/>
-        <path d="M24 28 C24 28 16 24 15 17 C14 12 18 10 21 14 C22 17 24 28 24 28Z" fill="#4CAF50"/>
-        <path d="M24 24 C24 24 32 20 33 13 C34 8 30 6 27 10 C26 13 24 24 24 24Z" fill="#66BB6A"/>
+        <ellipse cx="24" cy="38" rx="14" ry="6" fill="#795548" opacity="0.25" />
+        <path d="M24 36 L24 24" stroke="#795548" strokeWidth="2.5" strokeLinecap="round" />
+        <path d="M24 28 C24 28 16 24 15 17 C14 12 18 10 21 14 C22 17 24 28 24 28Z" fill="#4CAF50" />
+        <path d="M24 24 C24 24 32 20 33 13 C34 8 30 6 27 10 C26 13 24 24 24 24Z" fill="#66BB6A" />
       </svg>
     ),
     hindi: "बीज",
@@ -23,11 +23,11 @@ const steps = [
   {
     icon: (
       <svg viewBox="0 0 48 48" fill="none" className="w-10 h-10">
-        <ellipse cx="24" cy="40" rx="12" ry="5" fill="#795548" opacity="0.2"/>
-        <path d="M24 40 L24 28" stroke="#795548" strokeWidth="2.5" strokeLinecap="round"/>
-        <ellipse cx="24" cy="24" rx="12" ry="9" fill="#43A047"/>
-        <ellipse cx="17" cy="30" rx="8" ry="5" fill="#66BB6A" transform="rotate(-20 17 30)"/>
-        <ellipse cx="31" cy="30" rx="8" ry="5" fill="#81C784" transform="rotate(20 31 30)"/>
+        <ellipse cx="24" cy="40" rx="12" ry="5" fill="#795548" opacity="0.2" />
+        <path d="M24 40 L24 28" stroke="#795548" strokeWidth="2.5" strokeLinecap="round" />
+        <ellipse cx="24" cy="24" rx="12" ry="9" fill="#43A047" />
+        <ellipse cx="17" cy="30" rx="8" ry="5" fill="#66BB6A" transform="rotate(-20 17 30)" />
+        <ellipse cx="31" cy="30" rx="8" ry="5" fill="#81C784" transform="rotate(20 31 30)" />
       </svg>
     ),
     hindi: "अंकुर",
@@ -40,12 +40,12 @@ const steps = [
   {
     icon: (
       <svg viewBox="0 0 48 48" fill="none" className="w-10 h-10">
-        <ellipse cx="24" cy="42" rx="14" ry="5" fill="#795548" opacity="0.2"/>
-        <path d="M24 42 L24 26" stroke="#795548" strokeWidth="3" strokeLinecap="round"/>
-        <ellipse cx="24" cy="20" rx="15" ry="12" fill="#2E7D32"/>
-        <ellipse cx="18" cy="28" rx="10" ry="7" fill="#388E3C" transform="rotate(-18 18 28)"/>
-        <ellipse cx="30" cy="28" rx="10" ry="7" fill="#43A047" transform="rotate(18 30 28)"/>
-        <ellipse cx="24" cy="13" rx="10" ry="8" fill="#4CAF50"/>
+        <ellipse cx="24" cy="42" rx="14" ry="5" fill="#795548" opacity="0.2" />
+        <path d="M24 42 L24 26" stroke="#795548" strokeWidth="3" strokeLinecap="round" />
+        <ellipse cx="24" cy="20" rx="15" ry="12" fill="#2E7D32" />
+        <ellipse cx="18" cy="28" rx="10" ry="7" fill="#388E3C" transform="rotate(-18 18 28)" />
+        <ellipse cx="30" cy="28" rx="10" ry="7" fill="#43A047" transform="rotate(18 30 28)" />
+        <ellipse cx="24" cy="13" rx="10" ry="8" fill="#4CAF50" />
       </svg>
     ),
     hindi: "वृक्ष",

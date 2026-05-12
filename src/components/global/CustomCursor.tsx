@@ -40,9 +40,18 @@ export default function CustomCursor() {
   const [isTouchDevice, setIsTouchDevice] = useState(true); // Assume true initially for SSR safety, or false. Better: false initially, check in effect.
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
-    }
+    const checkTouch = () => {
+      // Check if the primary input is 'coarse' (touch)
+      const isPrimaryTouch = window.matchMedia('(pointer: coarse)').matches;
+      // Also hide on narrow screens (mobile/tablet portrait)
+      const isMobileWidth = window.innerWidth < 768;
+      
+      setIsTouchDevice(isPrimaryTouch || isMobileWidth);
+    };
+
+    checkTouch();
+    window.addEventListener('resize', checkTouch);
+    return () => window.removeEventListener('resize', checkTouch);
   }, []);
  
   // Throttled mouse-move: store position in a ref (no re-render)

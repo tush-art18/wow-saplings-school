@@ -17,7 +17,7 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      
+
       {/* Hero Section */}
       <section ref={heroRef} className="pt-32 pb-20 px-4">
         <div className="container mx-auto text-center max-w-4xl">
@@ -43,7 +43,7 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 grid md:grid-cols-3 gap-8">
           {values.map((v, i) => (
             <ScrollReveal key={i} animation="fade-up" delay={i * 0.1}>
-              <motion.div 
+              <motion.div
                 whileHover={{ y: -10, scale: 1.02 }}
                 className="p-8 rounded-3xl bg-gray-50 border border-gray-100 shadow-sm hover:shadow-xl transition-shadow h-full"
               >
@@ -62,6 +62,37 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Milestones / Counter Section */}
+      <section className="py-24 bg-primary-light/10 relative overflow-hidden">
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
+            {[
+              { number: "10+", label: "Years of Excellence", color: "text-primary", sub: "Since 2015" },
+              { number: "500+", label: "Happy Students", color: "text-accent-pink", sub: "Growing with us" },
+              { number: "200+", label: "TTC Alumni", color: "text-accent-purple", sub: "Certified Educators" },
+            ].map((milestone, i) => (
+              <ScrollReveal key={i} animation="fade-up" delay={i * 0.1}>
+                <div className="text-center group">
+                  <motion.div
+                    whileHover={{ scale: 1.1 }}
+                    className={`font-heading font-black text-6xl md:text-8xl ${milestone.color} mb-4 flex items-center justify-center`}
+                  >
+                    {milestone.number}
+                  </motion.div>
+                  <h4 className="font-heading font-bold text-xl md:text-2xl text-primary-dark mb-2">{milestone.label}</h4>
+                  <p className="text-gray-500 font-bold uppercase tracking-widest text-xs">{milestone.sub}</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+
+        {/* Background Decor */}
+        <div className="absolute top-1/2 left-0 -translate-y-1/2 text-[15rem] md:text-[25rem] font-black opacity-[0.03] select-none pointer-events-none -rotate-12">
+          WOW
+        </div>
+      </section>
+
       {/* Principal Section */}
       <section className="py-24 px-4 overflow-hidden">
         <ScrollReveal animation="fade-up">
@@ -77,21 +108,21 @@ export default function AboutPage() {
                 <p
                   className="text-lg text-gray-300 font-medium mb-8 leading-relaxed italic"
                 >
-                &quot;Our philosophy is simple: we believe that when children feel completely loved and secure, their natural curiosity instantly turns them into brilliant learners. We don&apos;t just school them; we nurture their saplings of thought.&quot;
+                  &quot;Our philosophy is simple: we believe that when children feel completely loved and secure, their natural curiosity instantly turns them into brilliant learners. We don&apos;t just school them; we nurture their saplings of thought.&quot;
                 </p>
                 <div>
                   <div className="font-bold text-2xl font-heading text-accent-yellow">Mrs. Yasmeen Shaikh</div>
                   <div className="text-gray-400 font-bold tracking-widest uppercase text-sm">Principal & Founder</div>
                 </div>
               </div>
-              
+
               <div
                 className="relative h-[400px] lg:h-[500px] rounded-[2rem] overflow-hidden group"
               >
-                <img 
-                  src="/principal.jpeg" 
-                  className="w-full h-full object-cover transform transition-transform duration-[10000ms] group-hover:scale-110" 
-                  alt="Principal" 
+                <img
+                  src="/principal.jpeg"
+                  className="w-full h-full object-cover transform transition-transform duration-[10000ms] group-hover:scale-110"
+                  alt="Principal"
                 />
                 <div className="absolute inset-0 bg-primary-dark/20 group-hover:bg-transparent transition-colors duration-700"></div>
               </div>
@@ -100,7 +131,7 @@ export default function AboutPage() {
         </ScrollReveal>
       </section>
 
-   
+
 
       {/* A Day at WOW */}
       <section className="py-24 px-4 bg-white border-t border-gray-100">
@@ -110,13 +141,13 @@ export default function AboutPage() {
               className="font-heading font-extrabold text-4xl text-primary-dark mb-16"
             >A Day at WOW Saplings</h2>
           </ScrollReveal>
-          
+
           <div className="space-y-12 relative before:absolute before:inset-0 before:ml-5 md:before:mx-auto md:before:left-0 md:before:right-0 before:h-full before:w-1 before:bg-gray-100">
-            
+
             {[
               { time: " 10:00 AM", title: "Warm Welcome & Circle Time", desc: "Greeting friends, discussing the day, and building social bonds." },
               { time: "11:00 AM", title: "Creative Exploration", desc: "Art, craft, and sensory activities tailored to age groups." },
-              { time: "12:00 AM", title: "Snack & Story", desc: "Healthy habits and immersive storytelling sessions." },
+              { time: "12:00 PM", title: "Snack & Story", desc: "Healthy habits and immersive storytelling sessions." },
               { time: "01:00 PM", title: "Physical Play", desc: "Safe outdoor/indoor activities focusing on motor skills." }
             ].map((schedule, i) => (
               <ScrollReveal key={i} animation={i % 2 === 0 ? "fade-right" : "fade-left"} delay={i * 0.1}>
@@ -126,13 +157,13 @@ export default function AboutPage() {
                   <div className="hidden md:block w-5/12 text-right pr-8">
                     <div className="font-heading font-bold text-2xl text-primary">{schedule.time}</div>
                   </div>
-                  
+
                   <motion.div
                     whileHover={{ scale: 1.3 }}
                     transition={{ type: "spring", stiffness: 400 }}
                     className="absolute left-0 md:left-1/2 -ml-2 md:-ml-4 w-8 h-8 rounded-full bg-accent-yellow border-4 border-white shadow-md z-10"
                   />
-                  
+
                   <div className="pl-12 md:pl-0 md:w-5/12 text-left md:ml-8">
                     <div className="md:hidden font-heading font-bold text-lg text-primary mb-1">{schedule.time}</div>
                     <h3 className="font-heading font-bold text-xl text-primary-dark mb-2">{schedule.title}</h3>
@@ -141,7 +172,7 @@ export default function AboutPage() {
                 </div>
               </ScrollReveal>
             ))}
-            
+
           </div>
         </div>
       </section>
