@@ -4,11 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import gsap from "gsap";
 import ScrollReveal from "@/components/global/ScrollReveal";
-import { CheckCircle2, ChevronDown, Award, Briefcase, GraduationCap, Heart } from "lucide-react";
+import { CheckCircle2, ChevronDown, Award, Briefcase, GraduationCap, Heart, Quote, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function TeacherTrainingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const heroRef = useRef<HTMLDivElement>(null);
+
+  // Testimonials State
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
 
   const syllabus = [
     { title: "Module 1: Child Psychology & Development", content: "Understanding cognitive, emotional, and physical stages of early childhood." },
@@ -16,6 +20,51 @@ export default function TeacherTrainingPage() {
     { title: "Module 3: Classroom Management", content: "Techniques for maintaining engagement, handling discipline, and creating safe environments." },
     { title: "Module 4: Practical Teaching & Internship", content: "1-month hands-on training inside regular WOW Saplings classrooms." }
   ];
+
+  const alumni = [
+    { name: "Sneha Kulkarni", role: "Certified Teacher, Batch '24", content: "The teacher training program here is top-notch. I feel so confident after my certification and getting placed was a breeze.", img: "https://randomuser.me/api/portraits/women/24.jpg", location: "KOLHAPUR" },
+    { name: "Priya Sharma", role: "Preschool Teacher, Pune", content: "The practical internship module gave me exactly what I needed to face a real classroom. Highly recommended!", img: "https://randomuser.me/api/portraits/women/33.jpg", location: "PUNE" },
+    { name: "Ayesha Khan", role: "Educator, Mumbai", content: "Flexible online classes allowed me to complete the course while managing my family. The trainers are incredibly supportive.", img: "https://randomuser.me/api/portraits/women/42.jpg", location: "MUMBAI" },
+    { name: "Pooja Deshmukh", role: "Special Ed Assistant", content: "WOW Saplings provides the best early childhood education training. The syllabus is perfectly aligned with modern methodologies.", img: "https://randomuser.me/api/portraits/women/62.jpg", location: "KOLHAPUR" },
+    { name: "Ritu Patel", role: "Preschool Founder", content: "Thanks to this certification, I successfully opened my own preschool. The management module was a game-changer!", img: "https://randomuser.me/api/portraits/women/8.jpg", location: "KOLHAPUR" }
+  ];
+
+  const variants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 100 : -100,
+      opacity: 0
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1
+    },
+    exit: (direction: number) => ({
+      zIndex: 0,
+      x: direction < 0 ? 100 : -100,
+      opacity: 0
+    })
+  };
+
+  const nextSlide = () => {
+    setDirection(1);
+    setActiveIndex((prev) => (prev + 1) % alumni.length);
+  };
+
+  const prevSlide = () => {
+    setDirection(-1);
+    setActiveIndex((prev) => (prev - 1 + alumni.length) % alumni.length);
+  };
+
+  const setSlide = (index: number) => {
+    setDirection(index > activeIndex ? 1 : -1);
+    setActiveIndex(index);
+  };
+
+  useEffect(() => {
+    const timer = setInterval(nextSlide, 7000);
+    return () => clearInterval(timer);
+  }, [activeIndex]);
 
   useEffect(() => {
     // Floating particles simple animation
@@ -198,62 +247,126 @@ export default function TeacherTrainingPage() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-24 bg-[#c3cfab] relative overflow-hidden">
-        {/* Huge Background Text */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center overflow-hidden pointer-events-none opacity-[0.04] z-0 w-full select-none">
-          <div className="text-[12rem] md:text-[20rem] font-black leading-[0.85] text-center whitespace-nowrap text-[#1a2f1c]">ALUMNI</div>
-          <div className="text-[12rem] md:text-[20rem] font-black leading-[0.85] text-center whitespace-nowrap text-[#1a2f1c]">ALUMNI</div>
-          <div className="text-[12rem] md:text-[20rem] font-black leading-[0.85] text-center whitespace-nowrap text-[#1a2f1c]">ALUMNI</div>
+      {/* Testimonials Section - PROFESSIONAL TTC VERSION */}
+      <section className="py-24 relative overflow-hidden bg-[#1a2f1c]">
+        
+        {/* Professional Texture Layer */}
+        <div className="absolute inset-0 z-0 bg-[url('https://www.transparenttextures.com/patterns/pinstriped-suit.png')] opacity-[0.05] pointer-events-none"></div>
+        
+        {/* Radial highlight for the center content */}
+        <div className="absolute inset-0 z-1 bg-[radial-gradient(circle_at_center,rgba(249,200,70,0.08)_0%,transparent_70%)]"></div>
+
+        {/* Huge Background Text - Refined for professional look */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center overflow-hidden pointer-events-none opacity-[0.03] z-0 w-full select-none">
+          <div className="text-[12rem] md:text-[20rem] font-black leading-[0.85] text-center whitespace-nowrap text-white">ALUMNI</div>
+          <div className="text-[12rem] md:text-[20rem] font-black leading-[0.85] text-center whitespace-nowrap text-white">ALUMNI</div>
         </div>
 
-        <div className="container mx-auto px-4 md:px-8 relative z-10">
-          <ScrollReveal animation="fade-up">
-            <div className="text-center mb-24">
-               <h2 className="font-heading font-extrabold text-3xl md:text-4xl text-[#1a2f1c] mb-4">Alumni Success</h2>
-               <p className="text-[#1a2f1c]/70 font-bold uppercase tracking-widest text-base md:text-lg">Hear from our certified teachers</p>
+        {/* Subtle Animated Geometry */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none flex items-center justify-center z-[2]">
+          {[500, 800].map((size, i) => (
+            <motion.div
+              key={size}
+              animate={{ 
+                scale: [1, 1.05, 1],
+                opacity: [0.05, 0.1, 0.05]
+              }}
+              transition={{ duration: 8 + i * 2, repeat: Infinity, ease: "easeInOut" }}
+              style={{ width: size, height: size }}
+              className="border border-white rounded-full absolute"
+            />
+          ))}
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10 max-w-5xl">
+          <div className="relative min-h-[550px] flex flex-col items-center justify-center text-center">
+
+            <div className="relative w-full overflow-hidden py-10">
+              <AnimatePresence initial={false} custom={direction} mode="popLayout">
+                <motion.div
+                  key={activeIndex}
+                  custom={direction}
+                  variants={variants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{
+                    x: { type: "spring", stiffness: 300, damping: 30 },
+                    opacity: { duration: 0.4 }
+                  }}
+                  className="flex flex-col items-center w-full"
+                >
+                  {/* Professional Quote Icon */}
+                  <div className="mb-8">
+                    <Quote size={64} className="text-accent-yellow opacity-20 fill-accent-yellow/10" />
+                  </div>
+
+                  {/* Quote Text - High contrast White for dark background */}
+                  <blockquote className="text-2xl md:text-3xl lg:text-4xl text-white italic font-bold leading-snug md:leading-relaxed mb-10 max-w-4xl px-4 md:px-0">
+                    &quot;{alumni[activeIndex].content}&quot;
+                  </blockquote>
+
+                  {/* Avatar with Professional Framing */}
+                  <div className="mb-6 relative">
+                    <div className="w-20 h-20 rounded-full border-[4px] border-accent-yellow overflow-hidden shadow-2xl bg-white relative z-10">
+                      <img
+                        src={alumni[activeIndex].img}
+                        alt={alumni[activeIndex].name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => { (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${alumni[activeIndex].name}&background=random` }}
+                      />
+                    </div>
+                    {/* Subtle Yellow Aura */}
+                    <div className="absolute inset-0 bg-accent-yellow/10 blur-2xl rounded-full scale-150 z-0"></div>
+                  </div>
+
+                  {/* Attribution */}
+                  <div className="flex flex-col items-center">
+                    <h4 className="font-bold text-xl md:text-2xl text-accent-yellow mb-1">
+                      {alumni[activeIndex].name}
+                    </h4>
+                    <div className="flex items-center gap-3">
+                       <div className="h-px w-6 bg-white/20"></div>
+                       <p className="text-xs md:text-sm font-black text-white/60 uppercase tracking-[0.2em]">
+                         {alumni[activeIndex].role}
+                       </p>
+                       <div className="h-px w-6 bg-white/20"></div>
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
             </div>
-          </ScrollReveal>
-          
-          <div className="flex flex-wrap justify-center gap-y-16 gap-x-6 md:gap-8">
-            {[
-              { name: "Sneha Kulkarni", role: "Certified Teacher, Batch '24", content: "The teacher training program here is top-notch. I feel so confident after my certification and getting placed was a breeze.", img: "https://randomuser.me/api/portraits/women/24.jpg" },
-              { name: "Priya Sharma", role: "Preschool Teacher, Pune", content: "The practical internship module gave me exactly what I needed to face a real classroom. Highly recommended!", img: "https://randomuser.me/api/portraits/women/33.jpg" },
-              { name: "Ayesha Khan", role: "Educator, Mumbai", content: "Flexible online classes allowed me to complete the course while managing my family. The trainers are incredibly supportive.", img: "https://randomuser.me/api/portraits/women/42.jpg" },
-              { name: "Pooja Deshmukh", role: "Special Ed Assistant", content: "WOW Saplings provides the best early childhood education training. The syllabus is perfectly aligned with modern methodologies.", img: "https://randomuser.me/api/portraits/women/62.jpg" },
-              { name: "Ritu Patel", role: "Preschool Founder", content: "Thanks to this certification, I successfully opened my own preschool. The management module was a game-changer!", img: "https://randomuser.me/api/portraits/women/8.jpg" }
-            ].map((r, i) => (
-              <ScrollReveal key={i} animation="fade-up" delay={i * 0.1} width="fit-content" className="relative pt-12 pb-4 w-[calc(100%-20px)] sm:w-[calc(50%-20px)] lg:w-[calc(33.33%-24px)] max-w-[380px] group">
-                 
-                 {/* Main Dark Body */}
-                 <div className="bg-[#1a2f1c] text-[#e8eddf] rounded-[2rem] p-8 pt-16 border-2 border-[#1a2f1c] shadow-2xl relative h-full flex flex-col hover:-translate-y-2 transition-transform duration-300">
-                   {/* Hearts */}
-                   <div className="flex justify-center gap-1.5 mb-6">
-                     {[1,2,3,4,5].map(s => <Heart key={s} size={20} fill="#f9c846" className="text-[#f9c846]" />)}
-                   </div>
-                   
-                   {/* Text */}
-                   <p className="text-center text-sm md:text-base leading-relaxed mb-8 font-medium flex-1">
-                     {r.content}
-                   </p>
 
-                   {/* Bottom Info */}
-                   <p className="text-center text-[10px] opacity-50 uppercase tracking-widest font-bold">WOW TTC | 2024</p>
-                 </div>
+            {/* Navigation Controls - Professional Row */}
+            <div className="mt-12 flex items-center gap-6 md:gap-10">
+              <button
+                onClick={prevSlide}
+                className="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-white/20 flex items-center justify-center text-white hover:text-accent-yellow hover:border-accent-yellow transition-all active:scale-90 bg-white/5 backdrop-blur-sm shadow-md group z-20"
+              >
+                <ChevronLeft size={24} className="group-hover:-translate-x-1 transition-transform" />
+              </button>
 
-                 {/* Top overlapping Avatar Box */}
-                 <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-[#e8eddf] text-[#1a2f1c] px-4 py-3 rounded-[1.2rem] border-2 border-[#1a2f1c] shadow-lg flex items-center gap-3 w-[85%] z-10 group-hover:-translate-y-2 transition-transform duration-300">
-                    <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 border-2 border-[#1a2f1c]/10 bg-white flex items-center justify-center">
-                      <img src={r.img} alt={r.name} className="w-full h-full object-cover" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-bold text-sm leading-tight truncate">{r.name}</p>
-                      <p className="text-[10px] font-bold text-[#1a2f1c]/60 truncate">{r.role}</p>
-                    </div>
-                 </div>
+              <div className="flex items-center gap-3 z-20">
+                {alumni.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setSlide(i)}
+                    className={`transition-all duration-300 rounded-full ${activeIndex === i
+                        ? "w-8 md:w-10 h-2 bg-accent-yellow"
+                        : "w-2 h-2 bg-white/20 hover:bg-white/40"
+                      }`}
+                  />
+                ))}
+              </div>
 
-              </ScrollReveal>
-            ))}
+              <button
+                onClick={nextSlide}
+                className="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-white/20 flex items-center justify-center text-white hover:text-accent-yellow hover:border-accent-yellow transition-all active:scale-90 bg-white/5 backdrop-blur-sm shadow-md group z-20"
+              >
+                <ChevronRight size={24} className="group-hover:translate-x-1 transition-transform" />
+              </button>
+            </div>
+
           </div>
         </div>
       </section>
