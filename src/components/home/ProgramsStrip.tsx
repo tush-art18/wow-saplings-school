@@ -23,152 +23,142 @@ export default function ProgramsStrip() {
     offset: ["start start", "end end"]
   });
 
-  // ADJUSTED ROTATION RANGE TO PREVENT "EMPTY" FIRST APPEARANCE:
-  // Starting at -50 so Card 0 (Top), Card 1 (Middle), and Card 2 (Bottom) are visible immediately.
-  // Ending at -350 so Card 6 (TTC) reaches the middle slot.
   const containerRotation = useTransform(scrollYProgress, [0, 1], [-50, -350]);
 
   return (
-    <section 
-      ref={containerRef} 
+    <section
+      ref={containerRef}
       className="relative bg-white"
-      style={{ height: "550vh" }}
+      style={{ height: "var(--section-height, 550vh)" }}
     >
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center bg-[radial-gradient(circle_at_10%_50%,rgba(249,200,70,0.12)_0%,transparent_50%)]">
+      <style jsx>{`
+        section { --section-height: 550vh; }
+        @media (min-width: 1280px) {
+          section { --section-height: 100vh; }
+        }
+      `}</style>
+
+      {/* --- MOBILE/TABLET ORBIT LAYOUT --- */}
+      <div className="xl:hidden sticky top-0 h-screen w-full overflow-hidden flex items-center bg-[radial-gradient(circle_at_10%_50%,rgba(249,200,70:0.12)_0%,transparent_50%)]">
+        <div className="absolute top-12 left-0 right-0 z-40 text-center pointer-events-none px-4">
+          <h2 className="font-heading font-extrabold text-4xl text-primary-dark mb-1 tracking-tight">
+            Explore Our World 🌏
+          </h2>
+        </div>
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 -ml-28 z-50">
+          <motion.div animate={{ rotate: [0, 8, -8, 0], scale: [1, 1.05, 1] }} transition={{ rotate: { duration: 15, repeat: Infinity, ease: "easeInOut" }, scale: { duration: 6, repeat: Infinity, ease: "easeInOut" } }} className="w-[280px] h-[280px]">
+            <img src="/sticker-sun.png" alt="Sun" className="w-full h-full object-contain drop-shadow-2xl" />
+          </motion.div>
+        </div>
+        <motion.div style={{ rotate: containerRotation, originX: "0%", originY: "50%" }} className="absolute left-0 w-full h-full flex items-center">
+          {programs.map((prog, i) => (
+            <ProgramPlanet key={i} prog={prog} cardAngle={i * 50} parentRotation={containerRotation} />
+          ))}
+        </motion.div>
+      </div>
+
+      {/* --- DESKTOP GRID LAYOUT (STRICT 100VH FIT) --- */}
+      <div className="hidden xl:flex flex-col h-full w-full container mx-auto pt-24 pb-8 justify-center gap-12 2xl:gap-16">
         
-        {/* --- SECTION HEADER --- */}
-        <div className="absolute top-12 md:top-20 left-0 right-0 z-40 text-center pointer-events-none px-4">
-          <motion.h2
-            initial={{ opacity: 0, y: -20 }}
+        {/* Header - Account for Navbar */}
+        <div className="text-center shrink-0">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="font-heading font-extrabold text-4xl md:text-8xl text-primary-dark mb-1 md:mb-4 tracking-tight"
+            className="font-heading font-extrabold text-5xl 2xl:text-6xl text-primary-dark mb-2 tracking-tight"
           >
             Explore Our World 🌏
           </motion.h2>
+          <div className="w-16 h-1 bg-accent-yellow mx-auto rounded-full" />
         </div>
 
-        {/* --- DECORATIVE BACKGROUND STICKERS --- */}
-        <motion.div 
-           animate={{ rotate: 360 }}
-           transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-           className="absolute top-[15%] right-[10%] opacity-[0.05] pointer-events-none"
-        >
-          <img src="/sticker-blocks.png" alt="" className="w-48 md:w-80" />
-        </motion.div>
-        
-        <div className="absolute bottom-[10%] right-[15%] opacity-[0.08] pointer-events-none hidden md:block">
-           <img src="/sticker-crayon.png" alt="" className="w-64 rotate-[30deg]" />
+        {/* Dynamic Grid - Fills remaining space with more breathing room */}
+        <div className="grid grid-cols-12 gap-4 2xl:gap-6 max-w-5xl 2xl:max-w-6xl mx-auto w-full flex-1 max-h-[calc(100vh-280px)] items-stretch">
+
+          {/* Column 1 */}
+          <div className="col-span-4 flex flex-col gap-4 h-full">
+            <DesktopCard prog={programs[0]} h="h-1/3" />
+            <DesktopCard prog={programs[2]} h="h-1/3" />
+            <DesktopCard prog={programs[4]} h="h-1/3" />
+          </div>
+
+          {/* Column 2 */}
+          <div className="col-span-4 flex flex-col gap-4 h-full">
+            <DesktopCard prog={programs[1]} h="h-1/3" />
+            <DesktopCard prog={programs[5]} h="h-1/3" />
+            <DesktopCard prog={programs[6]} h="h-1/3" />
+          </div>
+
+          {/* Column 3 - Large Featured */}
+          <div className="col-span-4 h-full">
+            <DesktopCard prog={programs[3]} isLarge={true} h="h-full" />
+          </div>
+
         </div>
-
-        {/* --- THE SUN (Fixed Anchor) --- */}
-        <div className="absolute left-0 top-1/2 -translate-y-1/2 -ml-28 md:-ml-48 z-50">
-          <motion.div 
-            animate={{ 
-              rotate: [0, 8, -8, 0],
-              scale: [1, 1.05, 1],
-            }}
-            transition={{ 
-              rotate: { duration: 15, repeat: Infinity, ease: "easeInOut" },
-              scale: { duration: 6, repeat: Infinity, ease: "easeInOut" }
-            }}
-            className="w-[280px] h-[280px] md:w-[650px] md:h-[650px] relative"
-          >
-            <div className="absolute inset-0 bg-accent-yellow/30 blur-[80px] rounded-full scale-110"></div>
-            <img 
-              src="/sticker-sun.png" 
-              alt="Sun Sticker" 
-              className="w-full h-full object-contain drop-shadow-2xl relative z-10"
-            />
-          </motion.div>
-        </div>
-
-        {/* --- SYSTEMATIC ORBITING CARDS --- */}
-        <motion.div 
-          style={{ 
-            rotate: containerRotation,
-            originX: "0%", 
-            originY: "50%"
-          }}
-          className="absolute left-0 w-full h-full flex items-center"
-        >
-          {programs.map((prog, i) => {
-            const cardAngle = i * 50; 
-            return (
-              <ProgramPlanet 
-                key={i} 
-                prog={prog} 
-                cardAngle={cardAngle} 
-                parentRotation={containerRotation} 
-              />
-            );
-          })}
-        </motion.div>
-
-        {/* Scroll Indicator (Refined) */}
-        <div className="absolute bottom-10 right-10 flex items-center gap-4 text-gray-400 opacity-60 bg-white/50 backdrop-blur-sm px-4 py-2 rounded-full border border-gray-100 shadow-sm">
-           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary-dark">Scroll Orbit</p>
-           <div className="w-6 h-6 border-2 border-accent-yellow rounded-full flex items-center justify-center">
-              <motion.div animate={{ y: [0, 4, 0] }} transition={{ duration: 1, repeat: Infinity }} className="w-1 h-2 bg-accent-yellow rounded-full" />
-           </div>
-        </div>
-
       </div>
     </section>
   );
 }
 
 function ProgramPlanet({ prog, cardAngle, parentRotation }: { prog: any, cardAngle: number, parentRotation: any }) {
-  const relativeAngle = useTransform(parentRotation, (v) => v + cardAngle);
-  
-  // Visibility: Cards are visible in the 180deg arc on the right
+  const relativeAngle = useTransform(parentRotation, (v: number) => v + cardAngle);
   const opacity = useTransform(relativeAngle, [-120, -90, 0, 90, 120], [0, 1, 1, 1, 0]);
-  
-  // High-Performance Scale & Depth
   const scale = useTransform(relativeAngle, [-90, 0, 90], [0.75, 1.25, 0.75]);
-  const zIndex = useTransform(relativeAngle, (v) => Math.round(100 - Math.abs(v)));
+  const zIndex = useTransform(relativeAngle, (v: number) => Math.round(100 - Math.abs(v)));
 
   return (
-    <motion.div
-      style={{
-        position: "absolute",
-        left: "150px", 
-        opacity,
-        scale,
-        zIndex,
-        rotate: cardAngle,
-        originX: "-150px",
-        originY: "50%",
-      }}
-      className="w-[200px] md:w-[500px] md:translate-x-[250px] md:-left-[-250px]"
-    >
-       <motion.div 
-         style={{ rotate: useTransform(relativeAngle, (v) => -v) }} 
-         className="w-full"
-       >
-        <Link
-          href={prog.slug.startsWith('/') ? prog.slug : `/programs${prog.slug}`}
-          className={`group block relative rounded-[1.5rem] md:rounded-[3.5rem] p-4 md:p-12 ${prog.color} ${prog.text} sticker-shadow border-4 md:border-8 border-white transition-all hover:scale-105 active:scale-95 shadow-2xl`}
-        >
-          <div className="flex items-center gap-4 md:gap-10 relative z-10">
-            <div className="bg-white w-14 h-14 md:w-32 md:h-32 rounded-2xl md:rounded-[3rem] flex items-center justify-center text-3xl md:text-6xl shadow-inner border-2 md:border-4 border-gray-100 shrink-0">
-              {prog.icon}
-            </div>
-            
+    <motion.div style={{ position: "absolute", left: "150px", opacity, scale, zIndex, rotate: cardAngle, originX: "-150px", originY: "50%" }} className="w-[200px]">
+      <motion.div style={{ rotate: useTransform(relativeAngle, (v: number) => -v) }} className="w-full">
+        <Link href={prog.slug.startsWith('/') ? prog.slug : `/programs${prog.slug}`} className={`group block relative rounded-[1.5rem] p-4 ${prog.color} ${prog.text} sticker-shadow border-4 border-white transition-all hover:scale-105 active:scale-95 shadow-2xl`}>
+          <div className="flex items-center gap-4 relative z-10">
+            <div className="bg-white w-14 h-14 rounded-2xl flex items-center justify-center text-3xl shadow-inner border-2 border-gray-100 shrink-0">{prog.icon}</div>
             <div className="text-left flex-1 min-w-0">
-              <h3 className="font-heading font-black text-lg md:text-6xl leading-none md:leading-tight tracking-tight mb-1 md:mb-2">
-                {prog.name}
-              </h3>
-              <p className="text-[10px] md:text-xl font-bold opacity-90 uppercase tracking-[0.1em] whitespace-nowrap">
-                {prog.age}
-              </p>
+              <h3 className="font-heading font-black text-lg leading-tight truncate">{prog.name}</h3>
+              <p className="text-[10px] font-bold opacity-80 uppercase">{prog.age}</p>
             </div>
-
-            <div className="bg-black/10 w-10 h-10 md:w-20 md:h-20 rounded-full flex items-center justify-center shrink-0">
-              <ChevronRight size={24} className="md:w-12 md:h-12" />
-            </div>
+            <ChevronRight size={24} />
           </div>
         </Link>
-       </motion.div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function DesktopCard({ prog, isLarge = false, h }: { prog: any, isLarge?: boolean, h: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      whileHover={{ y: -5, scale: 1.01 }}
+      className={`relative rounded-[1.5rem] 2xl:rounded-[2rem] p-4 2xl:p-6 transition-all group overflow-hidden ${prog.color} ${prog.text} ${h} shadow-lg border-2 2xl:border-4 border-white/20`}
+    >
+      <div className={`absolute ${isLarge ? 'top-5 -right-5 w-[85%]' : 'top-1/2 -translate-y-1/2 -right-4 w-[40%]'} pointer-events-none transition-transform duration-700 group-hover:rotate-6`}>
+        <div className="relative">
+          <div className="absolute inset-0 bg-white/20 blur-[40px] 2xl:blur-[60px] rounded-full scale-125"></div>
+          <div className={`${isLarge ? 'text-[8rem] 2xl:text-[12rem]' : 'text-[4rem] 2xl:text-[7rem]'} drop-shadow-[0_10px_20px_rgba(0,0,0,0.3)] text-center animate-float`}>
+            {prog.icon}
+          </div>
+        </div>
+      </div>
+
+      <div className={`relative z-10 h-full flex flex-col ${isLarge ? 'justify-end pb-2' : 'justify-center w-[60%]'}`}>
+        <h3 className="font-heading font-black text-lg 2xl:text-2xl mb-0.5 leading-tight">
+          {prog.name}
+        </h3>
+        <p className="text-[8px] 2xl:text-[10px] font-bold opacity-80 uppercase tracking-widest mb-2 2xl:mb-3">
+          {prog.age}
+        </p>
+
+        <Link
+          href={prog.slug.startsWith('/') ? prog.slug : `/programs${prog.slug}`}
+          className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-md border border-white/30 px-3 py-1 2xl:px-4 2xl:py-2 rounded-full font-black text-[9px] 2xl:text-xs hover:bg-white hover:text-primary-dark transition-all self-start"
+        >
+          Explore <ChevronRight size={10} />
+        </Link>
+      </div>
+
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-white/0 via-white/10 to-white/0 pointer-events-none"></div>
     </motion.div>
   );
 }
