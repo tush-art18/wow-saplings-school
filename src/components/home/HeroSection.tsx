@@ -95,28 +95,39 @@ export default function HeroSection() {
           </motion.div>
         </motion.div>
 
-        {/* Stat Counter - Floating Badge Approach */}
+        {/* Stat Counter - Responsive Design */}
         <div className="flex flex-wrap justify-center gap-6 md:gap-8 mb-12">
           {[
-            { num: "10+", label: "Years Experience", color: "bg-[#9C6DD8]", icon: <Calendar size={20} /> },
-            { num: "1000+", label: "Students Enrolled", color: "bg-accent-pink", icon: <Users size={20} /> },
-            { num: "50+", label: "Expert Teachers", color: "bg-accent-blue", icon: <GraduationCap size={20} /> },
+            { num: "10+", label: "Years Experience", color: "text-[#9C6DD8]", bg: "bg-[#9C6DD8]", icon: <Calendar size={20} /> },
+            { num: "1000+", label: "Students Enrolled", color: "text-accent-pink", bg: "bg-accent-pink", icon: <Users size={20} /> },
+            { num: "50+", label: "Expert Teachers", color: "text-accent-blue", bg: "bg-accent-blue", icon: <GraduationCap size={20} /> },
           ].map((stat, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, scale: 0.8, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.2 + (i * 0.1), duration: 0.6 }}
-              whileHover={{ y: -5, scale: 1.02 }}
-              className="flex items-center gap-4 bg-white p-2 pr-6 rounded-full shadow-lg border-2 border-gray-50 group transition-all"
+              whileHover={{ y: -5 }}
+              // DESKTOP: Card/Badge style | MOBILE: Simple text style
+              className="flex items-center gap-3 md:gap-4 md:bg-white md:p-2 md:pr-6 md:rounded-full md:shadow-lg md:border-2 md:border-gray-50 group transition-all"
             >
-              <div className={`${stat.color} text-white p-4 rounded-full shadow-inner group-hover:rotate-12 transition-transform`}>
+              {/* Icon - Hidden on mobile to avoid card-like appearance */}
+              <div className={`hidden md:flex ${stat.bg} text-white p-4 rounded-full shadow-inner group-hover:rotate-12 transition-transform`}>
                 {stat.icon}
               </div>
-              <div className="text-left">
-                <div className="font-heading font-black text-2xl md:text-3xl text-primary-dark leading-none">{stat.num}</div>
-                <div className="text-[10px] font-black text-gray-400 uppercase tracking-wider">{stat.label}</div>
+              
+              <div className="text-center md:text-left">
+                {/* Numbers - Color coded for visibility on mobile */}
+                <div className={`font-heading font-black text-3xl md:text-4xl ${stat.color} md:text-primary-dark leading-none mb-1 md:mb-0`}>
+                  {stat.num}
+                </div>
+                <div className="text-[10px] font-black text-gray-500 uppercase tracking-widest md:tracking-wider">
+                  {stat.label}
+                </div>
               </div>
+
+              {/* Mobile Separator (optional, but keeping it clean for now) */}
+              {i < 2 && <div className="md:hidden h-8 w-px bg-gray-200 mx-2 self-center opacity-50"></div>}
             </motion.div>
           ))}
         </div>
