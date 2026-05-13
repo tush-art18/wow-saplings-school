@@ -35,7 +35,7 @@ export default function Navbar() {
     >
       <div className={`container mx-auto transition-all duration-500 ${scrolled
           ? "bg-white/90 backdrop-blur-xl shadow-xl rounded-full border-b-4 border-primary/10 max-w-6xl px-6"
-          : "bg-white/50 backdrop-blur-md rounded-[2.5rem] max-w-7xl px-8"
+          : "bg-transparent max-w-7xl px-8"
         }`}>
         <div className="flex items-center justify-between h-16 md:h-20">
 
