@@ -29,25 +29,13 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-heading font-bold text-xl mb-6 text-accent-yellow">Programs</h4>
-            <ul className="space-y-3 text-sm text-gray-300">
-              <li><Link href="/programs#playgroup" className="hover:text-white transition-colors">Playgroup</Link></li>
-              <li><Link href="/programs#nursery" className="hover:text-white transition-colors">Nursery</Link></li>
-              <li><Link href="/programs#jr-kg" className="hover:text-white transition-colors">Junior KG</Link></li>
-              <li><Link href="/programs#sr-kg" className="hover:text-white transition-colors">Senior KG</Link></li>
-              <li><Link href="/programs#phonics" className="hover:text-white transition-colors">Phonics Classes</Link></li>
-              <li><Link href="/programs#abacus" className="hover:text-white transition-colors">Abacus Classes</Link></li>
-              <li><Link href="/teacher-training" className="hover:text-white transition-colors font-semibold text-accent-pink">Teacher Training Course</Link></li>
-            </ul>
-          </div>
-
-          <div>
             <h4 className="font-heading font-bold text-xl mb-6 text-accent-yellow">Quick Links</h4>
             <ul className="space-y-3 text-sm text-gray-300">
               <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
               <li><Link href="/gallery" className="hover:text-white transition-colors">Gallery</Link></li>
               <li><Link href="/events" className="hover:text-white transition-colors">Events</Link></li>
               <li><Link href="/admission" className="hover:text-white transition-colors">Admission Process</Link></li>
+              <li><Link href="/teacher-training" className="hover:text-white transition-colors font-semibold text-accent-pink">Teacher Training Course</Link></li>
             </ul>
           </div>
 

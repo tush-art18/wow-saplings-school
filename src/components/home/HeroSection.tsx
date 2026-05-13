@@ -7,7 +7,7 @@ import { ArrowDown, GraduationCap, Users, Calendar } from "lucide-react";
 export default function HeroSection() {
   return (
     <section
-      className="relative min-h-screen pt-32 overflow-hidden flex flex-col bg-cover bg-left md:bg-bottom"
+      className="relative min-h-screen pt-32 overflow-hidden flex flex-col bg-cover bg-center md:bg-bottom"
       style={{ backgroundImage: "url('/hero-banner.png')" }}
     >
       {/* Overlay for text readability */}

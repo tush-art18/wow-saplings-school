@@ -23,7 +23,8 @@ export default function ProgramsStrip() {
     offset: ["start start", "end end"]
   });
 
-  const containerRotation = useTransform(scrollYProgress, [0, 1], [-50, -350]);
+  // Wider arc to prevent overlapping
+  const containerRotation = useTransform(scrollYProgress, [0, 1], [-20, -500]);
 
   return (
     <section
@@ -45,14 +46,21 @@ export default function ProgramsStrip() {
             Explore Our World 🌏
           </h2>
         </div>
+        
+        {/* Sun moved back right to be more visible */}
         <div className="absolute left-0 top-1/2 -translate-y-1/2 -ml-28 z-50">
-          <motion.div animate={{ rotate: [0, 8, -8, 0], scale: [1, 1.05, 1] }} transition={{ rotate: { duration: 15, repeat: Infinity, ease: "easeInOut" }, scale: { duration: 6, repeat: Infinity, ease: "easeInOut" } }} className="w-[280px] h-[280px]">
+          <motion.div 
+            animate={{ rotate: [0, 8, -8, 0], scale: [1, 1.05, 1] }} 
+            transition={{ rotate: { duration: 15, repeat: Infinity, ease: "easeInOut" }, scale: { duration: 6, repeat: Infinity, ease: "easeInOut" } }} 
+            className="w-[280px] h-[280px]"
+          >
             <img src="/sticker-sun.png" alt="Sun" className="w-full h-full object-contain drop-shadow-2xl" />
           </motion.div>
         </div>
+
         <motion.div style={{ rotate: containerRotation, originX: "0%", originY: "50%" }} className="absolute left-0 w-full h-full flex items-center">
           {programs.map((prog, i) => (
-            <ProgramPlanet key={i} prog={prog} cardAngle={i * 50} parentRotation={containerRotation} />
+            <ProgramPlanet key={i} prog={prog} cardAngle={i * 75} parentRotation={containerRotation} />
           ))}
         </motion.div>
       </div>
@@ -107,16 +115,37 @@ function ProgramPlanet({ prog, cardAngle, parentRotation }: { prog: any, cardAng
   const zIndex = useTransform(relativeAngle, (v: number) => Math.round(100 - Math.abs(v)));
 
   return (
-    <motion.div style={{ position: "absolute", left: "150px", opacity, scale, zIndex, rotate: cardAngle, originX: "-150px", originY: "50%" }} className="w-[200px]">
+    <motion.div 
+      style={{ 
+        position: "absolute", 
+        left: "110px", // Increased radius for more space
+        opacity, 
+        scale, 
+        zIndex, 
+        rotate: cardAngle, 
+        originX: "-110px", 
+        originY: "50%" 
+      }} 
+      className="w-[210px] sm:w-[280px]" 
+    >
       <motion.div style={{ rotate: useTransform(relativeAngle, (v: number) => -v) }} className="w-full">
-        <Link href={prog.slug.startsWith('/') ? prog.slug : `/programs${prog.slug}`} className={`group block relative rounded-[1.5rem] p-4 ${prog.color} ${prog.text} sticker-shadow border-4 border-white transition-all hover:scale-105 active:scale-95 shadow-2xl`}>
-          <div className="flex items-center gap-4 relative z-10">
-            <div className="bg-white w-14 h-14 rounded-2xl flex items-center justify-center text-3xl shadow-inner border-2 border-gray-100 shrink-0">{prog.icon}</div>
-            <div className="text-left flex-1 min-w-0">
-              <h3 className="font-heading font-black text-lg leading-tight truncate">{prog.name}</h3>
-              <p className="text-[10px] font-bold opacity-80 uppercase">{prog.age}</p>
+        <Link 
+          href={prog.slug.startsWith('/') ? prog.slug : `/programs${prog.slug}`} 
+          className={`group block relative rounded-[1.5rem] p-4 ${prog.color} ${prog.text} sticker-shadow border-4 border-white transition-all hover:scale-105 active:scale-95 shadow-2xl`}
+        >
+          <div className="flex items-center gap-3 relative z-10">
+            <div className="bg-white w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-inner border-2 border-gray-100 shrink-0">
+              {prog.icon}
             </div>
-            <ChevronRight size={24} />
+            <div className="text-left flex-1 min-w-0">
+              <h3 className="font-heading font-black text-base sm:text-lg leading-tight break-words">
+                {prog.name}
+              </h3>
+              <p className="text-[9px] font-bold opacity-80 uppercase tracking-widest">
+                {prog.age}
+              </p>
+            </div>
+            <ChevronRight size={20} className="shrink-0" />
           </div>
         </Link>
       </motion.div>
