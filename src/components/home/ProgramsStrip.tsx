@@ -1,140 +1,174 @@
 "use client";
 
-import React from "react";
-import { motion } from "motion/react";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "motion/react";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
 const programs = [
-  { name: "Playgroup", icon: "🧸", age: "2-3 Years", color: "bg-[#F06292]", text: "text-white", slug: "#playgroup", img: "/playgroup-nursery-01.jpeg" },
-  { name: "Nursery", icon: "🎨", age: "3-4 Years", color: "bg-[#F9C846]", text: "text-[#5D4037]", slug: "#nursery", img: "/playgroup-nursery-02.jpeg" },
-  { name: "Jr KG", icon: "🧩", age: "4-5 Years", color: "bg-[#4A90D9]", text: "text-white", slug: "#jr-kg", img: "/junior-classroom.png" },
-  { name: "Sr KG", icon: "📚", age: "5-6 Years", color: "bg-[#2D8C4E]", text: "text-white", slug: "#sr-kg", img: "/Senior-classroom.png" },
+  { name: "Playgroup", icon: "🧸", age: "2-3 Years", color: "bg-[#F06292]", text: "text-white", slug: "#playgroup" },
+  { name: "Nursery", icon: "🎨", age: "3-4 Years", color: "bg-[#F9C846]", text: "text-[#5D4037]", slug: "#nursery" },
+  { name: "Jr KG", icon: "🧩", age: "4-5 Years", color: "bg-[#4A90D9]", text: "text-white", slug: "#jr-kg" },
+  { name: "Sr KG", icon: "📚", age: "5-6 Years", color: "bg-[#2D8C4E]", text: "text-white", slug: "#sr-kg" },
   { name: "Phonics", icon: "🔤", age: "4+ Years", color: "bg-[#9C6DD8]", text: "text-white", slug: "#phonics" },
   { name: "Abacus", icon: "🧮", age: "4+ Years", color: "bg-[#FF7043]", text: "text-white", slug: "#abacus" },
   { name: "TTC", icon: "👩‍🏫", age: "Graduates", color: "bg-primary-dark", text: "text-white", slug: "/teacher-training" },
 ];
 
 export default function ProgramsStrip() {
-  const centerIndex = Math.floor(programs.length / 2);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
+
+  // ADJUSTED ROTATION RANGE TO PREVENT "EMPTY" FIRST APPEARANCE:
+  // Starting at -50 so Card 0 (Top), Card 1 (Middle), and Card 2 (Bottom) are visible immediately.
+  // Ending at -350 so Card 6 (TTC) reaches the middle slot.
+  const containerRotation = useTransform(scrollYProgress, [0, 1], [-50, -350]);
 
   return (
-    <section className="py-32 bg-white relative overflow-hidden flex flex-col items-center">
-      {/* Decorative Stickers */}
-      <motion.div
-        animate={{ rotate: [-12, -6, -12], y: [0, -12, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-20 right-[10%] w-32 h-32 md:w-48 md:h-48 opacity-90 pointer-events-none"
-      >
-        <img src="/sticker-crayon.png" alt="Crayon Sticker" className="w-full h-full object-contain" />
-      </motion.div>
-
-      <motion.div
-        animate={{ scale: [1, 1.1, 1], rotate: [0, 10, 0] }}
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-20 left-[10%] text-8xl opacity-10 pointer-events-none"
-      >🌀</motion.div>
-
-      <div className="container mx-auto px-4 md:px-8 relative z-20 w-full">
-        <div className="text-center mb-10 md:mb-20">
+    <section 
+      ref={containerRef} 
+      className="relative bg-white"
+      style={{ height: "550vh" }}
+    >
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center bg-[radial-gradient(circle_at_10%_50%,rgba(249,200,70,0.12)_0%,transparent_50%)]">
+        
+        {/* --- SECTION HEADER --- */}
+        <div className="absolute top-12 md:top-20 left-0 right-0 z-40 text-center pointer-events-none px-4">
           <motion.h2
-            initial={{ opacity: 0, y: 50, scale: 0.9 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="font-heading font-extrabold text-5xl md:text-8xl text-primary-dark mb-6 tracking-tight"
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="font-heading font-extrabold text-4xl md:text-8xl text-primary-dark mb-1 md:mb-4 tracking-tight"
           >
             Explore Our World 🌏
           </motion.h2>
-          <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3, duration: 0.5, ease: "easeOut" }}
-            style={{ originX: 0.5 }}
-            className="w-32 h-2 bg-accent-yellow mx-auto rounded-full mb-6"
-          />
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.35, duration: 0.5 }}
-            className="text-gray-500 font-bold text-xl md:text-2xl uppercase tracking-widest max-w-2xl mx-auto"
-          >
-            A Magical Program for every little dreamer
-          </motion.p>
         </div>
 
-        {/* Static Arc Layout */}
-        <div className="relative w-full max-w-6xl mx-auto flex justify-center items-end h-[450px] md:h-[550px] mt-10">
+        {/* --- DECORATIVE BACKGROUND STICKERS --- */}
+        <motion.div 
+           animate={{ rotate: 360 }}
+           transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+           className="absolute top-[15%] right-[10%] opacity-[0.05] pointer-events-none"
+        >
+          <img src="/sticker-blocks.png" alt="" className="w-48 md:w-80" />
+        </motion.div>
+        
+        <div className="absolute bottom-[10%] right-[15%] opacity-[0.08] pointer-events-none hidden md:block">
+           <img src="/sticker-crayon.png" alt="" className="w-64 rotate-[30deg]" />
+        </div>
+
+        {/* --- THE SUN (Fixed Anchor) --- */}
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 -ml-28 md:-ml-48 z-50">
+          <motion.div 
+            animate={{ 
+              rotate: [0, 8, -8, 0],
+              scale: [1, 1.05, 1],
+            }}
+            transition={{ 
+              rotate: { duration: 15, repeat: Infinity, ease: "easeInOut" },
+              scale: { duration: 6, repeat: Infinity, ease: "easeInOut" }
+            }}
+            className="w-[280px] h-[280px] md:w-[650px] md:h-[650px] relative"
+          >
+            <div className="absolute inset-0 bg-accent-yellow/30 blur-[80px] rounded-full scale-110"></div>
+            <img 
+              src="/sticker-sun.png" 
+              alt="Sun Sticker" 
+              className="w-full h-full object-contain drop-shadow-2xl relative z-10"
+            />
+          </motion.div>
+        </div>
+
+        {/* --- SYSTEMATIC ORBITING CARDS --- */}
+        <motion.div 
+          style={{ 
+            rotate: containerRotation,
+            originX: "0%", 
+            originY: "50%"
+          }}
+          className="absolute left-0 w-full h-full flex items-center"
+        >
           {programs.map((prog, i) => {
-            const distance = i - centerIndex; // -3 to 3
-            // Calculate static arc values
-            const yOffset = Math.abs(distance) * 20 + Math.pow(distance, 2) * 5;
-            const rotation = distance * 8;
-            const zIndexBase = 10 - Math.abs(distance);
-
+            const cardAngle = i * 50; 
             return (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: yOffset + 150, rotate: rotation + 15, scale: 0.8 }}
-                whileInView={{ opacity: 1, y: yOffset, rotate: rotation, scale: 1 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{
-                  duration: 0.8,
-                  delay: 0.2 + (Math.abs(distance) * 0.1), // Center animates first, then outward
-                  type: "spring",
-                  stiffness: 100,
-                  damping: 15
-                }}
-                whileHover={{
-                  scale: 1.08,
-                  y: yOffset - 30,
-                  rotate: 0, // Straighten up on hover
-                  zIndex: 30,
-                  transition: { duration: 0.3 }
-                }}
-                style={{
-                  zIndex: zIndexBase,
-                  // Tighter overlap on mobile, slightly looser on desktop
-                  marginLeft: i === 0 ? 0 : "-8%",
-                }}
-                className="relative w-[140px] sm:w-[180px] md:w-[240px] flex-shrink-0 origin-bottom"
-              >
-                <Link
-                  href={prog.slug.startsWith('/') ? prog.slug : `/programs${prog.slug}`}
-                  className={`group relative rounded-[1.5rem] md:rounded-[2.5rem] p-3 pt-8 md:p-6 md:pt-12 flex flex-col items-center text-center ${prog.color} ${prog.text} sticker-shadow border-2 md:border-4 border-white h-full aspect-[3/4] md:aspect-[2/3]`}
-                >
-                  {prog.img && (
-                    <div className="absolute inset-0 opacity-20 group-hover:opacity-40 transition-opacity z-0 rounded-[inherit] overflow-hidden pointer-events-none">
-                      <img src={prog.img} alt={prog.name} className="w-full h-full object-cover" />
-                    </div>
-                  )}
-
-                  <motion.div
-                    whileHover={{ rotate: [0, -12, 12, -6, 0], scale: 1.1 }}
-                    transition={{ duration: 0.5 }}
-                    className="absolute -top-6 md:-top-10 bg-white w-12 h-12 md:w-20 md:h-20 rounded-full flex items-center justify-center text-2xl md:text-4xl shadow-xl border-2 md:border-4 border-gray-50 z-10"
-                  >
-                    {prog.icon}
-                  </motion.div>
-
-                  <h3 className="font-heading font-extrabold text-sm md:text-2xl mb-1 md:mb-2 leading-tight mt-2 md:mt-4 relative z-10">
-                    {prog.name}
-                  </h3>
-                  <p className="text-[9px] md:text-xs font-bold opacity-80 uppercase tracking-tighter mb-4 relative z-10">
-                    {prog.age}
-                  </p>
-
-                  <div className="mt-auto bg-black/10 w-6 h-6 md:w-10 md:h-10 rounded-full flex items-center justify-center group-hover:bg-black/20 transition-colors relative z-10">
-                    <ChevronRight size={16} className="md:w-5 md:h-5" />
-                  </div>
-                </Link>
-              </motion.div>
+              <ProgramPlanet 
+                key={i} 
+                prog={prog} 
+                cardAngle={cardAngle} 
+                parentRotation={containerRotation} 
+              />
             );
           })}
+        </motion.div>
+
+        {/* Scroll Indicator (Refined) */}
+        <div className="absolute bottom-10 right-10 flex items-center gap-4 text-gray-400 opacity-60 bg-white/50 backdrop-blur-sm px-4 py-2 rounded-full border border-gray-100 shadow-sm">
+           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary-dark">Scroll Orbit</p>
+           <div className="w-6 h-6 border-2 border-accent-yellow rounded-full flex items-center justify-center">
+              <motion.div animate={{ y: [0, 4, 0] }} transition={{ duration: 1, repeat: Infinity }} className="w-1 h-2 bg-accent-yellow rounded-full" />
+           </div>
         </div>
+
       </div>
     </section>
+  );
+}
+
+function ProgramPlanet({ prog, cardAngle, parentRotation }: { prog: any, cardAngle: number, parentRotation: any }) {
+  const relativeAngle = useTransform(parentRotation, (v) => v + cardAngle);
+  
+  // Visibility: Cards are visible in the 180deg arc on the right
+  const opacity = useTransform(relativeAngle, [-120, -90, 0, 90, 120], [0, 1, 1, 1, 0]);
+  
+  // High-Performance Scale & Depth
+  const scale = useTransform(relativeAngle, [-90, 0, 90], [0.75, 1.25, 0.75]);
+  const zIndex = useTransform(relativeAngle, (v) => Math.round(100 - Math.abs(v)));
+
+  return (
+    <motion.div
+      style={{
+        position: "absolute",
+        left: "150px", 
+        opacity,
+        scale,
+        zIndex,
+        rotate: cardAngle,
+        originX: "-150px",
+        originY: "50%",
+      }}
+      className="w-[200px] md:w-[500px] md:translate-x-[250px] md:-left-[-250px]"
+    >
+       <motion.div 
+         style={{ rotate: useTransform(relativeAngle, (v) => -v) }} 
+         className="w-full"
+       >
+        <Link
+          href={prog.slug.startsWith('/') ? prog.slug : `/programs${prog.slug}`}
+          className={`group block relative rounded-[1.5rem] md:rounded-[3.5rem] p-4 md:p-12 ${prog.color} ${prog.text} sticker-shadow border-4 md:border-8 border-white transition-all hover:scale-105 active:scale-95 shadow-2xl`}
+        >
+          <div className="flex items-center gap-4 md:gap-10 relative z-10">
+            <div className="bg-white w-14 h-14 md:w-32 md:h-32 rounded-2xl md:rounded-[3rem] flex items-center justify-center text-3xl md:text-6xl shadow-inner border-2 md:border-4 border-gray-100 shrink-0">
+              {prog.icon}
+            </div>
+            
+            <div className="text-left flex-1 min-w-0">
+              <h3 className="font-heading font-black text-lg md:text-6xl leading-none md:leading-tight tracking-tight mb-1 md:mb-2">
+                {prog.name}
+              </h3>
+              <p className="text-[10px] md:text-xl font-bold opacity-90 uppercase tracking-[0.1em] whitespace-nowrap">
+                {prog.age}
+              </p>
+            </div>
+
+            <div className="bg-black/10 w-10 h-10 md:w-20 md:h-20 rounded-full flex items-center justify-center shrink-0">
+              <ChevronRight size={24} className="md:w-12 md:h-12" />
+            </div>
+          </div>
+        </Link>
+       </motion.div>
+    </motion.div>
   );
 }
