@@ -10,7 +10,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <img 
-                src="/sapling-logo-0001.jpg" 
+                src="/sapling-logo-0001.png" 
                 alt="WOW Saplings Logo" 
                 className="w-12 h-12 rounded-full object-cover shrink-0 shadow-sm" 
               />

@@ -26,9 +26,9 @@ export const metadata: Metadata = {
   title: "WOW Saplings Preschool Kolhapur",
   description: "Chain of Preschool...Where Every Child Blooms. Best preschool in Kolhapur.",
   icons: {
-    icon: "/sapling-logo-0003.jpg",
-    shortcut: "/sapling-logo-0003.jpg",
-    apple: "/sapling-logo-0003.jpg",
+    icon: "/sapling-logo-0003.png",
+    shortcut: "/sapling-logo-0003.png",
+    apple: "/sapling-logo-0003.png",
   },
 };
 
