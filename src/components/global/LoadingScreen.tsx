@@ -53,7 +53,7 @@ export default function LoadingScreen() {
                 className="absolute inset-x-[-20px] inset-y-[-20px] border-4 border-dashed border-primary/20 rounded-full"
               />
               <motion.img 
-                src="/sapling-logo-0003.jpg" 
+                src="/sapling-logo-0003.png" 
                 alt="WOW Saplings Logo" 
                 className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover shadow-2xl border-4 border-white"
                 animate={{ 
