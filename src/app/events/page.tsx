@@ -11,7 +11,7 @@ const featuredEvents = [
   {
     id: 1,
     label: "Upcoming Event",
-    title: "Annual Sports & Fun Fest 2025",
+    title: "Annual Sports & Fun Fest 2026",
     date: "24 Jun — 2026",
     time: "9:00 AM – 1:00 PM",
     location: "WOW Saplings Campus Ground, Kolhapur",
@@ -21,7 +21,7 @@ const featuredEvents = [
   {
     id: 2,
     label: "Upcoming Event",
-    title: "Spring Art & Craft Exhibition",
+    title: "Spring Art & Craft Exhibition 2026",
     date: "15 Jul — 2026",
     time: "10:30 AM – 12:30 PM",
     location: "Main Hall, WOW Saplings",
@@ -31,7 +31,7 @@ const featuredEvents = [
   {
     id: 3,
     label: "Upcoming Event",
-    title: "Annual Prize Distribution Ceremony",
+    title: "Annual Prize Distribution Ceremony 2026",
     date: "10 Aug — 2026",
     time: "11:00 AM – 2:00 PM",
     location: "Assembly Ground, WOW Saplings",
@@ -45,8 +45,8 @@ type Category = "All" | "Celebrations" | "Sports & Games" | "Academic";
 const allEvents = [
   {
     id: 1,
-    title: "Annual Sports & Fun Fest 2025",
-    date: "24 Jun, 2025",
+    title: "Annual Sports & Fun Fest 2026",
+    date: "24 Jun, 2026",
     time: "9:00 AM – 1:00 PM",
     location: "WOW Campus Ground, Kolhapur",
     img: "/play-area.jpeg",
@@ -55,8 +55,8 @@ const allEvents = [
   },
   {
     id: 2,
-    title: "Spring Art & Craft Exhibition",
-    date: "15 Jul, 2025",
+    title: "Spring Art & Craft Exhibition 2026",
+    date: "15 Jul, 2026",
     time: "10:30 AM – 12:30 PM",
     location: "Main Hall, WOW Saplings",
     img: "/art-ans-craft.jpeg",
@@ -65,8 +65,8 @@ const allEvents = [
   },
   {
     id: 3,
-    title: "Annual Prize Distribution Ceremony",
-    date: "10 Aug, 2025",
+    title: "Annual Prize Distribution Ceremony 2026",
+    date: "10 Aug, 2026",
     time: "11:00 AM – 2:00 PM",
     location: "Assembly Ground, WOW Saplings",
     img: "/award-distribute-area-01.jpeg",

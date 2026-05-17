@@ -44,15 +44,21 @@ export default function Footer() {
             <ul className="space-y-4 text-sm text-gray-300">
               <li className="flex items-start gap-3">
                 <MapPin size={18} className="shrink-0 mt-1 text-primary" />
-                <span>main road, layout no.2, kaman, baba jaragnagar, near baba jarag nagar, kolhapur, maharashtra 416008</span>
+                <span className="hover:text-white transition-colors">
+                  Main Road, Layout no.2, Kaman, Baba Jaragnagar, Kolhapur 416008
+                </span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone size={18} className="shrink-0 text-primary" />
-                <span>+91 89996 40602</span>
+                <a href="tel:+918999640602" className="hover:text-white transition-colors">
+                  +91 89996 40602
+                </a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail size={18} className="shrink-0 text-primary" />
-                <span>wowsaplingsschool666@gmail.com</span>
+                <a href="mailto:wowsaplingsschool666@gmail.com" className="hover:text-white transition-colors">
+                  wowsaplingsschool666@gmail.com
+                </a>
               </li>
             </ul>
           </div>

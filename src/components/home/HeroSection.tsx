@@ -1,5 +1,6 @@
 "use client";
 
+import { Fragment } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowDown, GraduationCap, Users, Calendar } from "lucide-react";
@@ -33,37 +34,41 @@ export default function HeroSection() {
               { text: "Chain", color: "text-[#9C6DD8]" },
               { text: "of", color: "text-[#9C6DD8]" },
               { text: "Preschool", color: "text-accent-pink" },
-              { text: "where", color: "text-accent-orange" },
-              { text: "Every", color: "text-accent-orange" },
             ].map((word, i) => (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, y: 50, rotate: -3 }}
-                animate={{ opacity: 1, y: 0, rotate: 0 }}
-                transition={{ duration: 0.7, delay: 0.2 + i * 0.1, type: "spring", stiffness: 120 }}
-                whileHover={{ scale: 1.06 }}
-                className={`${word.color} inline-block whitespace-nowrap`}
-              >
-                {word.text}
-              </motion.span>
+              <Fragment key={i}>
+                <motion.span
+                  initial={{ opacity: 0, y: 50, rotate: -3 }}
+                  animate={{ opacity: 1, y: 0, rotate: 0 }}
+                  transition={{ duration: 0.7, delay: 0.2 + i * 0.1, type: "spring", stiffness: 120 }}
+                  whileHover={{ scale: 1.06 }}
+                  className={`${word.color} inline-block whitespace-nowrap`}
+                >
+                  {word.text}
+                </motion.span>
+                {" "}
+              </Fragment>
             ))}
           </div>
           {/* Line 2 */}
           <div className="flex flex-wrap justify-center gap-x-3 gap-y-2 md:gap-y-4">
             {[
+              { text: "Where", color: "text-accent-orange" },
+              { text: "Every", color: "text-accent-orange" },
               { text: "Child", color: "text-accent-blue" },
               { text: "Blooms", color: "text-accent-blue" },
             ].map((word, i) => (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, y: 50, rotate: -3 }}
-                animate={{ opacity: 1, y: 0, rotate: 0 }}
-                transition={{ duration: 0.7, delay: 0.2 + (i + 5) * 0.1, type: "spring", stiffness: 120 }}
-                whileHover={{ scale: 1.06 }}
-                className={`${word.color} inline-block whitespace-nowrap`}
-              >
-                {word.text}
-              </motion.span>
+              <Fragment key={i}>
+                <motion.span
+                  initial={{ opacity: 0, y: 50, rotate: -3 }}
+                  animate={{ opacity: 1, y: 0, rotate: 0 }}
+                  transition={{ duration: 0.7, delay: 0.2 + (i + 3) * 0.1, type: "spring", stiffness: 120 }}
+                  whileHover={{ scale: 1.06 }}
+                  className={`${word.color} inline-block whitespace-nowrap`}
+                >
+                  {word.text}
+                </motion.span>
+                {" "}
+              </Fragment>
             ))}
           </div>
         </h1>

@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import { motion } from "motion/react";
-import Head from "next/head";
 import { Heart, Target, Star, BookOpen, Quote, Shield } from "lucide-react";
 import ScrollReveal from "@/components/global/ScrollReveal";
 
@@ -15,10 +14,6 @@ export default function AboutPage() {
 
   return (
     <>
-      <Head>
-        <title>About Us | WOW Saplings Preschool Kolhapur — 10 Years of Excellence</title>
-      </Head>
-
       <div className="min-h-screen bg-background font-sans">
 
         {/* 1. HERO — Modern Redesign */}

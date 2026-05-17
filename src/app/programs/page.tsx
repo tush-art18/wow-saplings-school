@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import Head from "next/head";
 import Link from "next/link";
 import ScrollReveal from "@/components/global/ScrollReveal";
 import { Clock, Users, ArrowRight, CheckCircle2, Award, BookOpen, ShieldCheck, MonitorPlay, CalendarHeart, UserCheck, Baby, Tent, HeartHandshake, Utensils, MessageCircle } from "lucide-react";
@@ -105,11 +104,6 @@ export default function ProgramsPage() {
 
   return (
     <>
-      <Head>
-        <title>Programs & Classes | WOW Saplings Preschool Kolhapur</title>
-        <meta name="description" content="Explore Playgroup, Nursery, KG, Phonics, Abacus and Teacher Training programs at WOW Saplings, Kolhapur." />
-      </Head>
-
       <div className="min-h-screen bg-background pt-32 pb-20">
         <div className="container mx-auto px-4 md:px-8 max-w-7xl">
 

@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import gsap from "gsap";
-import Head from "next/head";
 import ScrollReveal from "@/components/global/ScrollReveal";
 import { CheckCircle2, ChevronDown, Award, Briefcase, GraduationCap, Quote, ChevronLeft, ChevronRight, Clock, Users, BadgeCheck, BookOpen, Brain, LayoutList, Presentation, FlaskConical } from "lucide-react";
 
@@ -87,11 +86,6 @@ export default function TeacherTrainingPage() {
 
   return (
     <>
-      <Head>
-        <title>NPTT Teacher Training Course Kolhapur | Shivaji University Certified | WOW Saplings</title>
-        <meta name="description" content="Join Kolhapur's top-rated Shivaji University certified NPTT/TTC teacher training course at WOW Saplings. 1-year program, 100% placement support, 200+ alumni." />
-      </Head>
-
       <div className="min-h-screen bg-background font-sans">
 
         {/* ── HERO ── */}
