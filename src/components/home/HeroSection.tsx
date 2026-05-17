@@ -100,7 +100,7 @@ export default function HeroSection() {
           {[
             { num: "10+", label: "Years Experience", color: "text-[#9C6DD8]", bg: "bg-[#9C6DD8]", icon: <Calendar size={20} /> },
             { num: "1000+", label: "Students Enrolled", color: "text-accent-pink", bg: "bg-accent-pink", icon: <Users size={20} /> },
-            { num: "50+", label: "Expert Teachers", color: "text-accent-blue", bg: "bg-accent-blue", icon: <GraduationCap size={20} /> },
+            { num: "10+", label: "Expert Teachers", color: "text-accent-blue", bg: "bg-accent-blue", icon: <GraduationCap size={20} /> },
           ].map((stat, i) => (
             <motion.div
               key={i}

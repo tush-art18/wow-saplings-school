@@ -68,12 +68,45 @@ export default function AdmissionPage() {
           ))}
         </div>
 
+        {/* Required Documents Callout */}
+        <ScrollReveal animation="fade-up" delay={0.15}>
+          <div className="bg-accent-yellow/10 border-2 border-accent-yellow/30 rounded-[2rem] p-8 md:p-10 mb-16 flex flex-col md:flex-row items-center gap-8 shadow-sm">
+            <div className="md:w-1/3 text-center md:text-left">
+              <div className="w-16 h-16 bg-accent-yellow rounded-2xl flex items-center justify-center text-3xl mb-4 mx-auto md:mx-0 shadow-md">
+                📄
+              </div>
+              <h2 className="font-heading font-extrabold text-2xl md:text-3xl text-primary-dark mb-2">
+                Required Documents
+              </h2>
+              <p className="text-gray-600 text-sm md:text-base">
+                Please keep these ready for a smooth admission process.
+              </p>
+            </div>
+            
+            <div className="md:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+              {[
+                "Birth Certificate",
+                "Aadhar Card",
+                "2 Photos of Student",
+                "Registration Fees"
+              ].map((doc, i) => (
+                <div key={i} className="bg-white p-4 rounded-xl flex items-center gap-3 shadow-sm border border-gray-100">
+                  <div className="bg-green-100 text-green-600 w-8 h-8 rounded-full flex items-center justify-center shrink-0">
+                    <CheckCircle2 size={18} />
+                  </div>
+                  <span className="font-bold text-gray-800">{doc}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </ScrollReveal>
+
         {/* Multi-Step Form Layout */}
         <ScrollReveal animation="fade-up" delay={0.2}>
           <div className="bg-white rounded-[3rem] shadow-xl border border-gray-100 overflow-hidden flex flex-col md:flex-row">
             
             {/* Left info panel */}
-            <div className="bg-primary-dark w-full md:w-1/3 p-10 text-white relative overflow-hidden">
+            <div className="bg-primary-dark w-full md:w-1/3 p-10 text-white relative overflow-hidden flex flex-col justify-between">
                <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
                <div className="relative z-10">
                  <h3 className="font-heading font-bold text-2xl mb-8">Application Status</h3>
