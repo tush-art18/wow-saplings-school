@@ -19,6 +19,9 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const isDarkPage = pathname === "/teacher-training";
+  const isSolid = scrolled || isDarkPage;
+
   const navLinks = [
     { name: "Programs", href: "/programs" },
     { name: "About", href: "/about" },
@@ -30,11 +33,11 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-4 md:px-8 py-4 ${scrolled ? "md:py-2" : "md:py-6"
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-4 md:px-8 py-4 ${isSolid ? "md:py-2" : "md:py-6"
         }`}
     >
-      <div className={`container mx-auto transition-all duration-500 ${scrolled
-        ? "bg-white/90 backdrop-blur-xl shadow-xl rounded-full border-b-4 border-primary/10 max-w-6xl px-6"
+      <div className={`container mx-auto transition-all duration-500 ${isSolid
+        ? "bg-white/95 backdrop-blur-xl shadow-xl rounded-full border-b-4 border-primary/10 max-w-6xl px-6"
         : "bg-transparent max-w-7xl px-8"
         }`}>
         <div className="flex items-center justify-between h-16 md:h-20">

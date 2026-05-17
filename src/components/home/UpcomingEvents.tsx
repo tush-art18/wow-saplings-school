@@ -55,35 +55,22 @@ export default function UpcomingEvents() {
           </motion.div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {upcomingEvents.map((ev, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 40, scale: 0.92 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.5, delay: i * 0.12, type: "spring", stiffness: 160, damping: 15 }}
-              whileHover={{ scale: 1.04, y: -6 }}
-              whileTap={{ scale: 0.97 }}
-              className="group bg-primary-light/30 p-6 rounded-[2.2rem] border-4 border-white shadow-lg"
-            >
-              <motion.div
-                whileHover={{ rotate: [0, -6, 6, 0] }}
-                transition={{ duration: 0.4 }}
-                className="bg-white w-16 h-16 rounded-2xl flex flex-col items-center justify-center border-2 md:border-4 border-primary/20 shadow-inner mb-4"
-              >
-                <span className="font-heading font-black text-xl text-primary">{ev.date}</span>
-                <span className="text-[10px] uppercase font-bold text-gray-400">{ev.month}</span>
-              </motion.div>
-              <div>
-                <span className="inline-block bg-accent-yellow px-3 py-1 rounded-full text-[10px] font-bold text-[#5D4037] mb-2 uppercase tracking-widest">{ev.category}</span>
-                <h4 className="font-heading font-bold text-xl text-primary-dark leading-tight mb-4">{ev.title}</h4>
-                <div className="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-wider">
-                  <Calendar size={16} /> Add to Calendar
-                </div>
-              </div>
-            </motion.div>
-          ))}
+        <div className="flex justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: 40, scale: 0.92 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.5, type: "spring", stiffness: 160, damping: 15 }}
+            className="w-full max-w-3xl bg-primary-light/30 p-8 md:p-12 rounded-[2.5rem] border-4 border-white shadow-lg text-center flex flex-col items-center justify-center"
+          >
+            <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex flex-col items-center justify-center border-4 border-primary/20 shadow-inner mb-6">
+              <span className="text-3xl md:text-4xl">📅</span>
+            </div>
+            <h4 className="font-heading font-extrabold text-3xl md:text-4xl text-primary-dark leading-tight mb-4">Upcoming Events<br/>Coming Soon!</h4>
+            <p className="text-gray-600 font-bold text-lg md:text-xl uppercase tracking-widest max-w-md mx-auto opacity-80">
+              Check back shortly
+            </p>
+          </motion.div>
         </div>
       </div>
     </section>

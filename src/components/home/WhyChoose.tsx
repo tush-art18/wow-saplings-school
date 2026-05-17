@@ -1,15 +1,18 @@
 "use client";
 
 import { motion } from "motion/react";
-import { Award, ShieldCheck, Heart, GraduationCap } from "lucide-react";
+import { Award, ShieldCheck, Heart, GraduationCap, Smile, Bus, Users } from "lucide-react";
 import Image from "next/image";
 
 export default function WhyChoose() {
   const features = [
-    { icon: <Award size={36} />, title: "Expert Teachers", desc: "University-certified mentors who speak the language of love.", color: "bg-accent-yellow", text: "text-[#5D4037]" },
-    { icon: <ShieldCheck size={36} />, title: "Safe Campus", desc: "A cozy fortress with CCTV and child-safe everything!", color: "bg-accent-blue", text: "text-white" },
-    { icon: <Heart size={36} />, title: "Holistic Joy", desc: "Nurturing EQ, IQ, and big smiles through creative play.", color: "bg-accent-pink", text: "text-white" },
-    { icon: <GraduationCap size={36} />, title: "Uni Course", desc: "Home to Kolhapur's elite Teacher Training Program.", color: "bg-accent-purple", text: "text-white" }
+    { icon: <Award size={32} />, title: "Expert Teachers", desc: "University-certified mentors who speak the language of love.", color: "text-accent-yellow", border: "border-accent-yellow/30", bg: "bg-accent-yellow/10" },
+    { icon: <ShieldCheck size={32} />, title: "Safe Campus", desc: "A cozy fortress with CCTV and child-safe everything!", color: "text-accent-blue", border: "border-accent-blue/30", bg: "bg-accent-blue/10" },
+    { icon: <Heart size={32} />, title: "Holistic Joy", desc: "Nurturing EQ, IQ, and big smiles through creative play.", color: "text-accent-pink", border: "border-accent-pink/30", bg: "bg-accent-pink/10" },
+    { icon: <GraduationCap size={32} />, title: "Uni Course", desc: "Home to Kolhapur's elite Teacher Training Program.", color: "text-accent-purple", border: "border-accent-purple/30", bg: "bg-accent-purple/10" },
+    { icon: <Smile size={32} />, title: "Yoga & Meditation", desc: "Mindfulness practices for calm, focused, and happy little minds.", color: "text-[#2D8C4E]", border: "border-[#2D8C4E]/30", bg: "bg-[#2D8C4E]/10" },
+    { icon: <Bus size={32} />, title: "Field Trips", desc: "Exciting outdoor adventures for real-world learning.", color: "text-[#FF7043]", border: "border-[#FF7043]/30", bg: "bg-[#FF7043]/10" },
+    { icon: <Users size={32} />, title: "Parenting Lectures", desc: "Workshops to support and empower our wonderful parents.", color: "text-[#4A90D9]", border: "border-[#4A90D9]/30", bg: "bg-[#4A90D9]/10" }
   ];
 
   return (
@@ -56,32 +59,36 @@ export default function WhyChoose() {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-14 lg:gap-16">
+        {/* Non-card, organic flowing layout */}
+        <div className="flex flex-wrap justify-center gap-x-8 gap-y-16 max-w-7xl mx-auto">
           {features.map((f, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, scale: 0.7, rotate: -10 }}
-              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.6, delay: i * 0.12, type: "spring", stiffness: 150, damping: 14 }}
-              whileHover={{ rotate: 1, y: -6, scale: 1.03 }}
-              className={`relative ${f.color} ${f.text} rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 sticker-shadow transition-shadow`}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className="flex flex-col items-center text-center group w-full sm:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)] xl:w-[calc(25%-2rem)]"
             >
-              {/* Speech Bubble Tail */}
-              <div className={`absolute -bottom-3 left-10 w-6 h-6 ${f.color} rotate-45 border-r border-b border-black/5`}></div>
-
               <motion.div
-                whileHover={{ rotate: [0, -15, 15, -8, 0] }}
-                transition={{ duration: 0.5 }}
-                className="bg-white/20 w-14 h-14 md:w-16 md:h-16 rounded-xl md:rounded-2xl flex items-center justify-center mb-6 rotate-3 shadow-inner"
+                whileHover={{ scale: 1.15, rotate: [0, -10, 10, -5, 0] }}
+                transition={{ duration: 0.4 }}
+                className={`w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center mb-6 shadow-sm border-2 ${f.border} ${f.bg} ${f.color} relative cursor-pointer`}
               >
+                {/* Decorative floating dots around the icon */}
+                <div className={`absolute -top-1 -right-1 w-3 h-3 rounded-full ${f.bg} ${f.border} border`}></div>
+                <div className={`absolute bottom-2 -left-2 w-2 h-2 rounded-full ${f.bg} ${f.border} border`}></div>
+                
                 {f.icon}
               </motion.div>
-
-              <h3 className="font-heading font-extrabold text-xl md:text-2xl mb-2 md:mb-3 leading-tight">{f.title}</h3>
-              <p className="text-xs md:text-sm font-medium leading-relaxed opacity-90">{f.desc}</p>
-
-              <div className="absolute top-6 right-6 text-2xl opacity-20">✨</div>
+              
+              <h3 className="font-heading font-extrabold text-xl md:text-2xl text-primary-dark mb-3 relative inline-block">
+                {f.title}
+                <span className={`absolute -bottom-1 left-1/4 right-1/4 h-1 rounded-full ${f.bg} opacity-50`}></span>
+              </h3>
+              <p className="text-sm md:text-base text-gray-600 font-medium leading-relaxed max-w-[250px] mx-auto">
+                {f.desc}
+              </p>
             </motion.div>
           ))}
         </div>

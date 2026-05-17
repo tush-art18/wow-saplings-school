@@ -14,7 +14,7 @@ export default function GalleryPreview() {
     { title: "Story Time", cat: "Creative", color: "bg-accent-blue", text: "text-white", img: "/child-activiti-02.jpeg" },
     { title: "Outdoor Play", cat: "Sports", color: "bg-accent-orange", text: "text-white", img: "/child-activiti-03.jpeg" },
     { title: "Building Blocks", cat: "Learning", color: "bg-accent-pink", text: "text-white", img: "/child-activiti-04.jpeg" },
-    { title: "Annual Day Prep", cat: "Events", color: "bg-accent-purple", text: "text-white", img: "/child-activiti-05.jpeg" },
+    { title: "celebration and events", cat: "Events", color: "bg-accent-purple", text: "text-white", img: "/child-activiti-05.jpeg" },
     { title: "Junior Scientists", cat: "Science", color: "bg-accent-blue", text: "text-white", img: "/child-activiti-06.jpeg" },
     { title: "Music & Movement", cat: "Music", color: "bg-accent-yellow", text: "text-[#5D4037]", img: "/child-activiti-07.jpeg" },
   ];

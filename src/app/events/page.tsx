@@ -22,7 +22,7 @@ export default function EventsPage() {
 
   return (
     <div className="min-h-screen bg-background pt-32 pb-20">
-      
+
       <div className="container mx-auto px-4 max-w-5xl">
         <div className="text-center mb-16">
           <ScrollReveal animation="fade-up">
@@ -40,19 +40,19 @@ export default function EventsPage() {
         {/* Custom Tab Toggle */}
         <ScrollReveal animation="fade-up" delay={0.2}>
           <div className="flex bg-white p-2 rounded-full border border-gray-200 max-w-sm mx-auto mb-16 relative shadow-sm">
-            <button 
+            <button
               className={`flex-1 py-3 text-sm font-bold rounded-full z-10 transition-colors ${tab === "upcoming" ? "text-white" : "text-gray-500 hover:text-primary-dark"}`}
               onClick={() => setTab("upcoming")}
             >
               Upcoming Events
             </button>
-            <button 
+            <button
               className={`flex-1 py-3 text-sm font-bold rounded-full z-10 transition-colors ${tab === "past" ? "text-white" : "text-gray-500 hover:text-primary-dark"}`}
               onClick={() => setTab("past")}
             >
               Past Highlights
             </button>
-            
+
             <div className={`absolute top-2 bottom-2 w-[calc(50%-0.5rem)] bg-primary rounded-full transition-transform duration-300 ease-in-out ${tab === "upcoming" ? "translate-x-0" : "translate-x-full ml-1"}`}></div>
           </div>
         </ScrollReveal>
@@ -76,7 +76,7 @@ export default function EventsPage() {
                 upcomingEvents.map((event, i) => (
                   <ScrollReveal key={event.id} animation="fade-up" delay={i * 0.1}>
                     <div className="bg-white rounded-3xl p-6 md:p-8 flex flex-col md:flex-row gap-8 border border-gray-100 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-                      
+
                       {/* Glowing effect if close date (mocked via pulse block) */}
                       {i === 0 && <div className="absolute top-0 right-0 w-32 h-32 bg-accent-pink/10 blur-3xl animate-pulse rounded-full pointer-events-none"></div>}
 
@@ -86,7 +86,7 @@ export default function EventsPage() {
                         <div className={`font-heading font-extrabold text-5xl mb-1 ${event.color.replace('bg-', 'text-')}`}>{event.date}</div>
                         <div className="font-bold text-gray-500 tracking-widest">{event.month}</div>
                       </div>
-                      
+
                       {/* Details */}
                       <div className="flex-1">
                         {i === 0 && <span className="inline-block bg-accent-pink/10 text-accent-pink text-xs font-bold px-3 py-1 rounded-full mb-3 border border-accent-pink/20">SOON</span>}
@@ -97,12 +97,12 @@ export default function EventsPage() {
                           <span className="flex items-center gap-2"><MapPin size={16} /> {event.location}</span>
                         </div>
                       </div>
-                      
+
                       {/* CTA */}
                       <div className="flex items-center md:items-end justify-center md:justify-end shrink-0 border-t md:border-t-0 md:border-l border-gray-100 pt-6 md:pt-0 md:pl-8">
-                         <Link href="/contact" className="w-full md:w-auto text-center bg-white border-2 border-primary text-primary font-bold px-6 py-3 rounded-xl hover:bg-primary hover:text-white transition-colors flex items-center justify-center gap-2">
-                           Register Interest
-                         </Link>
+                        <Link href="/contact" className="w-full md:w-auto text-center bg-white border-2 border-primary text-primary font-bold px-6 py-3 rounded-xl hover:bg-primary hover:text-white transition-colors flex items-center justify-center gap-2">
+                          Register Interest
+                        </Link>
                       </div>
                     </div>
                   </ScrollReveal>
