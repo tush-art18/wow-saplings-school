@@ -19,7 +19,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const isDarkPage = pathname === "/teacher-training";
+  const isDarkPage = pathname === "/teacher-training" || pathname === "/events";
   const isSolid = scrolled || isDarkPage;
 
   const navLinks = [
