@@ -3,55 +3,74 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { fetchTestimonials } from "@/lib/api";
+
+const MOCK_REVIEWS = [
+  {
+    name: "Parent",
+    role: "",
+    content: "We truly appreciate the school’s nurturing environment and dedicated teachers, who helped our daughter grow confidently, happily, and develop a strong love for learning.",
+    img: "/parent-1.jpeg",
+    location: "KOLHAPUR"
+  },
+  {
+    name: "Ms. Sana",
+    role: "Parent of Falak",
+    content: "We’ve seen a beautiful change in our daughter’s confidence, creativity, and communication. The caring teachers make learning meaningful, enjoyable, and truly inspiring every day",
+    img: "parent-2.jpeg",
+    location: "KOLHAPUR"
+  },
+  {
+    name: "Anita Patil",
+    role: "Parent of Anish",
+    content: "We appreciate the school’s caring teachers, cleanliness, and activity-based learning approach. Our child developed strong reading skills, confidence, good manners, and truly enjoyed learning every day",
+    img: "parent-3.jpeg",
+    location: "KOLHAPUR"
+  },
+  {
+    name: "Parent",
+    role: "Parent of Vanshika",
+    content: "Wow Saplings provided our daughter with a nurturing and inspiring environment for four wonderful years, helping her grow academically, emotionally, and confidently with dedicated teacher support",
+    img: "/parent-4.jpeg",
+    location: "KOLHAPUR"
+  },
+  {
+    name: "Parent",
+    role: "Parent of Sarvadnya",
+    content: "We are grateful for the warm and nurturing environment at Saplings. In just six months, we saw remarkable growth in our son’s confidence, happiness, and love for school",
+    img: "/parent-5.jpeg",
+    location: "KOLHAPUR"
+  },
+  {
+    name: "Parent",
+    role: "",
+    content: "We are extremely happy with the safe, caring, and activity-based learning environment at Wow Saplings. Our child has shown remarkable growth in academics, confidence, and extracurricular activities.",
+    img: "/parent-6.jpeg",
+    location: "KOLHAPUR"
+  },
+];
 
 export default function TestimonialsStrip() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(0); // -1 for left, 1 for right
+  const [reviews, setReviews] = useState<any[]>(MOCK_REVIEWS);
 
-  const reviews = [
-    {
-      name: "Parent",
-      role: "",
-      content: "We truly appreciate the school’s nurturing environment and dedicated teachers, who helped our daughter grow confidently, happily, and develop a strong love for learning.",
-      img: "/parent-1.jpeg",
-      location: "KOLHAPUR"
-    },
-    {
-      name: "Ms. Sana",
-      role: "Parent of Falak",
-      content: "We’ve seen a beautiful change in our daughter’s confidence, creativity, and communication. The caring teachers make learning meaningful, enjoyable, and truly inspiring every day",
-      img: "parent-2.jpeg",
-      location: "KOLHAPUR"
-    },
-    {
-      name: "Anita Patil",
-      role: "Parent of Anish",
-      content: "We appreciate the school’s caring teachers, cleanliness, and activity-based learning approach. Our child developed strong reading skills, confidence, good manners, and truly enjoyed learning every day",
-      img: "parent-3.jpeg",
-      location: "KOLHAPUR"
-    },
-    {
-      name: "Parent",
-      role: "Parent of Vanshika",
-      content: "Wow Saplings provided our daughter with a nurturing and inspiring environment for four wonderful years, helping her grow academically, emotionally, and confidently with dedicated teacher support",
-      img: "/parent-4.jpeg",
-      location: "KOLHAPUR"
-    },
-    {
-      name: "Parent",
-      role: "Parent of Sarvadnya",
-      content: "We are grateful for the warm and nurturing environment at Saplings. In just six months, we saw remarkable growth in our son’s confidence, happiness, and love for school",
-      img: "/parent-5.jpeg",
-      location: "KOLHAPUR"
-    },
-    {
-      name: "Parent",
-      role: "",
-      content: "We are extremely happy with the safe, caring, and activity-based learning environment at Wow Saplings. Our child has shown remarkable growth in academics, confidence, and extracurricular activities.",
-      img: "/parent-6.jpeg",
-      location: "KOLHAPUR"
-    },
-  ];
+  useEffect(() => {
+    async function loadTestimonials() {
+      const apiReviews = await fetchTestimonials(false); // fetch Preschool reviews
+      if (apiReviews && apiReviews.length > 0) {
+        const formatted = apiReviews.map(r => ({
+          name: r.parent_name,
+          role: r.child_class,
+          content: r.content,
+          img: r.photo || "/parent-1.jpeg",
+          location: "KOLHAPUR"
+        }));
+        setReviews(formatted);
+      }
+    }
+    loadTestimonials();
+  }, []);
 
   const variants = {
     enter: (direction: number) => ({

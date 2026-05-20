@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "motion/react";
 import gsap from "gsap";
 import ScrollReveal from "@/components/global/ScrollReveal";
 import { CheckCircle2, ChevronDown, Award, Briefcase, GraduationCap, Quote, ChevronLeft, ChevronRight, Clock, Users, BadgeCheck, BookOpen, Brain, LayoutList, Presentation, FlaskConical } from "lucide-react";
+import { fetchTestimonials } from "@/lib/api";
 
 export default function TeacherTrainingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -59,12 +60,30 @@ export default function TeacherTrainingPage() {
     { emoji: "🌱", title: "Start Your Own Preschool", desc: "Use skills to launch your own preschool venture." },
   ];
 
-  const alumni = [
+  const MOCK_ALUMNI = [
     { name: "Sneha Kulkarni", role: "Certified Teacher, Batch '24", content: "The teacher training program here is top-notch. I feel so confident after my certification and getting placed was a breeze.", img: "https://randomuser.me/api/portraits/women/24.jpg" },
     { name: "Priya Sharma", role: "Preschool Teacher, Pune", content: "The practical internship module gave me exactly what I needed to face a real classroom. Highly recommended!", img: "https://randomuser.me/api/portraits/women/33.jpg" },
     { name: "Pooja Deshmukh", role: "Special Ed Assistant", content: "WOW Saplings provides the best early childhood education training. The syllabus is perfectly aligned with modern methodologies.", img: "https://randomuser.me/api/portraits/women/62.jpg" },
     { name: "Ritu Patel", role: "Preschool Founder", content: "Thanks to this certification, I successfully opened my own preschool. The management module was a game-changer!", img: "https://randomuser.me/api/portraits/women/8.jpg" },
   ];
+
+  const [alumni, setAlumni] = useState<any[]>(MOCK_ALUMNI);
+
+  useEffect(() => {
+    async function loadAlumni() {
+      const apiAlumni = await fetchTestimonials(true); // fetch Shivaji University TTC reviews
+      if (apiAlumni && apiAlumni.length > 0) {
+        const formatted = apiAlumni.map(a => ({
+          name: a.parent_name,
+          role: a.child_class || "NPTT Graduate",
+          content: a.content,
+          img: a.photo || "https://randomuser.me/api/portraits/women/24.jpg"
+        }));
+        setAlumni(formatted);
+      }
+    }
+    loadAlumni();
+  }, []);
 
   const variants = {
     enter: (dir: number) => ({ x: dir > 0 ? 100 : -100, opacity: 0 }),
@@ -78,7 +97,7 @@ export default function TeacherTrainingPage() {
   useEffect(() => {
     const t = setInterval(nextSlide, 7000);
     return () => clearInterval(t);
-  }, [activeIndex]);
+  }, [activeIndex, alumni.length]);
 
   useEffect(() => {
     gsap.to(".flying-hat", { y: "random(-20,20)", x: "random(-20,20)", rotation: "random(-15,15)", ease: "sine.inOut", duration: "random(2,4)", repeat: -1, yoyo: true });

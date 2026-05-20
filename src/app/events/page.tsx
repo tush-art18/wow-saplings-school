@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Link from "next/link";
 import { Calendar, MapPin, Clock, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { fetchUpcomingEvents, fetchPastEvents } from "@/lib/api";
 
 // ── DATA ─────────────────────────────────────────────────────────────────────
 
-const featuredEvents = [
+const MOCK_FEATURED_EVENTS = [
   {
     id: 1,
     label: "Upcoming Event",
@@ -42,7 +43,7 @@ const featuredEvents = [
 
 type Category = "All" | "Celebrations" | "Sports & Games" | "Academic";
 
-const allEvents = [
+const MOCK_ALL_EVENTS = [
   {
     id: 1,
     title: "Annual Sports & Fun Fest 2026",
@@ -110,6 +111,68 @@ const CATEGORIES: Category[] = ["All", "Celebrations", "Sports & Games", "Academ
 // ── PAGE ─────────────────────────────────────────────────────────────────────
 
 export default function EventsPage() {
+  const [featuredEvents, setFeaturedEvents] = useState<any[]>(MOCK_FEATURED_EVENTS);
+  const [allEvents, setAllEvents] = useState<any[]>(MOCK_ALL_EVENTS);
+
+  useEffect(() => {
+    async function loadEvents() {
+      const upcomingAPI = await fetchUpcomingEvents();
+      const pastAPI = await fetchPastEvents();
+
+      let dynamicAll: any[] = [];
+      let dynamicFeatured: any[] = [];
+
+      if (upcomingAPI && upcomingAPI.length > 0) {
+        const formattedUpcoming = upcomingAPI.map(e => ({
+          id: e.id,
+          title: e.title,
+          date: e.date,
+          time: e.time,
+          location: e.location,
+          img: e.poster,
+          category: e.category as Category,
+          status: "upcoming"
+        }));
+        
+        dynamicAll = [...dynamicAll, ...formattedUpcoming];
+        
+        dynamicFeatured = upcomingAPI.map(e => ({
+          id: e.id,
+          label: "Upcoming Event",
+          title: e.title,
+          date: e.date,
+          time: e.time,
+          location: e.location,
+          img: e.poster,
+          category: e.category,
+        }));
+      }
+
+      if (pastAPI && pastAPI.length > 0) {
+        const formattedPast = pastAPI.map(e => ({
+          id: e.id,
+          title: e.title,
+          date: e.date,
+          time: "Completed",
+          location: "WOW Saplings Preschool",
+          img: e.cover_photo,
+          category: "Celebrations" as Category, // default past events category
+          status: "past"
+        }));
+        
+        dynamicAll = [...dynamicAll, ...formattedPast];
+      }
+
+      if (dynamicAll.length > 0) {
+        setAllEvents(dynamicAll);
+      }
+      if (dynamicFeatured.length > 0) {
+        setFeaturedEvents(dynamicFeatured);
+      }
+    }
+    loadEvents();
+  }, []);
+
   const [featured, setFeatured] = useState(0);
   const [direction, setDirection] = useState(0);
   const [category, setCategory] = useState<Category>("All");

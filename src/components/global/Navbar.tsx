@@ -6,6 +6,44 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import { Menu, X, Phone } from "lucide-react";
 
+const menuVariants = {
+  hidden: {
+    opacity: 0,
+    y: -30,
+    scale: 0.95,
+    transition: {
+      duration: 0.2,
+      staggerChildren: 0.05,
+      staggerDirection: -1
+    }
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring" as const,
+      stiffness: 260,
+      damping: 24,
+      staggerChildren: 0.07,
+      delayChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: -20 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { 
+      type: "spring" as const, 
+      stiffness: 300, 
+      damping: 20 
+    } 
+  }
+};
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -70,14 +108,27 @@ export default function Navbar() {
               >
                 <Link
                   href={link.href}
-                  className={`font-bold transition-colors hover:scale-110 active:scale-95 ${pathname === link.href ? "text-accent-yellow" : "text-primary-dark/80 hover:text-primary"
+                  className={`font-bold transition-all relative pb-2 group ${pathname === link.href ? "text-primary font-extrabold" : "text-primary-dark/80 hover:text-primary"
                     }`}
+                  style={!scrolled && !isDarkPage ? { textShadow: "0 2px 8px rgba(255, 255, 255, 0.95)" } : {}}
                 >
                   {link.name}
+                  {/* Underline slides in from left on hover (CSS Transition) */}
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300 ease-out" />
+                  
+                  {/* Active page: green dot indicator below link */}
+                  {pathname === link.href && (
+                    <motion.span
+                      layoutId="activeDot"
+                      className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#2D6A4F] rounded-full"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
                 </Link>
               </motion.div>
             ))}
 
+            {/* CTA Button: scale 1.05 + shadow on hover */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -87,7 +138,7 @@ export default function Navbar() {
             >
               <Link
                 href="/admission"
-                className="bg-accent-yellow text-primary-dark hover:bg-primary hover:text-white px-8 py-3 rounded-full font-extrabold shadow-lg hover:shadow-primary/20 transition-all border-b-4 border-black/10 inline-block"
+                className="bg-accent-yellow text-primary-dark hover:bg-primary hover:text-white px-8 py-3 rounded-full font-extrabold shadow-md hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 border-b-4 border-black/10 inline-block"
               >
                 Enquiry Now 🚀
               </Link>
@@ -108,32 +159,33 @@ export default function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -30, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 300, damping: 28 }}
+            variants={menuVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
             className="xl:hidden absolute top-24 left-4 right-4 bg-white rounded-[3rem] shadow-2xl p-8 border-4 border-primary-light z-50 overflow-hidden"
           >
             <div className="flex flex-col gap-6 text-center">
               {navLinks.map((link, i) => (
                 <motion.div
                   key={link.name}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.06, duration: 0.3 }}
+                  variants={itemVariants}
                 >
                   <Link
                     href={link.href}
-                    className={`font-heading font-bold text-2xl ${pathname === link.href ? "text-accent-yellow" : "text-primary-dark"
+                    className={`font-heading font-bold text-2xl relative inline-block py-1 ${pathname === link.href ? "text-primary font-extrabold" : "text-primary-dark"
                       }`}
                     onClick={() => setIsOpen(false)}
                   >
                     {link.name}
+                    {pathname === link.href && (
+                      <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#2D6A4F] rounded-full" />
+                    )}
                   </Link>
                 </motion.div>
               ))}
               <div className="h-px bg-gray-100 my-2"></div>
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
+              <motion.div variants={itemVariants}>
                 <Link
                   href="tel:+918999640602"
                   className="flex items-center justify-center gap-3 text-primary font-bold text-lg"
@@ -142,14 +194,12 @@ export default function Navbar() {
                 </Link>
               </motion.div>
               <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.45, type: "spring", stiffness: 260 }}
+                variants={itemVariants}
                 whileTap={{ scale: 0.96 }}
               >
                 <Link
                   href="/admission"
-                  className="bg-primary text-white py-5 rounded-[2rem] font-bold text-2xl shadow-xl block"
+                  className="bg-primary text-white py-5 rounded-[2rem] font-bold text-2xl shadow-xl block hover:bg-primary-dark transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
                   Start Admission

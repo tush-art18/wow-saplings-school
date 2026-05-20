@@ -1,54 +1,74 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, ZoomIn, Info } from "lucide-react";
 import Image from "next/image";
 import ScrollReveal from "@/components/global/ScrollReveal";
+import { fetchGalleryPhotos } from "@/lib/api";
+
+const MOCK_PHOTOS = [
+  { id: 1, title: "Modern School Building", cat: "Campus", height: "h-96", img: "/wow-saplings-school-building-kolhapur.jpg" },
+  { id: 2, title: "Our Grand Entrance", cat: "Campus", height: "h-64", img: "/wow-saplings-school-building-kolhapur.jpg" },
+  { id: 3, title: "Colorful Playgroup Nursery", cat: "Classrooms", height: "h-80", img: "/playgroup-nursery-01.jpeg" },
+  { id: 4, title: "Learning is Fun", cat: "Learning", height: "h-64", img: "/child-activiti-01.jpeg" },
+  { id: 5, title: "Safe Play Environment", cat: "Play Area", height: "h-72", img: "/play-area.jpeg" },
+  { id: 6, title: "Modern Classroom", cat: "Classrooms", height: "h-64", img: "/classroom-01.jpeg" },
+  { id: 7, title: "Indoor Fun Zone", cat: "Play Area", height: "h-96", img: "/play-area-2.jpeg" },
+  { id: 8, title: "Awards Ceremony", cat: "Events", height: "h-80", img: "/award-distribute-area-01.jpeg" },
+  { id: 9, title: "Artistic Expressions", cat: "Activities", height: "h-64", img: "/creative-arts.jpeg" },
+  { id: 10, title: "Exploring the World", cat: "Learning", height: "h-80", img: "/child-activiti-02.jpeg" },
+  { id: 11, title: "Outdoor Play Time", cat: "Play Area", height: "h-72", img: "/play-area-3.jpeg" },
+  { id: 12, title: "Our Learning Corridor", cat: "Campus", height: "h-64", img: "/corridor.jpeg" },
+  { id: 13, title: "Nursery Play Space", cat: "Classrooms", height: "h-96", img: "/playgroup-nursery-02.jpeg" },
+  { id: 14, title: "Creative Craft Day", cat: "Activities", height: "h-80", img: "/art-ans-craft.jpeg" },
+  { id: 15, title: "Senior KG Classroom", cat: "Classrooms", height: "h-64", img: "/Senior-classroom.png" },
+  { id: 16, title: "Group Activities", cat: "Learning", height: "h-72", img: "/child-activiti-03.jpeg" },
+  { id: 17, title: "Safe Stairs Design", cat: "Campus", height: "h-64", img: "/stairs.jpeg" },
+  { id: 18, title: "Function Hall", cat: "Events", height: "h-96", img: "/function-area-01.jpeg" },
+  { id: 19, title: "Building Blocks", cat: "Learning", height: "h-80", img: "/child-activiti-04.jpeg" },
+  { id: 20, title: "Outdoor Swings", cat: "Play Area", height: "h-72", img: "/play-are-4.jpeg" },
+  { id: 21, title: "Junior KG Classroom", cat: "Classrooms", height: "h-64", img: "/junior-classroom.png" },
+  { id: 22, title: "Annual Day Function", cat: "Events", height: "h-96", img: "/function-area-02.jpeg" },
+  { id: 23, title: "Storytelling Morning", cat: "Learning", height: "h-80", img: "/child-activiti-05.jpeg" },
+  { id: 24, title: "Playgroup Zone", cat: "Classrooms", height: "h-72", img: "/playgroup-nursery-03.jpeg" },
+  { id: 25, title: "Science Wonders", cat: "Learning", height: "h-64", img: "/child-activiti-06.jpeg" },
+  { id: 26, title: "Maths is Magic", cat: "Learning", height: "h-80", img: "/child-activiti-07.jpeg" },
+  { id: 27, title: "Little Artists", cat: "Activities", height: "h-72", img: "/child-activiti-08.jpeg" },
+  { id: 28, title: "Sports Day Pride", cat: "Activities", height: "h-64", img: "/child-activiti-09.jpeg" },
+  { id: 29, title: "Music & Movement", cat: "Activities", height: "h-96", img: "/child-activiti-10.jpeg" },
+  { id: 30, title: "Team Building", cat: "Activities", height: "h-80", img: "/child-activiti-11.jpeg" },
+  { id: 31, title: "Festival Fun", cat: "Events", height: "h-72", img: "/child-activiti-12.jpeg" },
+  { id: 32, title: "Cultural Pride", cat: "Events", height: "h-64", img: "/child-activiti-13.jpeg" },
+  { id: 33, title: "Classroom 02", cat: "Classrooms", height: "h-80", img: "/classroom-02.jpeg" },
+  { id: 34, title: "Classroom 03", cat: "Classrooms", height: "h-72", img: "/classroom-03.jpeg" },
+  { id: 35, title: "Interactive Learning", cat: "Learning", height: "h-64", img: "/classroom-04.jpeg" },
+];
 
 export default function GalleryPage() {
   const [activeTab, setActiveTab] = useState("All");
   const [lightboxOpen, setLightboxOpen] = useState<number | null>(null);
+  const [photos, setPhotos] = useState<any[]>(MOCK_PHOTOS);
+
+  useEffect(() => {
+    async function loadPhotos() {
+      const apiPhotos = await fetchGalleryPhotos();
+      if (apiPhotos && apiPhotos.length > 0) {
+        const formatted = apiPhotos.map((p, idx) => ({
+          id: p.id,
+          title: p.title,
+          cat: p.category,
+          // Generate balanced dynamic heights for premium masonry grid distribution
+          height: idx % 4 === 0 ? "h-96" : idx % 3 === 0 ? "h-80" : idx % 2 === 0 ? "h-72" : "h-64",
+          img: p.image
+        }));
+        setPhotos(formatted);
+      }
+    }
+    loadPhotos();
+  }, []);
 
   const categories = ["All", "Campus", "Activities", "Play Area", "Classrooms", "Events"];
-
-  const photos = [
-    { id: 1, title: "Modern School Building", cat: "Campus", height: "h-96", img: "/school-bulding-01.jpeg" },
-    { id: 2, title: "Our Grand Entrance", cat: "Campus", height: "h-64", img: "/school-bulding-02.jpeg" },
-    { id: 3, title: "Colorful Playgroup Nursery", cat: "Classrooms", height: "h-80", img: "/playgroup-nursery-01.jpeg" },
-    { id: 4, title: "Learning is Fun", cat: "Learning", height: "h-64", img: "/child-activiti-01.jpeg" },
-    { id: 5, title: "Safe Play Environment", cat: "Play Area", height: "h-72", img: "/play-area.jpeg" },
-    { id: 6, title: "Modern Classroom", cat: "Classrooms", height: "h-64", img: "/classroom-01.jpeg" },
-    { id: 7, title: "Indoor Fun Zone", cat: "Play Area", height: "h-96", img: "/play-area-2.jpeg" },
-    { id: 8, title: "Awards Ceremony", cat: "Events", height: "h-80", img: "/award-distribute-area-01.jpeg" },
-    { id: 9, title: "Artistic Expressions", cat: "Activities", height: "h-64", img: "/creative-arts.jpeg" },
-    { id: 10, title: "Exploring the World", cat: "Learning", height: "h-80", img: "/child-activiti-02.jpeg" },
-    { id: 11, title: "Outdoor Play Time", cat: "Play Area", height: "h-72", img: "/play-area-3.jpeg" },
-    { id: 12, title: "Our Learning Corridor", cat: "Campus", height: "h-64", img: "/corridor.jpeg" },
-    { id: 13, title: "Nursery Play Space", cat: "Classrooms", height: "h-96", img: "/playgroup-nursery-02.jpeg" },
-    { id: 14, title: "Creative Craft Day", cat: "Activities", height: "h-80", img: "/art-ans-craft.jpeg" },
-    { id: 15, title: "Senior KG Classroom", cat: "Classrooms", height: "h-64", img: "/Senior-classroom.png" },
-    { id: 16, title: "Group Activities", cat: "Learning", height: "h-72", img: "/child-activiti-03.jpeg" },
-    { id: 17, title: "Safe Stairs Design", cat: "Campus", height: "h-64", img: "/stairs.jpeg" },
-    { id: 18, title: "Function Hall", cat: "Events", height: "h-96", img: "/function-area-01.jpeg" },
-    { id: 19, title: "Building Blocks", cat: "Learning", height: "h-80", img: "/child-activiti-04.jpeg" },
-    { id: 20, title: "Outdoor Swings", cat: "Play Area", height: "h-72", img: "/play-are-4.jpeg" },
-    { id: 21, title: "Junior KG Classroom", cat: "Classrooms", height: "h-64", img: "/junior-classroom.png" },
-    { id: 22, title: "Annual Day Function", cat: "Events", height: "h-96", img: "/function-area-02.jpeg" },
-    { id: 23, title: "Storytelling Morning", cat: "Learning", height: "h-80", img: "/child-activiti-05.jpeg" },
-    { id: 24, title: "Playgroup Zone", cat: "Classrooms", height: "h-72", img: "/playgroup-nursery-03.jpeg" },
-    { id: 25, title: "Science Wonders", cat: "Learning", height: "h-64", img: "/child-activiti-06.jpeg" },
-    { id: 26, title: "Maths is Magic", cat: "Learning", height: "h-80", img: "/child-activiti-07.jpeg" },
-    { id: 27, title: "Little Artists", cat: "Activities", height: "h-72", img: "/child-activiti-08.jpeg" },
-    { id: 28, title: "Sports Day Pride", cat: "Activities", height: "h-64", img: "/child-activiti-09.jpeg" },
-    { id: 29, title: "Music & Movement", cat: "Activities", height: "h-96", img: "/child-activiti-10.jpeg" },
-    { id: 30, title: "Team Building", cat: "Activities", height: "h-80", img: "/child-activiti-11.jpeg" },
-    { id: 31, title: "Festival Fun", cat: "Events", height: "h-72", img: "/child-activiti-12.jpeg" },
-    { id: 32, title: "Cultural Pride", cat: "Events", height: "h-64", img: "/child-activiti-13.jpeg" },
-    { id: 33, title: "Classroom 02", cat: "Classrooms", height: "h-80", img: "/classroom-02.jpeg" },
-    { id: 34, title: "Classroom 03", cat: "Classrooms", height: "h-72", img: "/classroom-03.jpeg" },
-    { id: 35, title: "Interactive Learning", cat: "Learning", height: "h-64", img: "/classroom-04.jpeg" },
-  ];
 
   const filteredPhotos = activeTab === "All" ? photos : photos.filter(p => p.cat === activeTab);
   const selectedPhoto = photos.find(p => p.id === lightboxOpen);
@@ -117,7 +137,7 @@ export default function GalleryPage() {
                   >
                     <Image 
                       src={photo.img} 
-                      alt={photo.title}
+                      alt={`${photo.title} at WOW Saplings Preschool, Kolhapur`}
                       fill
                       loading="lazy"
                       sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
@@ -165,7 +185,7 @@ export default function GalleryPage() {
                >
                  <Image 
                    src={selectedPhoto.img} 
-                   alt={selectedPhoto.title}
+                   alt={`${selectedPhoto.title} at WOW Saplings Preschool, Kolhapur`}
                    fill
                    priority
                    className="object-contain"

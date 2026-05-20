@@ -22,7 +22,7 @@ export default function WhyChoose() {
       <motion.div
         animate={{ rotate: [-12, -6, -12], y: [0, -10, 0] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-20 left-[5%] w-32 h-32 md:w-56 md:h-56 opacity-90 pointer-events-none z-0"
+        className="absolute hidden md:block top-20 left-[5%] md:w-56 md:h-56 opacity-90 pointer-events-none z-0"
       >
         <Image src="/sticker-blocks.png" alt="Blocks Sticker" fill className="object-contain" />
       </motion.div>

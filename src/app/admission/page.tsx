@@ -2,12 +2,29 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { CheckCircle2, ChevronRight, Check } from "lucide-react";
+import { CheckCircle2, ChevronRight, Check, Loader2 } from "lucide-react";
 import ScrollReveal from "@/components/global/ScrollReveal";
+import { submitLead } from "@/lib/api";
 
 export default function AdmissionPage() {
   const [step, setStep] = useState(1);
   const [success, setSuccess] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  const [formData, setFormData] = useState({
+    fathersName: "",
+    mothersName: "",
+    phone: "",
+    whatsapp: "",
+    address: "",
+    childName: "",
+    gender: "",
+    dob: "",
+    program: "",
+    hearSource: "",
+    visitTime: "",
+    notes: ""
+  });
 
   const steps = [
     { num: 1, title: "Parent Details", desc: "Basic contact info" },
@@ -15,13 +32,65 @@ export default function AdmissionPage() {
     { num: 3, title: "Finish", desc: "Reference & visit slot" },
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (step < 3) {
       setStep(step + 1);
     } else {
-      setSuccess(true);
+      setSubmitting(true);
+      
+      // Parse child program choice to map database choices cleanly
+      let mappedProgram = "Other";
+      if (formData.program.includes("Playgroup")) mappedProgram = "Playgroup";
+      else if (formData.program.includes("Nursery")) mappedProgram = "Nursery";
+      else if (formData.program.includes("Junior KG") || formData.program.includes("Jr")) mappedProgram = "Jr KG";
+      else if (formData.program.includes("Senior KG") || formData.program.includes("Sr")) mappedProgram = "Sr KG";
+      else if (formData.program.includes("Phonics")) mappedProgram = "Phonics";
+      else if (formData.program.includes("Abacus")) mappedProgram = "Abacus";
+      else if (formData.program.includes("Teacher")) mappedProgram = "Teacher-Training";
+
+      const payload = {
+        parent_name: `${formData.fathersName} / ${formData.mothersName}`.trim(),
+        child_name: formData.childName,
+        phone: formData.phone,
+        email: "",
+        program_interest: mappedProgram,
+        message: `WhatsApp: ${formData.whatsapp}\nAddress: ${formData.address}\nGender: ${formData.gender}\nDOB: ${formData.dob}\nHear Source: ${formData.hearSource}\nVisit Time: ${formData.visitTime}\nAdditional Notes: ${formData.notes}`,
+        source: "form" as const
+      };
+
+      const result = await submitLead(payload);
+      setSubmitting(false);
+      if (result.success) {
+        setSuccess(true);
+      } else {
+        alert(result.error || "There was an error submitting your form. Please try again.");
+      }
     }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      fathersName: "",
+      mothersName: "",
+      phone: "",
+      whatsapp: "",
+      address: "",
+      childName: "",
+      gender: "",
+      dob: "",
+      program: "",
+      hearSource: "",
+      visitTime: "",
+      notes: ""
+    });
+    setSuccess(false);
+    setStep(1);
   };
 
   return (
@@ -128,157 +197,168 @@ export default function AdmissionPage() {
 
             {/* Right Form Area */}
             <div className="w-full md:w-2/3 p-10 md:p-16">
-              <AnimatePresence mode="wait">
-                {success ? (
-                  <motion.div
-                    key="success"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="flex flex-col items-center text-center py-10"
-                  >
-                    <div className="w-24 h-24 bg-green-100 text-green-500 rounded-full flex flex-col items-center justify-center mb-6 shadow-inner">
-                      <CheckCircle2 size={48} />
-                    </div>
-                    <h2 className="font-heading font-extrabold text-3xl text-primary-dark mb-4">Application Received!</h2>
-                    <p className="text-gray-600 mb-8 text-lg leading-relaxed">
-                      Thank you. Your details have been securely passed to our admissions team. We will call you within 24 hours to schedule your campus tour.
-                    </p>
-                    <button onClick={() => { setSuccess(false); setStep(1); }} className="text-primary font-bold border-b border-primary pb-1">
-                      Submit another application
-                    </button>
-                  </motion.div>
-                ) : (
-                  <motion.form
-                    key={`step-${step}`}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    onSubmit={handleSubmit}
-                    className="space-y-6"
-                  >
-                    <h2 className="font-heading font-bold text-3xl text-primary-dark mb-8">
-                      {steps[step-1].title}
-                    </h2>
+               <AnimatePresence mode="wait">
+                 {success ? (
+                   <motion.div
+                     key="success"
+                     initial={{ opacity: 0, scale: 0.95 }}
+                     animate={{ opacity: 1, scale: 1 }}
+                     className="flex flex-col items-center text-center py-10"
+                   >
+                     <div className="w-24 h-24 bg-green-100 text-green-500 rounded-full flex flex-col items-center justify-center mb-6 shadow-inner">
+                       <CheckCircle2 size={48} />
+                     </div>
+                     <h2 className="font-heading font-extrabold text-3xl text-primary-dark mb-4">Application Received!</h2>
+                     <p className="text-gray-600 mb-8 text-lg leading-relaxed">
+                       Thank you. Your details have been securely passed to our admissions team. We will call you within 24 hours to schedule your campus tour.
+                     </p>
+                     <button onClick={resetForm} className="text-primary font-bold border-b border-primary pb-1">
+                       Submit another application
+                     </button>
+                   </motion.div>
+                 ) : (
+                   <motion.form
+                     key={`step-${step}`}
+                     initial={{ opacity: 0, x: 20 }}
+                     animate={{ opacity: 1, x: 0 }}
+                     exit={{ opacity: 0, x: -20 }}
+                     onSubmit={handleSubmit}
+                     className="space-y-6"
+                   >
+                     <h2 className="font-heading font-bold text-3xl text-primary-dark mb-8">
+                       {steps[step-1].title}
+                     </h2>
 
-                    {step === 1 && (
-                       <>
-                        <div className="grid md:grid-cols-2 gap-6">
-                          <div>
-                            <label className="block text-sm font-bold text-gray-600 mb-2">Father&apos;s Name</label>
-                            <input type="text" required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
-                          </div>
-                          <div>
-                            <label className="block text-sm font-bold text-gray-600 mb-2">Mother&apos;s Name</label>
-                            <input type="text" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
-                          </div>
-                        </div>
-                        <div className="grid md:grid-cols-2 gap-6">
-                          <div>
-                            <label className="block text-sm font-bold text-gray-600 mb-2">Phone Number *</label>
-                            <input type="tel" required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
-                          </div>
-                          <div>
-                            <label className="block text-sm font-bold text-gray-600 mb-2">WhatsApp Number *</label>
-                            <input type="tel" required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" placeholder="Required for updates" />
-                          </div>
-                        </div>
-                        <div>
-                          <label className="block text-sm font-bold text-gray-600 mb-2">House Address *</label>
-                          <textarea rows={2} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none resize-none" placeholder="Enter your full residential address"></textarea>
-                        </div>
-                       </>
-                    )}
+                     {step === 1 && (
+                        <>
+                         <div className="grid md:grid-cols-2 gap-6">
+                           <div>
+                             <label className="block text-sm font-bold text-gray-600 mb-2">Father&apos;s Name</label>
+                             <input type="text" name="fathersName" value={formData.fathersName} onChange={handleInputChange} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
+                           </div>
+                           <div>
+                             <label className="block text-sm font-bold text-gray-600 mb-2">Mother&apos;s Name</label>
+                             <input type="text" name="mothersName" value={formData.mothersName} onChange={handleInputChange} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
+                           </div>
+                         </div>
+                         <div className="grid md:grid-cols-2 gap-6">
+                           <div>
+                             <label className="block text-sm font-bold text-gray-600 mb-2">Phone Number *</label>
+                             <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
+                           </div>
+                           <div>
+                             <label className="block text-sm font-bold text-gray-600 mb-2">WhatsApp Number *</label>
+                             <input type="tel" name="whatsapp" value={formData.whatsapp} onChange={handleInputChange} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" placeholder="Required for updates" />
+                           </div>
+                         </div>
+                         <div>
+                           <label className="block text-sm font-bold text-gray-600 mb-2">House Address *</label>
+                           <textarea rows={2} name="address" value={formData.address} onChange={handleInputChange} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none resize-none" placeholder="Enter your full residential address"></textarea>
+                         </div>
+                        </>
+                     )}
 
-                    {step === 2 && (
-                       <>
-                        <div className="grid md:grid-cols-2 gap-6">
-                          <div className="md:col-span-1">
-                            <label className="block text-sm font-bold text-gray-600 mb-2">Child&apos;s Full Name</label>
-                            <input type="text" required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
-                          </div>
-                          <div>
-                            <label className="block text-sm font-bold text-gray-600 mb-2">Gender</label>
-                            <select required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none">
-                              <option value="">Select Gender</option>
-                              <option>Boy</option>
-                              <option>Girl</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div className="grid md:grid-cols-2 gap-6">
-                          <div>
-                            <label className="block text-sm font-bold text-gray-600 mb-2">Date of Birth</label>
-                            <input type="date" required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
-                          </div>
-                          <div>
-                            <label className="block text-sm font-bold text-gray-600 mb-2">Program Applying For</label>
-                            <select required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none">
-                              <option value="">Select an option...</option>
-                              <option>Playgroup (2-3 yrs)</option>
-                              <option>Nursery (3-4 yrs)</option>
-                              <option>Junior KG (4-5 yrs)</option>
-                              <option>Senior KG (5-6 yrs)</option>
-                              <option>Phonics / Abacus</option>
-                              <option>Day-care (Baby sitting)</option>
-                            </select>
-                          </div>
-                        </div>
-                       </>
-                    )}
+                     {step === 2 && (
+                        <>
+                         <div className="grid md:grid-cols-2 gap-6">
+                           <div className="md:col-span-1">
+                             <label className="block text-sm font-bold text-gray-600 mb-2">Child&apos;s Full Name</label>
+                             <input type="text" name="childName" value={formData.childName} onChange={handleInputChange} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
+                           </div>
+                           <div>
+                             <label className="block text-sm font-bold text-gray-600 mb-2">Gender</label>
+                             <select name="gender" value={formData.gender} onChange={handleInputChange} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none">
+                               <option value="">Select Gender</option>
+                               <option value="Boy">Boy</option>
+                               <option value="Girl">Girl</option>
+                             </select>
+                           </div>
+                         </div>
+                         <div className="grid md:grid-cols-2 gap-6">
+                           <div>
+                             <label className="block text-sm font-bold text-gray-600 mb-2">Date of Birth</label>
+                             <input type="date" name="dob" value={formData.dob} onChange={handleInputChange} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
+                           </div>
+                           <div>
+                             <label className="block text-sm font-bold text-gray-600 mb-2">Program Applying For</label>
+                             <select name="program" value={formData.program} onChange={handleInputChange} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none">
+                               <option value="">Select an option...</option>
+                               <option value="Playgroup (2-3 yrs)">Playgroup (2-3 yrs)</option>
+                               <option value="Nursery (3-4 yrs)">Nursery (3-4 yrs)</option>
+                               <option value="Junior KG (4-5 yrs)">Junior KG (4-5 yrs)</option>
+                               <option value="Senior KG (5-6 yrs)">Senior KG (5-6 yrs)</option>
+                               <option value="Phonics / Abacus">Phonics / Abacus</option>
+                               <option value="Day-care (Baby sitting)">Day-care (Baby sitting)</option>
+                             </select>
+                           </div>
+                         </div>
+                        </>
+                     )}
 
-                    {step === 3 && (
-                       <>
-                        <div className="grid md:grid-cols-2 gap-6">
-                          <div>
-                            <label className="block text-sm font-bold text-gray-600 mb-2">How did you hear about us?</label>
-                            <select required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none">
-                              <option value="">Select an option...</option>
-                              <option>Visited website</option>
-                              <option>Neighbour</option>
-                              <option>Already one student is in our school</option>
-                              <option>Newspaper</option>
-                              <option>Instagram</option>
-                            </select>
-                          </div>
-                          <div>
-                            <label className="block text-sm font-bold text-gray-600 mb-2">Preferred Campus Visit Time</label>
-                            <select required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none">
-                              <option value="">Select a slot...</option>
-                              <option>Morning (9am - 12pm)</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div>
-                          <label className="block text-sm font-bold text-gray-600 mb-2">Any additional notes?</label>
-                          <textarea rows={3} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none resize-none"></textarea>
-                        </div>
-                       </>
-                    )}
+                     {step === 3 && (
+                        <>
+                         <div className="grid md:grid-cols-2 gap-6">
+                           <div>
+                             <label className="block text-sm font-bold text-gray-600 mb-2">How did you hear about us?</label>
+                             <select name="hearSource" value={formData.hearSource} onChange={handleInputChange} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none">
+                               <option value="">Select an option...</option>
+                               <option value="Visited website">Visited website</option>
+                               <option value="Neighbour">Neighbour</option>
+                               <option value="Already one student is in our school">Already one student is in our school</option>
+                               <option value="Newspaper">Newspaper</option>
+                               <option value="Instagram">Instagram</option>
+                             </select>
+                           </div>
+                           <div>
+                             <label className="block text-sm font-bold text-gray-600 mb-2">Preferred Campus Visit Time</label>
+                             <select name="visitTime" value={formData.visitTime} onChange={handleInputChange} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none">
+                               <option value="">Select a slot...</option>
+                               <option value="Morning (9am - 12pm)">Morning (9am - 12pm)</option>
+                             </select>
+                           </div>
+                         </div>
+                         <div>
+                           <label className="block text-sm font-bold text-gray-600 mb-2">Any additional notes?</label>
+                           <textarea rows={3} name="notes" value={formData.notes} onChange={handleInputChange} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none resize-none"></textarea>
+                         </div>
+                        </>
+                     )}
 
-                    <div className="flex gap-4 pt-6 border-t border-gray-100">
-                      {step > 1 && (
-                        <motion.button 
-                          type="button" 
-                          onClick={() => setStep(step - 1)}
-                          className="px-6 py-4 bg-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-200 transition-colors"
-                          whileTap={{ scale: 0.96 }}
-                        >
-                          Back
-                        </motion.button>
-                      )}
-                      <motion.button 
-                        type="submit" 
-                        className="flex-1 bg-primary text-white font-bold py-4 rounded-xl shadow-lg hover:bg-primary-dark transition-all flex items-center justify-center gap-2"
-                        whileHover={{ scale: 1.02, y: -2 }}
-                        whileTap={{ scale: 0.97 }}
-                      >
-                        {step === 3 ? "Submit Application" : "Next Step"} 
-                        {step < 3 && <ChevronRight size={18} />}
-                      </motion.button>
-                    </div>
-                  </motion.form>
-                )}
-              </AnimatePresence>
+                     <div className="flex gap-4 pt-6 border-t border-gray-100">
+                       {step > 1 && (
+                         <motion.button 
+                           type="button" 
+                           disabled={submitting}
+                           onClick={() => setStep(step - 1)}
+                           className="px-6 py-4 bg-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-200 transition-colors disabled:opacity-50"
+                           whileTap={{ scale: 0.96 }}
+                         >
+                           Back
+                         </motion.button>
+                       )}
+                       <motion.button 
+                         type="submit" 
+                         disabled={submitting}
+                         className="flex-1 bg-primary text-white font-bold py-4 rounded-xl shadow-lg hover:bg-primary-dark transition-all flex items-center justify-center gap-2 disabled:opacity-80"
+                         whileHover={{ scale: 1.02, y: -2 }}
+                         whileTap={{ scale: 0.97 }}
+                       >
+                         {submitting ? (
+                           <>
+                             <Loader2 size={18} className="animate-spin" />
+                             Submitting...
+                           </>
+                         ) : (
+                           <>
+                             {step === 3 ? "Submit Application" : "Next Step"} 
+                             {step < 3 && <ChevronRight size={18} />}
+                           </>
+                         )}
+                       </motion.button>
+                     </div>
+                   </motion.form>
+                 )}
+               </AnimatePresence>
             </div>
           </div>
         </ScrollReveal>
@@ -287,3 +367,4 @@ export default function AdmissionPage() {
     </div>
   );
 }
+
