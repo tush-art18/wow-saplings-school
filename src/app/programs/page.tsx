@@ -4,25 +4,8 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Link from "next/link";
 import ScrollReveal from "@/components/global/ScrollReveal";
+import Image from "next/image";
 import { Clock, Users, ArrowRight, CheckCircle2, Award, BookOpen, ShieldCheck, MonitorPlay, CalendarHeart, UserCheck, Baby, Tent, HeartHandshake, Utensils, MessageCircle } from "lucide-react";
-
-const SaplingIcon = ({ level }: { level: number }) => (
-  <svg viewBox="0 0 24 24" className="w-full h-full" fill="none" stroke="#2D6A4F" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    {/* Ground */}
-    <path d="M4 21h16" />
-    {/* Stem */}
-    <path d={`M12 21v-${level * 3 + 2}`} />
-    
-    {/* Leaves growing based on level */}
-    {level >= 1 && <path d="M12 18c-2 0-4-1-4-3 0-2 2-3 4-3" fill="#F4C542" fillOpacity="0.4" />}
-    {level >= 2 && <path d="M12 15c2 0 4-1 4-3 0-2-2-3-4-3" fill="#F4C542" fillOpacity="0.5" />}
-    {level >= 3 && <path d="M12 11c-2 0-4-1-4-3 0-2 2-3 4-3" fill="#F4C542" fillOpacity="0.6" />}
-    {level >= 4 && <path d="M12 7c2 0 3-1 3-2 0-1-1-2-3-2" fill="#F4C542" fillOpacity="0.7" />}
-    
-    {/* Top bloom */}
-    <circle cx="12" cy={21 - (level * 3 + 2)} r={level >= 4 ? 3 : 2} fill="#F4C542" stroke="none" />
-  </svg>
-);
 
 export default function ProgramsPage() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -35,11 +18,11 @@ export default function ProgramsPage() {
       title: "Playgroup",
       age: "2 to 3 Years",
       category: "Playgroup",
-      img: "/playgroup-nursery-01.jpeg",
-      icon: <SaplingIcon level={1} />,
+      img: "/playgroup.jpeg",
+      icon: "/sapling-stage-1.png",
       points: ["Sensorimotor skills", "Basic vocabulary", "Social interaction", "Musical activities"],
       ratio: "1:10",
-      time: "9:00 AM - 12:00 PM",
+      time: "11:45 AM - 2:00 PM",
     },
     {
       id: "nursery",
@@ -47,10 +30,10 @@ export default function ProgramsPage() {
       age: "3 to 4 Years",
       category: "Nursery",
       img: "/playgroup-nursery-02.jpeg",
-      icon: <SaplingIcon level={2} />,
+      icon: "/sapling-stage-2.png",
       points: ["Pre-writing skills", "Number recognition", "Creative arts", "Physical development"],
       ratio: "1:12",
-      time: "9:00 AM - 1:00 PM",
+      time: "10:00 AM - 1:00 PM",
     },
     {
       id: "jr-kg",
@@ -58,10 +41,10 @@ export default function ProgramsPage() {
       age: "4 to 5 Years",
       category: "Jr KG",
       img: "/junior-classroom.png",
-      icon: <SaplingIcon level={3} />,
+      icon: "/sapling-stage-3.png",
       points: ["Phonics basics", "Simple math concepts", "Environmental awareness", "Collaborative play"],
       ratio: "1:15",
-      time: "9:00 AM - 1:30 PM",
+      time: "10:00 AM - 1:30 PM",
     },
     {
       id: "sr-kg",
@@ -69,10 +52,10 @@ export default function ProgramsPage() {
       age: "5 to 6 Years",
       category: "Sr KG",
       img: "/senior-classroom.png",
-      icon: <SaplingIcon level={4} />,
+      icon: "/sapling-stage-4.png",
       points: ["Reading fluency", "Addition & Subtraction", "Scientific inquiry", "School readiness"],
       ratio: "1:15",
-      time: "9:00 AM - 2:00 PM",
+      time: "10:00 AM - 1:30 PM",
     },
     {
       id: "phonics",
@@ -80,21 +63,21 @@ export default function ProgramsPage() {
       age: "4 to 8 Years",
       category: "Phonics",
       img: "/child-activiti-11.jpeg",
-      icon: <SaplingIcon level={5} />,
+      icon: "/sapling-stage-5.png",
       points: ["Letter sounds", "Blending & Segmenting", "Spelling rules", "Reading comprehension"],
       ratio: "1:8",
-      time: "4:00 PM - 5:00 PM",
+      time: "1:30 PM - 2:00 PM",
     },
     {
       id: "abacus",
       title: "Abacus Learning",
       age: "5 to 12 Years",
       category: "Abacus",
-      img: "/child-activiti-12.jpeg",
-      icon: <SaplingIcon level={6} />,
+      img: "/Abacus.png",
+      icon: "/sapling-stage-6.png",
       points: ["Mental arithmetic", "Concentration focus", "Speed calculation", "Memory enhancement"],
       ratio: "1:8",
-      time: "5:00 PM - 6:00 PM",
+      time: "1:30 PM - 2:00 PM",
     },
   ];
 
@@ -175,9 +158,14 @@ export default function ProgramsPage() {
                   id={program.id}
                 >
                   <div className="w-full h-full rounded-[2.5rem] overflow-hidden flex flex-col shadow-lg hover:shadow-2xl border-2 border-white bg-white transition-all duration-300 hover:-translate-y-2">
-                    {/* Image Banner */}
                     <div className="relative w-full aspect-video overflow-hidden">
-                      <img src={program.img} alt={program.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                      <Image 
+                        src={program.img} 
+                        alt={program.title} 
+                        fill 
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-700" 
+                      />
                       <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest text-primary-dark shadow-sm">
                         {program.age}
                       </div>
@@ -187,8 +175,8 @@ export default function ProgramsPage() {
                     <div className="p-8 flex flex-col flex-1 relative pt-12">
                       {/* Floating Theme Icon */}
                       <div className="absolute -top-10 left-8 bg-white p-2 rounded-full shadow-lg border border-gray-100 z-10">
-                        <div className="w-16 h-16 bg-[#F4C542]/10 rounded-full flex items-center justify-center border border-[#F4C542]/20 p-2">
-                          {program.icon}
+                        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center border border-gray-50 relative p-1.5 overflow-hidden">
+                          <Image src={program.icon} alt={`${program.title} Stage Icon`} width={64} height={64} className="object-contain w-full h-full" />
                         </div>
                       </div>
 
@@ -285,13 +273,19 @@ export default function ProgramsPage() {
                 { title: "Montessori Teaching", desc: "Child-centered educational approach for holistic growth", icon: "🧩", color: "bg-accent-yellow/10", img: "/child-activiti-04.jpeg" },
                 { title: "STEAM Education", desc: "Science, Innovation, Creativity & Thinking Ability", icon: "🔬", color: "bg-accent-blue/10", img: "/child-activiti-06.jpeg" },
                 { title: "Story Telling", desc: "Enhances Imaginations & Listening Abilities", icon: "📖", color: "bg-accent-yellow/10", img: "/child-activiti-02.jpeg" },
-                { title: "Karate", desc: "Building self-confidence, Discipline, Self Defence", icon: "🥋", color: "bg-accent-pink/10", img: "/child-activiti-08.jpeg" },
-                { title: "Dance", desc: "Builds Physical Skills & Encourages Creativity", icon: "💃", color: "bg-accent-purple/10", img: "/child-activiti-07.jpeg" },
+                { title: "Karate", desc: "Building self-confidence, Discipline, Self Defence", icon: "🥋", color: "bg-accent-pink/10", img: "/Karate.jpeg" },
+                { title: "Dance", desc: "Builds Physical Skills & Encourages Creativity", icon: "💃", color: "bg-accent-purple/10", img: "/celebration and events.png" },
               ].map((activity, i) => (
                 <ScrollReveal key={i} animation="fade-up" delay={i * 0.1}>
                   <div className="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-shadow h-full bg-white">
                     <div className="h-48 overflow-hidden relative">
-                      <img src={activity.img} alt={activity.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                      <Image 
+                        src={activity.img} 
+                        alt={activity.title} 
+                        fill 
+                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                        className="object-cover group-hover:scale-110 transition-transform duration-700" 
+                      />
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
                       <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm w-12 h-12 rounded-full flex items-center justify-center text-2xl shadow-md">
                         {activity.icon}
@@ -320,13 +314,13 @@ export default function ProgramsPage() {
                       We also train the next generation of teachers
                     </h3>
                     <p className="text-[#F4C542] text-sm md:text-base font-bold uppercase tracking-widest flex items-center justify-center md:justify-start gap-2">
-                      <Award size={18} /> Shivaji University Certified NPTT/TTC Course
+                      <Award size={18} /> Shivaji University Certified MTTC Course
                     </p>
                   </div>
                 </div>
 
                 <Link href="/teacher-training" className="relative z-10 shrink-0 bg-[#F4C542] text-[#2D6A4F] font-extrabold px-8 py-4 rounded-full hover:bg-white transition-all hover:scale-105 shadow-xl flex items-center gap-2 border-b-4 border-yellow-600 hover:border-gray-200">
-                  Join TTC Program <ArrowRight size={20} />
+                  Join MTTC Program <ArrowRight size={20} />
                 </Link>
               </div>
             </ScrollReveal>

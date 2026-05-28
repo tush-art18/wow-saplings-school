@@ -7,7 +7,7 @@ import { fetchTestimonials } from "@/lib/api";
 
 const MOCK_REVIEWS = [
   {
-    name: "Parent",
+    name: "Parent of Aradhya",
     role: "",
     content: "We truly appreciate the school’s nurturing environment and dedicated teachers, who helped our daughter grow confidently, happily, and develop a strong love for learning.",
     img: "/parent-1.jpeg",
@@ -42,7 +42,7 @@ const MOCK_REVIEWS = [
     location: "KOLHAPUR"
   },
   {
-    name: "Parent",
+    name: "Parent of Sharvil",
     role: "",
     content: "We are extremely happy with the safe, caring, and activity-based learning environment at Wow Saplings. Our child has shown remarkable growth in academics, confidence, and extracurricular activities.",
     img: "/parent-6.jpeg",

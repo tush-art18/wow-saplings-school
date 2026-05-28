@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Baloo_2, Nunito } from "next/font/google";
 import "./globals.css";
 import WhatsAppButton from "@/components/global/WhatsAppButton";
-import ChatBotWidget from "@/components/global/ChatBotWidget";
 import LoadingScreen from "@/components/global/LoadingScreen";
 import Navbar from "@/components/global/Navbar";
 import Footer from "@/components/global/Footer";
@@ -51,7 +50,6 @@ export default function RootLayout({
           </main>
           <Footer />
         <WhatsAppButton />
-        <ChatBotWidget />
       </body>
     </html>
   );

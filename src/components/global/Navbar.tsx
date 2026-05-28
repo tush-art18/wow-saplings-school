@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import { Menu, X, Phone } from "lucide-react";
+import Image from "next/image";
 
 const menuVariants = {
   hidden: {
@@ -83,9 +84,11 @@ export default function Navbar() {
           {/* Logo Section */}
           <Link href="/" className="flex items-center gap-2 md:gap-3 group">
             <div className="relative w-10 h-10 md:w-12 md:h-12 bg-white rounded-full p-1 shadow-md group-hover:rotate-6 transition-transform overflow-hidden">
-              <img
+              <Image
                 src="/sapling-logo-0003.png"
                 alt="Logo"
+                width={48}
+                height={48}
                 className="w-full h-full object-cover rounded-full"
               />
             </div>

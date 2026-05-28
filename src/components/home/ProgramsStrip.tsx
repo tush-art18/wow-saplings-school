@@ -3,6 +3,7 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import Link from "next/link";
+import Image from "next/image";
 import { ChevronRight } from "lucide-react";
 
 const programs = [
@@ -12,7 +13,8 @@ const programs = [
   { name: "Sr KG", icon: "📚", age: "5-6 Years", color: "bg-[#2D8C4E]", text: "text-white", slug: "#sr-kg" },
   { name: "Phonics", icon: "🔤", age: "4+ Years", color: "bg-[#9C6DD8]", text: "text-white", slug: "#phonics" },
   { name: "Abacus", icon: "🧮", age: "4+ Years", color: "bg-[#FF7043]", text: "text-white", slug: "#abacus" },
-  { name: "TTC", icon: "👩‍🏫", age: "Graduates", color: "bg-primary-dark", text: "text-white", slug: "/teacher-training" },
+  { name: "MTTC", icon: "👩‍🏫", age: "Graduates", color: "bg-primary-dark", text: "text-white", slug: "/teacher-training" },
+  { name: "Daycare", icon: "🍼", age: "1+ Years", color: "bg-[#4DB6AC]", text: "text-white", slug: "#daycare" },
 ];
 
 export default function ProgramsStrip() {
@@ -24,7 +26,7 @@ export default function ProgramsStrip() {
   });
 
   // Wider arc to prevent overlapping
-  const containerRotation = useTransform(scrollYProgress, [0, 1], [-20, -500]);
+  const containerRotation = useTransform(scrollYProgress, [0, 1], [-20, -600]);
 
   return (
     <section
@@ -33,7 +35,7 @@ export default function ProgramsStrip() {
       style={{ height: "var(--section-height, 550vh)" }}
     >
       <style jsx>{`
-        section { --section-height: 550vh; }
+        section { --section-height: 650vh; }
         @media (min-width: 1280px) {
           section { --section-height: 100vh; }
         }
@@ -54,7 +56,7 @@ export default function ProgramsStrip() {
             transition={{ rotate: { duration: 15, repeat: Infinity, ease: "easeInOut" }, scale: { duration: 6, repeat: Infinity, ease: "easeInOut" } }} 
             className="w-[280px] h-[280px]"
           >
-            <img src="/sticker-sun.png" alt="Sun" className="w-full h-full object-contain drop-shadow-2xl" />
+            <Image src="/sticker-sun.png" alt="" role="presentation" width={280} height={280} className="w-full h-full object-contain drop-shadow-2xl" />
           </motion.div>
         </div>
 
@@ -97,9 +99,10 @@ export default function ProgramsStrip() {
             <DesktopCard prog={programs[6]} h="h-1/3" />
           </div>
 
-          {/* Column 3 - Large Featured */}
-          <div className="col-span-4 h-full">
-            <DesktopCard prog={programs[3]} isLarge={true} h="h-full" />
+          {/* Column 3 - Large Featured & Daycare */}
+          <div className="col-span-4 flex flex-col gap-4 h-full">
+            <DesktopCard prog={programs[3]} isLarge={true} h="h-2/3" />
+            <DesktopCard prog={programs[7]} h="h-1/3" />
           </div>
 
         </div>

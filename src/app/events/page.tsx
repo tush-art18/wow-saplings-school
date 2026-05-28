@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Link from "next/link";
 import { Calendar, MapPin, Clock, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import Image from "next/image";
 import { fetchUpcomingEvents, fetchPastEvents } from "@/lib/api";
 
 // ── DATA ─────────────────────────────────────────────────────────────────────
@@ -211,10 +212,13 @@ export default function EventsPage() {
       >
         {/* Dark photo backdrop */}
         <div className="absolute inset-0 z-0">
-          <img
+          <Image
             src="/function-area-02.jpeg"
             alt="Events background"
-            className="w-full h-full object-cover"
+            fill
+            sizes="100vw"
+            className="object-cover"
+            priority
           />
           <div className="absolute inset-0 bg-primary-dark/80" />
         </div>
@@ -258,10 +262,12 @@ export default function EventsPage() {
                 transition={{ duration: 0.45, ease: "easeInOut" }}
                 className="absolute inset-0"
               >
-                <img
+                <Image
                   src={featuredEvents[featured].img}
                   alt={featuredEvents[featured].title}
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
@@ -338,11 +344,13 @@ export default function EventsPage() {
                   className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col sm:flex-row hover:shadow-md transition-shadow group"
                 >
                   {/* Thumbnail */}
-                  <div className="sm:w-44 md:w-52 shrink-0 overflow-hidden relative">
-                    <img
+                  <div className="sm:w-44 md:w-52 shrink-0 overflow-hidden relative min-h-[160px] sm:min-h-0">
+                    <Image
                       src={event.img}
                       alt={event.title}
-                      className="w-full h-40 sm:h-full object-cover transform transition-transform duration-500 group-hover:scale-105"
+                      fill
+                      sizes="(max-width: 640px) 100vw, 200px"
+                      className="object-cover transform transition-transform duration-500 group-hover:scale-105"
                     />
                     {/* Category pill on image */}
                     <span className="absolute top-3 left-3 bg-primary text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider shadow">

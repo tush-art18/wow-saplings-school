@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Phone, Mail, MapPin } from "lucide-react";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -9,9 +10,11 @@ export default function Footer() {
           
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <img 
+              <Image 
                 src="/sapling-logo-0001.png" 
                 alt="WOW Saplings Logo" 
+                width={48}
+                height={48}
                 className="w-12 h-12 rounded-full object-cover shrink-0 shadow-sm" 
               />
               <span className="font-heading font-bold text-2xl tracking-wide">

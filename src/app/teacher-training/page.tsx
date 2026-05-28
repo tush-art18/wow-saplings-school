@@ -6,6 +6,7 @@ import gsap from "gsap";
 import ScrollReveal from "@/components/global/ScrollReveal";
 import { CheckCircle2, ChevronDown, Award, Briefcase, GraduationCap, Quote, ChevronLeft, ChevronRight, Clock, Users, BadgeCheck, BookOpen, Brain, LayoutList, Presentation, FlaskConical } from "lucide-react";
 import { fetchTestimonials } from "@/lib/api";
+import Image from "next/image";
 
 export default function TeacherTrainingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -148,8 +149,8 @@ export default function TeacherTrainingPage() {
             {/* Hero Right — image/visual */}
             <ScrollReveal animation="fade-left">
               <div className="relative">
-                <div className="rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white/10 aspect-[4/3]">
-                  <img src="/classroom-01.jpeg" alt="WOW Saplings Teacher Training" className="w-full h-full object-cover" />
+                <div className="rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white/10 aspect-[4/3] relative">
+                  <Image src="/classroom-01.jpeg" alt="WOW Saplings Teacher Training" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/60 to-transparent" />
                 </div>
                 {/* Floating badge on image */}

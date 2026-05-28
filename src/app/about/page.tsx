@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion } from "motion/react";
 import { Heart, Target, Star, BookOpen, Quote, Shield } from "lucide-react";
 import ScrollReveal from "@/components/global/ScrollReveal";
+import Image from "next/image";
 
 export default function AboutPage() {
   const values = [
@@ -66,9 +67,11 @@ export default function AboutPage() {
                 <div className="relative w-full max-w-sm md:max-w-md lg:max-w-lg">
                   <ScrollReveal animation="fade-left">
                     <div className="relative rounded-[2rem] md:rounded-[3rem] overflow-hidden border-[6px] md:border-[10px] border-white shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500 bg-white w-full">
-                      <img
+                      <Image
                         src="/hero-bg-2.png"
                         alt="WOW Saplings Infrastructure"
+                        width={600}
+                        height={450}
                         className="w-full h-auto object-contain block"
                       />
                     </div>
@@ -137,9 +140,11 @@ export default function AboutPage() {
                 </div>
 
                 <div className="relative h-[400px] lg:h-[500px] rounded-[2rem] overflow-hidden group">
-                  <img
+                  <Image
                     src="/principal.jpeg"
-                    className="w-full h-full object-cover transform transition-transform duration-[10000ms] group-hover:scale-110"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover transform transition-transform duration-[10000ms] group-hover:scale-110"
                     alt="Principal"
                   />
                   <div className="absolute inset-0 bg-primary-dark/20 group-hover:bg-transparent transition-colors duration-700"></div>
@@ -173,7 +178,7 @@ export default function AboutPage() {
               {[
                 { number: "10+", label: "Years of Excellence", color: "text-primary", sub: "Since 2016" },
                 { number: "500+", label: "Happy Students", color: "text-accent-pink", sub: "Growing with us" },
-                { number: "200+", label: "TTC Alumni", color: "text-accent-purple", sub: "Certified Educators" },
+                { number: "200+", label: "MTTC Alumni", color: "text-accent-purple", sub: "Certified Educators" },
               ].map((milestone, i) => (
                 <ScrollReveal key={i} animation="fade-up" delay={i * 0.1}>
                   <div className="text-center group">

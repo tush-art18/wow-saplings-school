@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "motion/react";
 
 export default function CTASection() {
@@ -23,7 +24,7 @@ export default function CTASection() {
             transition={{ delay: 0.2, duration: 0.8 }}
             className="absolute -top-10 -right-10 w-48 h-48 md:w-80 md:h-80 opacity-60 pointer-events-none"
           >
-            <img src="/sticker-sun.png" alt="Sticker" className="w-full h-full object-contain" />
+            <Image src="/sticker-sun.png" alt="" role="presentation" width={320} height={320} className="w-full h-full object-contain" />
           </motion.div>
 
           {/* Parallax Sticker Bottom-Left */}
@@ -34,7 +35,7 @@ export default function CTASection() {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="absolute -bottom-10 -left-10 w-40 h-40 md:w-64 md:h-64 pointer-events-none"
           >
-            <img src="/sticker-blocks.png" alt="Sticker" className="w-full h-full object-contain" />
+            <Image src="/sticker-blocks.png" alt="" role="presentation" width={256} height={256} className="w-full h-full object-contain" />
           </motion.div>
 
           <div className="relative z-10 max-w-3xl mx-auto">

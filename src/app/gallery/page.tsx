@@ -177,7 +177,7 @@ export default function GalleryPage() {
               <X size={28} />
             </button>
             
-            <div className="w-full max-w-5xl max-h-[85vh] relative flex flex-col relative">
+            <div className="w-full max-w-5xl max-h-[85vh] relative flex flex-col">
                <motion.div
                  initial={{ y: 20, opacity: 0 }}
                  animate={{ y: 0, opacity: 1 }}
@@ -188,6 +188,7 @@ export default function GalleryPage() {
                    alt={`${selectedPhoto.title} at WOW Saplings Preschool, Kolhapur`}
                    fill
                    priority
+                   sizes="100vw"
                    className="object-contain"
                  />
                </motion.div>

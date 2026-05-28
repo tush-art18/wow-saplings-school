@@ -25,6 +25,7 @@ export default function HeroSection() {
               src="/home-page-mobile.png"
               alt="Child learning joyfully at WOW Saplings Preschool, Kolhapur"
               fill
+              sizes="100vw"
               className="object-cover object-top"
               priority
             />
@@ -76,12 +77,12 @@ export default function HeroSection() {
             className="flex flex-col gap-3 mb-6"
           >
             <motion.div whileTap={{ scale: 0.96 }}>
-              <Link href="/admission" className="bg-accent-yellow text-primary-dark px-8 py-4 rounded-full font-black text-base shadow-lg block text-center border-b-4 border-black/10">
+              <Link href="/admission" className="bg-accent-yellow text-primary-dark px-6 py-3 rounded-full font-black text-sm shadow-lg block text-center border-b-4 border-black/10">
                 Apply Now 🚀
               </Link>
             </motion.div>
             <motion.div whileTap={{ scale: 0.96 }}>
-              <Link href="/programs" className="bg-transparent text-primary border-[3px] border-primary px-8 py-4 rounded-full font-black text-base block text-center">
+              <Link href="/programs" className="bg-transparent text-primary border-[3px] border-primary px-6 py-3 rounded-full font-black text-sm block text-center">
                 Our Programs
               </Link>
             </motion.div>
@@ -90,8 +91,8 @@ export default function HeroSection() {
           {/* Stats row */}
           <div className="flex justify-center gap-3 flex-wrap">
             {[
-              { num: "10+", label: "Years Exp.", color: "text-[#9C6DD8]", bg: "bg-[#9C6DD8]", icon: <Calendar size={14} /> },
-              { num: "1000+", label: "Students", color: "text-accent-pink", bg: "bg-accent-pink", icon: <Users size={14} /> },
+              { num: "12+", label: "Years Exp.", color: "text-[#9C6DD8]", bg: "bg-[#9C6DD8]", icon: <Calendar size={14} /> },
+              { num: "500+", label: "Students", color: "text-accent-pink", bg: "bg-accent-pink", icon: <Users size={14} /> },
               { num: "10+", label: "Teachers", color: "text-accent-blue", bg: "bg-accent-blue", icon: <GraduationCap size={14} /> },
             ].map((stat, i) => (
               <motion.div
@@ -196,12 +197,12 @@ export default function HeroSection() {
             className="flex flex-row gap-6 mb-16"
           >
             <motion.div whileHover={{ scale: 1.06, y: -3 }} whileTap={{ scale: 0.96 }}>
-              <Link href="/admission" className="bg-accent-yellow text-primary-dark px-12 py-5 rounded-full font-black text-2xl shadow-xl hover:shadow-accent-yellow/40 transition-all block text-center border-b-4 border-black/10">
+              <Link href="/admission" className="bg-accent-yellow text-primary-dark px-8 py-3.5 rounded-full font-black text-lg shadow-xl hover:shadow-accent-yellow/40 transition-all block text-center border-b-4 border-black/10">
                 Apply Now 🚀
               </Link>
             </motion.div>
             <motion.div whileHover={{ scale: 1.06, y: -3 }} whileTap={{ scale: 0.96 }}>
-              <Link href="/programs" className="bg-white/50 backdrop-blur-sm text-primary border-4 border-primary px-12 py-5 rounded-full font-black text-2xl hover:bg-primary hover:text-white transition-all block text-center">
+              <Link href="/programs" className="bg-white/50 backdrop-blur-sm text-primary border-4 border-primary px-8 py-3.5 rounded-full font-black text-lg hover:bg-primary hover:text-white transition-all block text-center">
                 Our Programs
               </Link>
             </motion.div>
@@ -210,9 +211,9 @@ export default function HeroSection() {
           {/* Stats */}
           <div className="flex gap-6">
             {[
-              { num: "10+", label: "Years Experience", color: "text-[#9C6DD8]", bg: "bg-[#9C6DD8]", icon: <Calendar size={20} /> },
-              { num: "1000+", label: "Students Enrolled", color: "text-accent-pink", bg: "bg-accent-pink", icon: <Users size={20} /> },
-              { num: "10+", label: "Expert Teachers", color: "text-accent-blue", bg: "bg-accent-blue", icon: <GraduationCap size={20} /> },
+              { num: "12+", label: "Years Experience", color: "text-[#9C6DD8]", bg: "bg-[#9C6DD8]", icon: <Calendar size={16} /> },
+              { num: "500+", label: "Students Enrolled", color: "text-accent-pink", bg: "bg-accent-pink", icon: <Users size={16} /> },
+              { num: "10+", label: "Expert Teachers", color: "text-accent-blue", bg: "bg-accent-blue", icon: <GraduationCap size={16} /> },
             ].map((stat, i) => (
               <motion.div
                 key={i}
@@ -220,14 +221,14 @@ export default function HeroSection() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.2 + i * 0.1, duration: 0.6 }}
                 whileHover={{ y: -5 }}
-                className="flex items-center gap-4 bg-white p-2 pr-6 rounded-full shadow-lg border-2 border-gray-50 group transition-all"
+                className="flex items-center gap-3 bg-white p-1.5 pr-5 rounded-full shadow-lg border-2 border-gray-50 group transition-all"
               >
-                <div className={`${stat.bg} text-white p-4 rounded-full shadow-inner group-hover:rotate-12 transition-transform`}>
+                <div className={`${stat.bg} text-white p-2.5 rounded-full shadow-inner group-hover:rotate-12 transition-transform`}>
                   {stat.icon}
                 </div>
                 <div>
-                  <div className={`font-heading font-black text-4xl text-primary-dark leading-none`}>{stat.num}</div>
-                  <div className="text-[10px] font-black text-gray-500 uppercase tracking-wider">{stat.label}</div>
+                  <div className={`font-heading font-black text-2xl text-primary-dark leading-none`}>{stat.num}</div>
+                  <div className="text-[9px] font-black text-gray-500 uppercase tracking-wider mt-0.5">{stat.label}</div>
                 </div>
               </motion.div>
             ))}
