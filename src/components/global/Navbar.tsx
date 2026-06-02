@@ -58,14 +58,14 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const isDarkPage = pathname === "/teacher-training" || pathname === "/events";
+  const isDarkPage = pathname === "/teacher-training" || pathname === "/franchise";
   const isSolid = scrolled || isDarkPage;
 
   const navLinks = [
     { name: "Programs", href: "/programs" },
     { name: "About", href: "/about" },
     { name: "Gallery", href: "/gallery" },
-    { name: "Events", href: "/events" },
+    { name: "Franchise", href: "/franchise" },
     { name: "Teacher-Training", href: "/teacher-training" },
     { name: "Contact", href: "/contact" },
   ];
@@ -86,7 +86,7 @@ export default function Navbar() {
             <div className="relative w-10 h-10 md:w-12 md:h-12 bg-white rounded-full p-1 shadow-md group-hover:rotate-6 transition-transform overflow-hidden">
               <Image
                 src="/sapling-logo-0003.png"
-                alt="Logo"
+                alt="WOW Saplings Preschool logo"
                 width={48}
                 height={48}
                 className="w-full h-full object-cover rounded-full"

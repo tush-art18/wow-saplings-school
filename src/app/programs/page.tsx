@@ -161,7 +161,7 @@ export default function ProgramsPage() {
                     <div className="relative w-full aspect-video overflow-hidden">
                       <Image 
                         src={program.img} 
-                        alt={program.title} 
+                        alt={`${program.title} program learning activities at WOW Saplings Preschool, Kolhapur`} 
                         fill 
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-700" 
@@ -281,7 +281,7 @@ export default function ProgramsPage() {
                     <div className="h-48 overflow-hidden relative">
                       <Image 
                         src={activity.img} 
-                        alt={activity.title} 
+                        alt={`${activity.title} extra-curricular activity at WOW Saplings Preschool, Kolhapur`} 
                         fill 
                         sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                         className="object-cover group-hover:scale-110 transition-transform duration-700" 

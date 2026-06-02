@@ -10,6 +10,7 @@ import Image from "next/image";
 
 export default function TeacherTrainingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [alumniImgErrors, setAlumniImgErrors] = useState<Record<number, boolean>>({});
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(0);
 
@@ -150,7 +151,7 @@ export default function TeacherTrainingPage() {
             <ScrollReveal animation="fade-left">
               <div className="relative">
                 <div className="rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white/10 aspect-[4/3] relative">
-                  <Image src="/classroom-01.jpeg" alt="WOW Saplings Teacher Training" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
+                  <Image src="/classroom-01.jpeg" alt="Aspiring teachers participating in a training session in WOW Saplings Preschool classroom, Kolhapur" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/60 to-transparent" />
                 </div>
                 {/* Floating badge on image */}
@@ -259,24 +260,36 @@ export default function TeacherTrainingPage() {
                 <div id="apply" className="sticky top-32 bg-white p-8 rounded-3xl shadow-xl border border-gray-100">
                   <h3 className="font-sans font-bold text-xl md:text-2xl text-primary-dark mb-2">Apply for Next Batch</h3>
                   <p className="text-sm text-gray-500 mb-6 font-medium">📍 Offline — Classroom Based | Kolhapur</p>
-                  <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); alert("Callback Requested! We'll call you within 24 hours."); }}>
+                  <form className="space-y-4" onSubmit={(e) => { 
+                    e.preventDefault(); 
+                    const fd = new FormData(e.currentTarget);
+                    const name = fd.get("name");
+                    const dob = fd.get("dob");
+                    const phone = fd.get("phone");
+                    const qualification = fd.get("qualification");
+                    const address = fd.get("address");
+                    
+                    const text = `*New Teacher Training Enquiry*%0A%0A*Name:* ${name}%0A*DOB:* ${dob}%0A*Phone:* ${phone}%0A*Qualification:* ${qualification}%0A*Address:* ${address}`;
+                    const whatsappUrl = `https://api.whatsapp.com/send?phone=918999640602&text=${text}`;
+                    window.open(whatsappUrl, "_blank");
+                  }}>
                     <div>
                       <label className="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-widest">Full Name</label>
-                      <input type="text" className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm" placeholder="Jane Doe" required />
+                      <input type="text" name="name" className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm" placeholder="Jane Doe" required />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-widest">Date of Birth</label>
-                        <input type="date" className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm" required />
+                        <input type="date" name="dob" className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm" required />
                       </div>
                       <div>
                         <label className="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-widest">Phone</label>
-                        <input type="tel" className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm" placeholder="+91 XXXXX" required />
+                        <input type="tel" name="phone" className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm" placeholder="+91 XXXXX" required />
                       </div>
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-widest">Qualification</label>
-                      <select className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm">
+                      <select name="qualification" className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm">
                         <option>Graduate</option>
                         <option>Undergraduate</option>
                         <option>Post Graduate</option>
@@ -284,13 +297,13 @@ export default function TeacherTrainingPage() {
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-widest">Address</label>
-                      <textarea rows={2} className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm resize-none" placeholder="Enter full address" required></textarea>
+                      <textarea name="address" rows={2} className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm resize-none" placeholder="Enter full address" required></textarea>
                     </div>
-                    <button type="submit" className="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg hover:bg-primary-dark transition-all hover:-translate-y-1 mt-2 text-base">
-                      Request a Callback 📞
+                    <button type="submit" className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-4 rounded-xl shadow-lg transition-all hover:-translate-y-1 mt-2 text-base flex justify-center items-center gap-2">
+                      Apply via WhatsApp 📞
                     </button>
                     <p className="text-xs text-gray-500 text-center font-medium">
-                      ✅ Our counselor calls within 24 hours.
+                      ✅ Redirects to official WhatsApp chat.
                     </p>
                   </form>
 
@@ -325,7 +338,18 @@ export default function TeacherTrainingPage() {
                     </blockquote>
                     <div className="relative mb-5">
                       <div className="w-20 h-20 rounded-full border-4 border-accent-yellow overflow-hidden shadow-2xl bg-white relative z-10">
-                        <img src={alumni[activeIndex].img} alt={alumni[activeIndex].name} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${alumni[activeIndex].name}&background=random`; }} />
+                        <Image
+                          src={
+                            alumniImgErrors[activeIndex]
+                              ? `https://ui-avatars.com/api/?name=${encodeURIComponent(alumni[activeIndex].name)}&background=random&size=80`
+                              : alumni[activeIndex].img
+                          }
+                          alt={alumni[activeIndex].name}
+                          width={80}
+                          height={80}
+                          className="w-full h-full object-cover"
+                          onError={() => setAlumniImgErrors(prev => ({ ...prev, [activeIndex]: true }))}
+                        />
                       </div>
                       <div className="absolute inset-0 bg-accent-yellow/10 blur-2xl rounded-full scale-150 z-0" />
                     </div>

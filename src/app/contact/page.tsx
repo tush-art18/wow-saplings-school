@@ -1,18 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 import { Send, MapPin, Phone, Mail, Clock, Map } from "lucide-react";
 import ScrollReveal from "@/components/global/ScrollReveal";
 
 export default function ContactPage() {
-  const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success">("idle");
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setFormStatus("submitting");
-    setTimeout(() => setFormStatus("success"), 1500);
-  };
 
   return (
     <div className="min-h-screen bg-background pt-32 pb-20">
@@ -31,10 +23,10 @@ export default function ContactPage() {
         </ScrollReveal>
       </div>
 
-      <div className="container mx-auto px-4 grid lg:grid-cols-12 gap-12">
+      <div className="container mx-auto px-4 max-w-5xl">
         
-        {/* Left Col - Cards & Map */}
-        <div className="lg:col-span-7 space-y-8">
+        {/* Cards & Map */}
+        <div className="space-y-8">
           <div className="grid sm:grid-cols-2 gap-4">
             <ScrollReveal animation="fade-right" delay={0.1}>
               <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-start gap-4 hover:shadow-md transition-shadow h-full">
@@ -96,66 +88,6 @@ export default function ContactPage() {
                 loading="lazy" 
                 referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
-            </div>
-          </ScrollReveal>
-        </div>
-
-        {/* Right Col - Form */}
-        <div className="lg:col-span-5">
-          <ScrollReveal animation="fade-left" delay={0.3}>
-            <div className="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-xl border border-gray-100 sticky top-32">
-              <h2 className="font-heading font-bold text-3xl text-primary-dark mb-2">Drop a Message</h2>
-              <p className="text-gray-500 mb-8 font-medium">We&apos;ll get back to you within 2 working hours.</p>
-
-              <AnimatePresence mode="wait">
-                {formStatus === "success" ? (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="text-center py-12"
-                  >
-                    <div className="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl">
-                      ✓
-                    </div>
-                    <h3 className="font-heading font-bold text-2xl text-primary-dark mb-2">Message Sent!</h3>
-                    <p className="text-gray-600 mb-8">Thank you for reaching out. Our team will contact you shortly.</p>
-                    <button 
-                      onClick={() => setFormStatus("idle")}
-                      className="text-primary font-bold hover:underline"
-                    >
-                      Send another message
-                    </button>
-                  </motion.div>
-                ) : (
-                  <motion.form 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="space-y-5"
-                    onSubmit={handleSubmit}
-                  >
-                    <div>
-                      <label className="block text-sm font-bold text-gray-600 mb-2">Your Name</label>
-                      <input type="text" required className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-gray-400" placeholder="John Doe" />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-bold text-gray-600 mb-2">Phone Number</label>
-                      <input type="tel" required className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-gray-400" placeholder="+91 99999 99999" />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-bold text-gray-600 mb-2">Message</label>
-                      <textarea required rows={4} className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-gray-400 resize-none" placeholder="How can we help you?"></textarea>
-                    </div>
-                    <button 
-                      disabled={formStatus === "submitting"}
-                      type="submit" 
-                      className="w-full bg-primary hover:bg-primary-dark text-white font-bold py-4 rounded-xl shadow-lg transition-all hover:-translate-y-1 flex justify-center items-center gap-2 disabled:opacity-70 disabled:hover:translate-y-0"
-                    >
-                      {formStatus === "submitting" ? "Sending..." : "Send Message"} <Send size={18} />
-                    </button>
-                  </motion.form>
-                )}
-              </AnimatePresence>
             </div>
           </ScrollReveal>
         </div>

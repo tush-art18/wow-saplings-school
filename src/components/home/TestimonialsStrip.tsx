@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { fetchTestimonials } from "@/lib/api";
@@ -17,14 +18,14 @@ const MOCK_REVIEWS = [
     name: "Ms. Sana",
     role: "Parent of Falak",
     content: "We’ve seen a beautiful change in our daughter’s confidence, creativity, and communication. The caring teachers make learning meaningful, enjoyable, and truly inspiring every day",
-    img: "parent-2.jpeg",
+    img: "/parent-2.jpeg",
     location: "KOLHAPUR"
   },
   {
     name: "Anita Patil",
     role: "Parent of Anish",
     content: "We appreciate the school’s caring teachers, cleanliness, and activity-based learning approach. Our child developed strong reading skills, confidence, good manners, and truly enjoyed learning every day",
-    img: "parent-3.jpeg",
+    img: "/parent-3.jpeg",
     location: "KOLHAPUR"
   },
   {
@@ -54,6 +55,7 @@ export default function TestimonialsStrip() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(0); // -1 for left, 1 for right
   const [reviews, setReviews] = useState<any[]>(MOCK_REVIEWS);
+  const [imgErrors, setImgErrors] = useState<Record<number, boolean>>({});
 
   useEffect(() => {
     async function loadTestimonials() {
@@ -176,11 +178,17 @@ export default function TestimonialsStrip() {
                 {/* Avatar with Yellow Border */}
                 <div className="mb-6 relative">
                   <div className="w-20 h-20 rounded-full border-[4px] border-accent-yellow overflow-hidden shadow-xl bg-white relative z-10">
-                    <img
-                      src={reviews[activeIndex].img}
+                    <Image
+                      src={
+                        imgErrors[activeIndex]
+                          ? `https://ui-avatars.com/api/?name=${encodeURIComponent(reviews[activeIndex].name)}&background=random&size=80`
+                          : reviews[activeIndex].img
+                      }
                       alt={reviews[activeIndex].name}
+                      width={80}
+                      height={80}
                       className="w-full h-full object-cover"
-                      onError={(e) => { (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${reviews[activeIndex].name}&background=random` }}
+                      onError={() => setImgErrors(prev => ({ ...prev, [activeIndex]: true }))}
                     />
                   </div>
                   {/* Subtle Glow behind avatar */}

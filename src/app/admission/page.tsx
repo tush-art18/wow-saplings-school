@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { CheckCircle2, ChevronRight, Check, Loader2 } from "lucide-react";
 import ScrollReveal from "@/components/global/ScrollReveal";
-import { submitLead } from "@/lib/api";
+
 
 export default function AdmissionPage() {
   const [step, setStep] = useState(1);
@@ -44,33 +44,13 @@ export default function AdmissionPage() {
     } else {
       setSubmitting(true);
       
-      // Parse child program choice to map database choices cleanly
-      let mappedProgram = "Other";
-      if (formData.program.includes("Playgroup")) mappedProgram = "Playgroup";
-      else if (formData.program.includes("Nursery")) mappedProgram = "Nursery";
-      else if (formData.program.includes("Junior KG") || formData.program.includes("Jr")) mappedProgram = "Jr KG";
-      else if (formData.program.includes("Senior KG") || formData.program.includes("Sr")) mappedProgram = "Sr KG";
-      else if (formData.program.includes("Phonics")) mappedProgram = "Phonics";
-      else if (formData.program.includes("Abacus")) mappedProgram = "Abacus";
-      else if (formData.program.includes("Teacher")) mappedProgram = "Teacher-Training";
-
-      const payload = {
-        parent_name: `${formData.fathersName} / ${formData.mothersName}`.trim(),
-        child_name: formData.childName,
-        phone: formData.phone,
-        email: "",
-        program_interest: mappedProgram,
-        message: `WhatsApp: ${formData.whatsapp}\nAddress: ${formData.address}\nGender: ${formData.gender}\nDOB: ${formData.dob}\nHear Source: ${formData.hearSource}\nVisit Time: ${formData.visitTime}\nAdditional Notes: ${formData.notes}`,
-        source: "form" as const
-      };
-
-      const result = await submitLead(payload);
+      const text = `*New Admission Enquiry*%0A%0A*Parent:* ${formData.fathersName} / ${formData.mothersName}%0A*Phone:* ${formData.phone}%0A*WhatsApp:* ${formData.whatsapp}%0A*Address:* ${formData.address}%0A%0A*Child:* ${formData.childName}%0A*Gender:* ${formData.gender}%0A*DOB:* ${formData.dob}%0A*Program:* ${formData.program}%0A%0A*Source:* ${formData.hearSource}%0A*Visit Time:* ${formData.visitTime}%0A*Notes:* ${formData.notes}`;
+      
+      const whatsappUrl = `https://api.whatsapp.com/send?phone=918999640602&text=${text}`;
+      window.open(whatsappUrl, "_blank");
+      
       setSubmitting(false);
-      if (result.success) {
-        setSuccess(true);
-      } else {
-        alert(result.error || "There was an error submitting your form. Please try again.");
-      }
+      setSuccess(true);
     }
   };
 

@@ -69,7 +69,7 @@ export default function AboutPage() {
                     <div className="relative rounded-[2rem] md:rounded-[3rem] overflow-hidden border-[6px] md:border-[10px] border-white shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500 bg-white w-full">
                       <Image
                         src="/hero-bg-2.png"
-                        alt="WOW Saplings Infrastructure"
+                        alt="WOW Saplings Preschool vibrant classroom infrastructure and play facilities in Kolhapur"
                         width={600}
                         height={450}
                         className="w-full h-auto object-contain block"
@@ -145,7 +145,7 @@ export default function AboutPage() {
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover transform transition-transform duration-[10000ms] group-hover:scale-110"
-                    alt="Principal"
+                    alt="Mrs. Yasmeen Shaikh, Principal and Founder of WOW Saplings Preschool, Kolhapur"
                   />
                   <div className="absolute inset-0 bg-primary-dark/20 group-hover:bg-transparent transition-colors duration-700"></div>
                 </div>

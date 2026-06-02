@@ -24,15 +24,15 @@ export default function WhyChoose() {
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         className="absolute hidden md:block top-20 left-[5%] opacity-90 pointer-events-none z-0"
       >
-        <Image src="/sticker-blocks.png" alt="Blocks Sticker" width={224} height={224} className="object-contain" />
+        <Image src="/sticker-blocks.png" alt="" role="presentation" width={224} height={224} className="object-contain" />
       </motion.div>
 
       {/* Image vignettes */}
       <div className="absolute top-40 right-10 w-40 h-40 md:w-64 md:h-64 rounded-full border-8 border-white shadow-2xl overflow-hidden opacity-30 -rotate-6 pointer-events-none hidden lg:block">
-        <Image src="/play-area.jpeg" alt="Play Area" fill sizes="256px" className="object-cover" />
+        <Image src="/play-area.jpeg" alt="" role="presentation" fill sizes="256px" className="object-cover" />
       </div>
       <div className="absolute bottom-10 left-10 w-32 h-32 md:w-48 md:h-48 rounded-3xl border-4 border-white shadow-xl overflow-hidden opacity-20 rotate-12 pointer-events-none hidden lg:block">
-        <Image src="/classroom-01.jpeg" alt="Classroom" fill sizes="192px" className="object-cover" />
+        <Image src="/classroom-01.jpeg" alt="" role="presentation" fill sizes="192px" className="object-cover" />
       </div>
 
       <div className="absolute bottom-20 right-[10%] text-6xl md:text-8xl opacity-10 pointer-events-none">🧩</div>

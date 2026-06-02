@@ -9,25 +9,62 @@ import CustomCursor from "@/components/global/CustomCursor";
 
 const baloo = Baloo_2({
   subsets: ["latin"],
-  weight: ["400", "700", "800"],
+  weight: ["700", "800"],
   variable: "--font-baloo",
-  display: "swap",
+  preload: true,
 });
 
 const nunito = Nunito({
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-nunito",
-  display: "swap",
+  preload: true,
 });
 
 export const metadata: Metadata = {
-  title: "WOW Saplings Preschool Kolhapur",
-  description: "Chain of Preschool...Where Every Child Blooms. Best preschool in Kolhapur.",
+  title: {
+    default: "WOW Saplings Preschool & Teacher Training, Kolhapur",
+    template: "%s | WOW Saplings Kolhapur",
+  },
+  description: "WOW Saplings is Kolhapur's premier preschool chain offering Playgroup, Nursery, Jr KG, Sr KG, Abacus, Phonics & certified Teacher Training (NPTT/MTTC) programs aligned with NEP 2020.",
+  keywords: [
+    "preschool in Kolhapur",
+    "best playgroup in Kolhapur",
+    "nursery school Kolhapur",
+    "teacher training course in Kolhapur",
+    "NPTT course Kolhapur",
+    "MTTC teacher training",
+    "phonics classes in Kolhapur",
+    "abacus classes in Kolhapur",
+    "kindergarten school Kolhapur",
+    "Shivaji University teacher training",
+  ],
   icons: {
     icon: "/sapling-logo-0003.png",
     shortcut: "/sapling-logo-0003.png",
     apple: "/sapling-logo-0003.png",
+  },
+  openGraph: {
+    title: "WOW Saplings Preschool & Teacher Training, Kolhapur",
+    description: "Kolhapur's most-loved preschool & certified educator training institute. Providing holistic development and child-centric education.",
+    url: "https://wowsaplingspreschool.com",
+    siteName: "WOW Saplings Preschool",
+    images: [
+      {
+        url: "/sapling-logo-0003.png",
+        width: 512,
+        height: 512,
+        alt: "WOW Saplings Preschool Logo",
+      },
+    ],
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "WOW Saplings Preschool & Teacher Training, Kolhapur",
+    description: "Kolhapur's most-loved preschool & certified educator training institute.",
+    images: ["/sapling-logo-0003.png"],
   },
 };
 
