@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import Image from "next/image";
 import {
   LayoutDashboard,
   Users,
   Image as ImageIcon,
   MessageSquare,
   Settings,
-  LogOut,
-  Sparkles
+  LogOut
 } from "lucide-react";
 
 export default function Sidebar() {
@@ -37,11 +37,11 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-64 bg-[#1a2f1c] text-white flex flex-col h-screen fixed left-0 top-0 z-30 shadow-2xl border-r border-[#2d8c4e]/20">
+    <aside className="w-64 bg-primary-dark text-white flex flex-col h-screen fixed left-0 top-0 z-30 shadow-2xl border-r border-white/5">
       {/* Brand Header */}
-      <div className="p-6 border-b border-[#2d8c4e]/20 flex items-center gap-3">
-        <div className="bg-[#2d8c4e] text-white p-2 rounded-xl shadow-md flex items-center justify-center">
-          <Sparkles size={20} className="text-accent-yellow" />
+      <div className="p-6 border-b border-white/10 flex items-center gap-3">
+        <div className="bg-white p-1.5 rounded-xl shadow-md flex items-center justify-center">
+          <Image src="/sapling-logo-0003.png" alt="WOW Saplings" width={32} height={32} className="object-contain" />
         </div>
         <div>
           <h1 className="font-heading font-black text-lg tracking-wide leading-none">
@@ -65,7 +65,7 @@ export default function Sidebar() {
               href={item.href}
               className={`flex items-center gap-3.5 px-4 py-3 rounded-2xl text-sm font-bold transition-all duration-200 group relative ${
                 isActive
-                  ? "bg-[#2d8c4e] text-white shadow-lg shadow-[#2d8c4e]/20"
+                  ? "bg-primary text-white shadow-lg shadow-primary/20"
                   : "text-white/70 hover:text-white hover:bg-white/5"
               }`}
             >
@@ -86,10 +86,10 @@ export default function Sidebar() {
       </nav>
 
       {/* Logout Footer */}
-      <div className="p-4 border-t border-[#2d8c4e]/20">
+      <div className="p-4 border-t border-white/10">
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3 w-full px-4 py-3 rounded-2xl text-sm font-bold text-white/60 hover:text-white hover:bg-red-500/10 hover:text-red-200 transition-all duration-200"
+          className="flex items-center gap-3 w-full px-4 py-3 rounded-2xl text-sm font-bold text-white/60 hover:text-white hover:bg-red-500/10 hover:text-red-300 transition-all duration-200"
         >
           <LogOut size={18} className="text-white/40" />
           Log Out

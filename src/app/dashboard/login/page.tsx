@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Lock, User, Sparkles, AlertCircle } from "lucide-react";
+import { Lock, User, AlertCircle } from "lucide-react";
+import Image from "next/image";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -39,15 +40,22 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="w-full max-w-md bg-white rounded-[2.5rem] shadow-2xl p-8 border-[3px] border-[#2d8c4e]/10 relative overflow-hidden">
+    <div className="w-full max-w-md bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(164,60,140,0.15)] p-8 border-[3px] border-primary/20 relative overflow-hidden">
       {/* Decorative background blobs */}
-      <div className="absolute -top-12 -right-12 w-24 h-24 bg-accent-yellow/20 rounded-full blur-xl pointer-events-none" />
-      <div className="absolute -bottom-12 -left-12 w-24 h-24 bg-primary/10 rounded-full blur-xl pointer-events-none" />
+      <div className="absolute -top-12 -right-12 w-32 h-32 bg-accent-yellow/30 rounded-full blur-2xl pointer-events-none" />
+      <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-primary/20 rounded-full blur-2xl pointer-events-none" />
+      <div className="absolute top-1/2 -right-8 w-16 h-16 bg-accent-blue/20 rounded-full blur-xl pointer-events-none" />
 
       {/* Header */}
-      <div className="text-center mb-8 relative z-10">
-        <div className="bg-[#2d8c4e] text-white w-14 h-14 rounded-2xl mx-auto flex items-center justify-center shadow-lg mb-4">
-          <Sparkles size={28} className="text-accent-yellow animate-pulse" />
+      <div className="text-center mb-8 relative z-10 flex flex-col items-center">
+        <div className="bg-white p-3 rounded-full shadow-lg border-4 border-primary/10 mb-5 relative">
+          <Image 
+            src="/sapling-logo-0003.png" 
+            alt="WOW Saplings" 
+            width={70} 
+            height={70} 
+            className="object-contain"
+          />
         </div>
         <h2 className="font-heading font-black text-2xl text-primary-dark">
           WOW Saplings Admin
@@ -111,7 +119,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-[#2d8c4e] text-white py-4 rounded-2xl font-black text-base shadow-lg hover:shadow-[#2d8c4e]/30 active:scale-98 transition-all disabled:opacity-50 mt-2"
+          className="w-full bg-primary text-white py-4 rounded-2xl font-black text-base shadow-lg hover:shadow-primary/30 hover:-translate-y-1 active:scale-95 transition-all disabled:opacity-50 mt-2 border-2 border-primary-dark/20"
         >
           {loading ? "Verifying..." : "Sign In 🚀"}
         </button>
