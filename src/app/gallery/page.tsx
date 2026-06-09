@@ -57,7 +57,7 @@ export default function GalleryPage() {
             cat: p.category_name || "Uncategorized",
             caption: p.caption,
             height: p.is_featured ? "h-[500px]" : idx % 4 === 0 ? "h-96" : idx % 3 === 0 ? "h-80" : idx % 2 === 0 ? "h-72" : "h-64",
-            img: p.image_url,
+            img: getMediaUrl(p.image_url),
             is_featured: p.is_featured
           }));
           setSchoolPhotos(formatted);

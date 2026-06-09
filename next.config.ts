@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
         pathname: "/media/**",
       },
       {
+        protocol: "https",
+        hostname: "wow-saplings-school-backend.onrender.com",
+        pathname: "/media/**",
+      },
+      {
         protocol: "http",
         hostname: "127.0.0.1",
         port: "8000",

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Plus, Trash2, X, Image as ImageIcon, FolderPlus, Grid, Tag } from "lucide-react";
 import Image from "next/image";
+import { getMediaUrl } from "@/lib/api";
 
 interface Category {
   id: number;
@@ -267,14 +268,13 @@ export default function GalleryPage() {
                   key={photo.id}
                   className="bg-white rounded-[2rem] overflow-hidden border border-gray-100 shadow-xl group hover:-translate-y-1 transition-all duration-300 relative flex flex-col justify-between"
                 >
-                  {/* Photo view */}
-                  <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
-                    <Image
-                      src={photo.image_url}
-                      alt={photo.title}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
+                    <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
+                      <Image
+                        src={getMediaUrl(photo.image_url)}
+                        alt={photo.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
 
                     {/* Features Indicator */}
                     {photo.is_featured && (
