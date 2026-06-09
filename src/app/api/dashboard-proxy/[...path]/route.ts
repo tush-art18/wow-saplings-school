@@ -15,7 +15,15 @@ async function handleProxy(request: NextRequest, { params }: { params: Promise<{
     const targetUrl = `${API_BASE}/dashboard/${path}/${searchParams ? `?${searchParams}` : ""}`;
 
     const headers = new Headers();
-    headers.set("Content-Type", "application/json");
+    
+    // Forward original Content-Type (important for multipart boundary)
+    const contentType = request.headers.get("content-type");
+    if (contentType) {
+      headers.set("Content-Type", contentType);
+    } else {
+      headers.set("Content-Type", "application/json");
+    }
+
     if (accessToken) {
       headers.set("Authorization", `Bearer ${accessToken}`);
     }
@@ -25,25 +33,8 @@ async function handleProxy(request: NextRequest, { params }: { params: Promise<{
     let body = undefined;
 
     if (method !== "GET" && method !== "HEAD") {
-      const contentType = request.headers.get("content-type") || "";
-      if (contentType.includes("multipart/form-data")) {
-        // Forward multipart form data directly (e.g. for image uploads)
-        const formData = await request.formData();
-        
-        // Remove Content-Type header so fetch sets it automatically with the correct boundary
-        headers.delete("Content-Type");
-        
-        const res = await fetch(targetUrl, {
-          method,
-          headers,
-          body: formData,
-        });
-        
-        const data = await res.json();
-        return NextResponse.json(data, { status: res.status });
-      } else {
-        body = await request.text();
-      }
+      // Forward the raw body buffer to preserve multipart boundaries and files
+      body = await request.arrayBuffer();
     }
 
     const res = await fetch(targetUrl, {
