@@ -69,7 +69,7 @@ export default function Footer() {
 
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400">
           <p>© {new Date().getFullYear()} WOW Saplings Preschool Kolhapur. All rights reserved.</p>
-          <p>Design and developed by <a href="" className="text-white text-[14px]">Pala<span className="text-[#6B3FFF]">Sync</span></a></p>
+          <p>Design and developed by <a href="" className="text-white text-[16px] font-bold">Pala<span className="text-[#6B3FFF]">Sync</span></a></p>
           <div className="flex gap-4 mt-4 md:mt-0">
             <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
