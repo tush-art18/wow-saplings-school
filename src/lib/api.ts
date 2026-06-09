@@ -1,38 +1,40 @@
 /**
  * api.ts — Frontend data layer
- * Backend has been reset. All functions return safe empty/mock values.
- * submitLead stores enquiries locally until the new backend is connected.
+ * All form submissions are validated by the Django backend first.
+ * The backend returns a WhatsApp URL which the frontend then opens.
  */
 
-// ─── Types ─────────────────────────────────────────────────────────────────
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+
+// ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface GalleryPhoto {
   id: number;
   title: string;
-  category: string;
-  image: string;
+  category: number | null;
+  category_name: string;
+  image_url: string;
+  caption: string;
+  is_featured: boolean;
+  order: number;
   created_at: string;
 }
 
-export interface UpcomingEvent {
+export interface GalleryCategory {
   id: number;
-  title: string;
-  date: string;
-  time: string;
-  location: string;
-  poster: string;
-  category: "Celebrations" | "Sports & Games" | "Academic";
-  is_active: boolean;
+  name: string;
+  slug: string;
 }
 
-export interface PastEvent {
+export interface InstagramPost {
   id: number;
-  title: string;
-  date: string;
-  description: string;
-  slug: string;
-  cover_photo: string;
-  gallery_photos: GalleryPhoto[];
+  instagram_id: string;
+  media_url: string;
+  thumbnail_url: string;
+  caption: string;
+  media_type: 'IMAGE' | 'VIDEO' | 'CAROUSEL_ALBUM';
+  permalink: string;
+  timestamp: string;
 }
 
 export interface Testimonial {
@@ -41,68 +43,143 @@ export interface Testimonial {
   child_class: string;
   content: string;
   rating: number;
-  photo: string | null;
-  is_visible: boolean;
+  photo_url: string | null;
   for_ttc: boolean;
-  created_at: string;
 }
 
-export interface LeadPayload {
-  parent_name: string;
-  child_name?: string;
+export interface SiteSettings {
+  whatsapp_number: string;
+  announcement_bar: string;
+}
+
+// ─── Form Payload Types ───────────────────────────────────────────────────────
+
+export interface AdmissionPayload {
+  fathers_name: string;
+  mothers_name?: string;
   phone: string;
-  email?: string;
-  program_interest: string;
+  whatsapp: string;
+  address: string;
+  child_name: string;
+  gender: string;
+  dob: string;
+  program: string;
+  hear_source?: string;
+  visit_time?: string;
+  notes?: string;
+}
+
+export interface FranchisePayload {
+  name: string;
+  phone: string;
+  city: string;
   message?: string;
-  source?: "form" | "chatbot" | "contact";
 }
 
-// ─── API Functions (Backend not yet connected — returns safe fallbacks) ─────
-
-/** Returns [] until gallery backend is connected */
-export async function fetchGalleryPhotos(_category?: string): Promise<GalleryPhoto[]> {
-  return [];
+export interface ContactPayload {
+  name: string;
+  phone: string;
+  message: string;
 }
 
-/** Returns [] until events backend is connected */
-export async function fetchUpcomingEvents(): Promise<UpcomingEvent[]> {
-  return [];
+// ─── API Result Type ──────────────────────────────────────────────────────────
+
+export interface FormResult {
+  success: boolean;
+  whatsapp_url?: string;
+  errors?: Record<string, string[]>;
+  error?: string;
 }
 
-/** Returns [] until events backend is connected */
-export async function fetchPastEvents(): Promise<PastEvent[]> {
-  return [];
-}
+// ─── Helper ───────────────────────────────────────────────────────────────────
 
-/** Returns null until events backend is connected */
-export async function fetchPastEventDetail(_slug: string): Promise<PastEvent | null> {
-  return null;
-}
-
-/** Returns [] until testimonials backend is connected */
-export async function fetchTestimonials(_forTtc?: boolean): Promise<Testimonial[]> {
-  return [];
-}
-
-/**
- * submitLead — Logs the lead payload to the browser console and returns success.
- * Once the new backend is set up, replace this body with a real fetch() call.
- */
-export async function submitLead(
-  payload: LeadPayload
-): Promise<{ success: boolean; data?: unknown; error?: string }> {
+async function postForm<T>(endpoint: string, payload: T): Promise<FormResult> {
   try {
-    // Log the submission so it can be seen in browser DevTools during development
-    console.info("📋 New Lead Submission:", payload);
+    const res = await fetch(`${API_BASE}${endpoint}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
 
-    // Simulate a brief network delay for realistic UX
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    const data = await res.json();
 
-    // Return success — the form will show the success screen
-    return { success: true, data: payload };
-  } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : "Unknown error";
-    console.error("submitLead error:", msg);
-    return { success: false, error: msg };
+    if (!res.ok) {
+      // 400 from Django — validation errors
+      return { success: false, errors: data.errors || {}, error: 'Validation failed. Please check the fields.' };
+    }
+
+    return { success: true, whatsapp_url: data.whatsapp_url };
+  } catch (err) {
+    console.error('API error:', err);
+    return { success: false, error: 'Could not connect to server. Please try again.' };
   }
+}
+
+// ─── Form Submission Functions ────────────────────────────────────────────────
+
+/** Validates and submits the Admission form. Returns WhatsApp URL on success. */
+export async function submitAdmissionForm(payload: AdmissionPayload): Promise<FormResult> {
+  return postForm('/forms/admission/', payload);
+}
+
+/** Validates and submits the Franchise enquiry form. Returns WhatsApp URL on success. */
+export async function submitFranchiseForm(payload: FranchisePayload): Promise<FormResult> {
+  return postForm('/forms/franchise/', payload);
+}
+
+/** Validates and submits the Contact form. Returns WhatsApp URL on success. */
+export async function submitContactForm(payload: ContactPayload): Promise<FormResult> {
+  return postForm('/forms/contact/', payload);
+}
+
+// ─── Gallery Functions ────────────────────────────────────────────────────────
+
+export async function fetchGalleryCategories(): Promise<GalleryCategory[]> {
+  try {
+    const res = await fetch(`${API_BASE}/gallery/categories/`);
+    if (!res.ok) return [];
+    return res.json();
+  } catch { return []; }
+}
+
+export async function fetchGalleryPhotos(categorySlug?: string): Promise<GalleryPhoto[]> {
+  try {
+    const url = categorySlug
+      ? `${API_BASE}/gallery/photos/?category=${categorySlug}`
+      : `${API_BASE}/gallery/photos/`;
+    const res = await fetch(url);
+    if (!res.ok) return [];
+    return res.json();
+  } catch { return []; }
+}
+
+export async function fetchInstagramPosts(): Promise<InstagramPost[]> {
+  try {
+    const res = await fetch(`${API_BASE}/gallery/instagram/`);
+    if (!res.ok) return [];
+    return res.json();
+  } catch { return []; }
+}
+
+// ─── Testimonials ─────────────────────────────────────────────────────────────
+
+export async function fetchTestimonials(forTtc?: boolean): Promise<Testimonial[]> {
+  try {
+    const url = forTtc !== undefined
+      ? `${API_BASE}/testimonials/?for_ttc=${forTtc}`
+      : `${API_BASE}/testimonials/`;
+    const res = await fetch(url);
+    if (!res.ok) return [];
+    return res.json();
+  } catch { return []; }
+}
+
+// ─── Site Settings ────────────────────────────────────────────────────────────
+
+export async function fetchSiteSettings(): Promise<SiteSettings> {
+  try {
+    const res = await fetch(`${API_BASE}/settings/`);
+    if (!res.ok) return { whatsapp_number: '918999640602', announcement_bar: '' };
+    return res.json();
+  } catch { return { whatsapp_number: '918999640602', announcement_bar: '' }; }
 }

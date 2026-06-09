@@ -87,18 +87,25 @@ export default function ProgramsPage() {
 
   return (
     <>
-      <div className="min-h-screen bg-background pt-32 pb-20">
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+      <div className="min-h-screen bg-background bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] pt-32 pb-20 relative overflow-hidden">
+        {/* Playful Floating Shapes */}
+        <div className="absolute top-48 left-10 w-16 h-16 bg-accent-yellow/10 rounded-full blur-xl animate-pulse" />
+        <div className="absolute top-[500px] right-16 w-24 h-24 bg-accent-pink/10 rounded-full blur-2xl" />
+        <div className="absolute top-[1000px] left-12 w-32 h-32 bg-accent-blue/10 rounded-full blur-3xl" />
+        <div className="absolute top-24 right-1/4 text-6xl opacity-10 animate-bounce duration-1000 select-none">🎈</div>
+        <div className="absolute top-[600px] left-1/4 text-6xl opacity-10 animate-bounce duration-750 select-none">⭐️</div>
+
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
 
           {/* Header Section */}
           <div className="text-center max-w-4xl mx-auto mb-16 relative">
-            <ScrollReveal animation="fade-up">
+            <ScrollReveal animation="bounce-in">
               <div className="inline-block bg-accent-yellow/20 text-primary-dark font-bold px-6 py-2 rounded-full text-sm mb-6 border-2 border-accent-yellow/30 animate-bounce">
                 🌈 Discover the Joy of Learning
               </div>
             </ScrollReveal>
 
-            <ScrollReveal animation="fade-up" delay={0.1}>
+            <ScrollReveal animation="wobble-in" delay={0.1}>
               <h1 className="font-heading font-extrabold text-5xl md:text-7xl mb-6 leading-[1.1]">
                 <span className="text-primary-dark block md:inline">Helping</span>{" "}
                 <span className="text-accent-pink">Every</span>{" "}
@@ -109,15 +116,15 @@ export default function ProgramsPage() {
               </h1>
             </ScrollReveal>
 
-            <ScrollReveal animation="fade-up" delay={0.2}>
+            <ScrollReveal animation="fade-up" delay={0.25}>
               <p className="text-gray-600 text-lg md:text-2xl font-sans max-w-2xl mx-auto font-medium leading-relaxed">
                 From their first steps in <span className="text-primary font-bold">Playgroup</span> to mastering skills in <span className="text-accent-purple font-bold">Abacus</span>, we help every child grow. 🌟
               </p>
             </ScrollReveal>
 
             {/* Decorative Accents */}
-            <div className="absolute -top-10 -left-10 text-6xl opacity-20 hidden lg:block">🎨</div>
-            <div className="absolute -top-10 -right-10 text-6xl opacity-20 hidden lg:block">📚</div>
+            <div className="absolute -top-10 -left-10 text-6xl opacity-20 hidden lg:block select-none">🎨</div>
+            <div className="absolute -top-10 -right-10 text-6xl opacity-20 hidden lg:block select-none">📚</div>
           </div>
 
           {/* Filters */}
@@ -146,7 +153,7 @@ export default function ProgramsPage() {
           {/* Programs Grid */}
           <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
             <AnimatePresence mode="popLayout">
-              {filteredPrograms.map((program) => (
+              {filteredPrograms.map((program, idx) => (
                 <motion.div
                   layout
                   initial={{ opacity: 0, scale: 0.9 }}
@@ -157,7 +164,11 @@ export default function ProgramsPage() {
                   className="group relative"
                   id={program.id}
                 >
-                  <div className="w-full h-full rounded-[2.5rem] overflow-hidden flex flex-col shadow-lg hover:shadow-2xl border-2 border-white bg-white transition-all duration-300 hover:-translate-y-2">
+                  <motion.div 
+                    whileHover={{ y: -8, rotate: idx % 2 === 0 ? 1.5 : -1.5, scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                    className="w-full h-full rounded-[2.5rem] overflow-hidden flex flex-col shadow-lg hover:shadow-2xl border-2 border-white bg-white cursor-pointer"
+                  >
                     <div className="relative w-full aspect-video overflow-hidden">
                       <Image 
                         src={program.img} 
@@ -209,53 +220,79 @@ export default function ProgramsPage() {
                         Enquire Now <ArrowRight size={18} />
                       </Link>
                     </div>
-                  </div>
+                  </motion.div>
                 </motion.div>
               ))}
             </AnimatePresence>
           </motion.div>
 
-          {/* Our Features Section (From Poster) */}
-          <div className="mt-32">
+          {/* ── WHY CHOOSE WOW SAPLINGS ── */}
+          <div className="mt-32 relative">
+            {/* Large editorial heading — full bleed, no box */}
             <ScrollReveal animation="fade-up">
-              <div className="text-center mb-16">
-                <h2 className="font-heading font-extrabold text-4xl md:text-5xl text-primary-dark mb-4">Why Choose WOW Saplings?</h2>
-                <p className="text-gray-600 text-lg uppercase tracking-widest font-bold">Our Exclusive Features</p>
+              <div className="mb-20">
+                <p className="text-sm font-black uppercase tracking-[0.3em] text-primary mb-3">Our Exclusive Features</p>
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                  <h2 className="font-heading font-extrabold text-5xl md:text-6xl lg:text-7xl text-primary-dark leading-[1.05]">
+                    Why Choose<br /><span className="text-primary">WOW Saplings?</span>
+                  </h2>
+                  <p className="text-gray-400 font-medium text-base max-w-xs hidden md:block leading-relaxed">
+                    Everything we do is designed to help your child thrive — safely, joyfully, brilliantly.
+                  </p>
+                </div>
+                {/* Full-width accent line */}
+                <div className="mt-10 h-px bg-gradient-to-r from-primary via-accent-yellow to-transparent" />
               </div>
             </ScrollReveal>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Features — alternating two-column list, no boxes */}
+            <div className="space-y-0">
               {[
-                { icon: <Award size={24} className="text-accent-yellow" />, title: "10 Years of Excellence", desc: "Our school proudly celebrates 10 years of excellence in education." },
-                { icon: <BookOpen size={24} className="text-primary" />, title: "CBSE Curriculum", desc: "Aligned with NEP 2020 for holistic, future-ready child development." },
-                { icon: <HeartHandshake size={24} className="text-[#F9C846]" />, title: "Holistic Development", desc: "Fostering physical, mental, emotional, and social growth in every child." },
-                { icon: <Tent size={24} className="text-accent-pink" />, title: "Keedo's Activity Lab", desc: "Activity based learning, playful practical life, hands-on activities." },
-                { icon: <ShieldCheck size={24} className="text-accent-blue" />, title: "Safe & Secure Play Zone", desc: "Secure Saplings play zone area with lots of outdoor toys." },
-                { icon: <Users size={24} className="text-[#FF7043]" />, title: "Expert Faculties", desc: "Experienced, MTTC well-trained, and expert friendly teachers." },
-                { icon: <MonitorPlay size={24} className="text-[#9C6DD8]" />, title: "Smart TV & Projectors", desc: "Teaching through practical demos, animation, smart class, and digital learning." },
-                { icon: <ShieldCheck size={24} className="text-[#2D8C4E]" />, title: "Round-The-Clock CCTV", desc: "Ensuring a highly secure and healthy hygienic environment at all times." },
-                { icon: <CalendarHeart size={24} className="text-accent-pink" />, title: "Monthly Calendar", desc: "Pre-planned activities and events shared with parents every month." },
-                { icon: <Utensils size={24} className="text-[#2D8C4E]" />, title: "Nutrition Menu Chart", desc: "Healthy, nutrition-based tiffin menu chart provided to all parents." },
-                { icon: <MessageCircle size={24} className="text-[#4A90D9]" />, title: "WhatsApp Updates", desc: "Regular daily updates and photos sent directly to your WhatsApp." },
-                { icon: <UserCheck size={24} className="text-accent-yellow" />, title: "Individual Attention", desc: "Continuous evaluation of every child, with regular Parents Teachers Meetings." },
-                { icon: <Baby size={24} className="text-primary" />, title: "Day Care Facilities", desc: "Reliable day care and activity center for working parents." },
-                { icon: <CheckCircle2 size={24} className="text-[#4A90D9]" />, title: "Transport Facility", desc: "Safe and convenient transport options available." },
-                { icon: <CheckCircle2 size={24} className="text-[#F06292]" />, title: "Well Furnished", desc: "A peaceful atmosphere inside a beautiful, child-friendly building." }
+                { n: "01", color: "#7C3AED", icon: <Award size={20}/>, title: "10 Years of Excellence", desc: "Our school proudly celebrates a decade of shaping young learners into confident, curious individuals trusted by 1000+ families." },
+                { n: "02", color: "#0EA5E9", icon: <BookOpen size={20}/>, title: "CBSE Curriculum & NEP 2020", desc: "Our curriculum is fully aligned with NEP 2020 — holistic, future-ready, and designed for every child's developmental pace." },
+                { n: "03", color: "#EC4899", icon: <HeartHandshake size={20}/>, title: "Holistic Development", desc: "We foster physical, mental, emotional, and social growth every single day — not just academics." },
+                { n: "04", color: "#F59E0B", icon: <Tent size={20}/>, title: "Keedo's Activity Lab", desc: "Activity-based learning, playful practical life, and hands-on exploration that children genuinely love." },
+                { n: "05", color: "#10B981", icon: <ShieldCheck size={20}/>, title: "Safe & Secure Play Zone", desc: "A fully enclosed outdoor play zone with quality toys — safe, clean, and designed for active movement." },
+                { n: "06", color: "#F97316", icon: <Users size={20}/>, title: "Expert & Trained Faculties", desc: "All our teachers are MTTC-certified, experienced, and deeply committed to every child's individual growth." },
+                { n: "07", color: "#9C6DD8", icon: <MonitorPlay size={20}/>, title: "Smart TV & Projectors", desc: "Digital classrooms with animation, smart demos, and visual learning that makes concepts stick." },
+                { n: "08", color: "#2D8C4E", icon: <ShieldCheck size={20}/>, title: "Round-The-Clock CCTV", desc: "Comprehensive 24/7 CCTV surveillance ensuring a secure, hygienic environment at all times." },
+                { n: "09", color: "#6366F1", icon: <CalendarHeart size={20}/>, title: "Monthly Activity Calendar", desc: "A pre-planned, theme-based activity and event calendar shared with parents every month." },
+                { n: "10", color: "#0891B2", icon: <Utensils size={20}/>, title: "Nutrition Menu Chart", desc: "A healthy, nutrition-based tiffin menu chart provided to every family at the start of each term." },
+                { n: "11", color: "#25D366", icon: <MessageCircle size={20}/>, title: "WhatsApp Daily Updates", desc: "Daily photos and updates sent directly to parents' WhatsApp — stay connected every moment." },
+                { n: "12", color: "#EAB308", icon: <UserCheck size={20}/>, title: "Individual Child Attention", desc: "Continuous evaluation with regular Parent-Teacher Meetings to track and celebrate every milestone." },
+                { n: "13", color: "#A855F7", icon: <Baby size={20}/>, title: "Day Care Facilities", desc: "Reliable, supervised day care and activity center for working parents — safe and engaging." },
+                { n: "14", color: "#4A90D9", icon: <CheckCircle2 size={20}/>, title: "Transport Facility", desc: "Safe, GPS-tracked transport service covering major localities across Kolhapur." },
+                { n: "15", color: "#F06292", icon: <CheckCircle2 size={20}/>, title: "Well-Furnished Building", desc: "A beautiful, peaceful, child-friendly building that feels welcoming from the very first visit." },
               ].map((feat, i) => (
-                <ScrollReveal key={i} animation="fade-up" delay={i * 0.05}>
-                  <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex gap-4 h-full">
-                    <div className="shrink-0 mt-1 bg-gray-50 w-12 h-12 rounded-full flex items-center justify-center border border-gray-100">
-                      {feat.icon}
+                <ScrollReveal key={i} animation="rotate-in" delay={i * 0.02}>
+                  <motion.div
+                    whileHover={{ y: -3, scale: 1.015 }}
+                    transition={{ type: "spring", stiffness: 350, damping: 18 }}
+                    className="grid grid-cols-[auto_1fr_auto] md:grid-cols-[80px_1fr_300px] items-center gap-6 md:gap-10 py-7 border-b border-gray-100 group hover:bg-gray-50/60 px-2 rounded-xl cursor-pointer"
+                  >
+                    {/* Number */}
+                    <span className="font-black text-4xl md:text-5xl leading-none select-none transition-colors duration-300" style={{ color: `${feat.color}20` }}>
+                      {feat.n}
+                    </span>
+                    {/* Title + Icon */}
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110" style={{ backgroundColor: `${feat.color}15`, color: feat.color }}>
+                        {feat.icon}
+                      </div>
+                      <h3 className="font-heading font-bold text-xl md:text-2xl text-primary-dark leading-tight">{feat.title}</h3>
                     </div>
-                    <div>
-                      <h3 className="font-bold text-gray-800 text-lg mb-1 leading-tight">{feat.title}</h3>
-                      <p className="text-sm text-gray-600 leading-relaxed">{feat.desc}</p>
-                    </div>
-                  </div>
+                    {/* Description — hidden on mobile, inline on md+ */}
+                    <p className="hidden md:block text-gray-500 text-sm font-medium leading-relaxed">{feat.desc}</p>
+                  </motion.div>
                 </ScrollReveal>
               ))}
             </div>
+
+            {/* Mobile: descriptions shown below each title handled via single column */}
           </div>
+
+
+
 
           {/* Extra Activities & Special Programs */}
           <div className="mt-32">
@@ -276,8 +313,12 @@ export default function ProgramsPage() {
                 { title: "Karate", desc: "Building self-confidence, Discipline, Self Defence", icon: "🥋", color: "bg-accent-pink/10", img: "/Karate.jpeg" },
                 { title: "Dance", desc: "Builds Physical Skills & Encourages Creativity", icon: "💃", color: "bg-accent-purple/10", img: "/celebration and events.png" },
               ].map((activity, i) => (
-                <ScrollReveal key={i} animation="fade-up" delay={i * 0.1}>
-                  <div className="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-shadow h-full bg-white">
+                <ScrollReveal key={i} animation="bounce-in" delay={i * 0.05}>
+                  <motion.div 
+                    whileHover={{ y: -6, rotate: i % 2 === 0 ? -1 : 1, scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 350, damping: 15 }}
+                    className="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-xl h-full bg-white cursor-pointer"
+                  >
                     <div className="h-48 overflow-hidden relative">
                       <Image 
                         src={activity.img} 
@@ -295,7 +336,7 @@ export default function ProgramsPage() {
                       <h3 className="font-heading font-bold text-xl text-primary-dark mb-2">{activity.title}</h3>
                       <p className="text-sm text-gray-600 font-medium leading-relaxed">{activity.desc}</p>
                     </div>
-                  </div>
+                  </motion.div>
                 </ScrollReveal>
               ))}
             </div>

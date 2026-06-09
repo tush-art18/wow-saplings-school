@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import { Baloo_2, Nunito } from "next/font/google";
 import "./globals.css";
-import WhatsAppButton from "@/components/global/WhatsAppButton";
 import LoadingScreen from "@/components/global/LoadingScreen";
-import Navbar from "@/components/global/Navbar";
-import Footer from "@/components/global/Footer";
 import CustomCursor from "@/components/global/CustomCursor";
+import LayoutWrapper from "@/components/dashboard/LayoutWrapper";
 
 const baloo = Baloo_2({
   subsets: ["latin"],
@@ -47,7 +45,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "WOW Saplings Preschool & Teacher Training, Kolhapur",
     description: "Kolhapur's most-loved preschool & certified educator training institute. Providing holistic development and child-centric education.",
-    url: "https://wowsaplingspreschool.com",
+    url: "https://wowsaplingsschool.in",
     siteName: "WOW Saplings Preschool",
     images: [
       {
@@ -78,15 +76,54 @@ export default function RootLayout({
       lang="en"
       className={`${baloo.variable} ${nunito.variable} antialiased`}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "School",
+              "name": "WOW Saplings Preschool & Teacher Training",
+              "image": "https://wowsaplingsschool.in/sapling-logo-0003.png",
+              "@id": "https://wowsaplingsschool.in/#school",
+              "url": "https://wowsaplingsschool.in",
+              "telephone": "+918999640602",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Main Road, Layout no.2, Kaman, Baba Jaragnagar",
+                "addressLocality": "Kolhapur",
+                "addressRegion": "Maharashtra",
+                "postalCode": "416008",
+                "addressCountry": "IN"
+              },
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 16.6684897,
+                "longitude": 74.2182726
+              },
+              "openingHoursSpecification": {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": [
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday"
+                ],
+                "opens": "10:00",
+                "closes": "13:00"
+              }
+            })
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground overflow-x-hidden">
         <CustomCursor />
         <LoadingScreen />
-          <Navbar />
-          <main className="flex-1 w-full relative">
-            {children}
-          </main>
-          <Footer />
-        <WhatsAppButton />
+        <LayoutWrapper>
+          {children}
+        </LayoutWrapper>
       </body>
     </html>
   );

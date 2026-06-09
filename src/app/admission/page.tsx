@@ -4,12 +4,16 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { CheckCircle2, ChevronRight, Check, Loader2 } from "lucide-react";
 import ScrollReveal from "@/components/global/ScrollReveal";
+import { submitAdmissionForm } from "@/lib/api";
 
 
 export default function AdmissionPage() {
   const [step, setStep] = useState(1);
   const [success, setSuccess] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [apiErrors, setApiErrors] = useState<Record<string, string[]>>({});
+  const [localErrors, setLocalErrors] = useState<Record<string, string>>({});
+  const [globalError, setGlobalError] = useState("");
 
   const [formData, setFormData] = useState({
     fathersName: "",
@@ -32,25 +36,159 @@ export default function AdmissionPage() {
     { num: 3, title: "Finish", desc: "Reference & visit slot" },
   ];
 
+  const validateStep = (currentStep: number): boolean => {
+    const errors: Record<string, string> = {};
+
+    const validateIndianPhone = (value: string) => {
+      const cleaned = value.replace(/[\s\-\(\)]/g, '').replace(/^(\+91|91|0)/, '');
+      return /^[6-9]\d{9}$/.test(cleaned);
+    };
+
+    if (currentStep === 1) {
+      if (!formData.fathersName.trim()) {
+        errors.fathersName = "Father's name is required.";
+      } else if (formData.fathersName.trim().length < 2) {
+        errors.fathersName = "Father's name must be at least 2 characters.";
+      } else if (formData.fathersName.trim().length > 100) {
+        errors.fathersName = "Father's name cannot exceed 100 characters.";
+      }
+
+      if (formData.mothersName.trim() && formData.mothersName.trim().length > 100) {
+        errors.mothersName = "Mother's name cannot exceed 100 characters.";
+      }
+
+      if (!formData.phone.trim()) {
+        errors.phone = "Phone number is required.";
+      } else if (!validateIndianPhone(formData.phone)) {
+        errors.phone = "Enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9.";
+      }
+
+      if (!formData.whatsapp.trim()) {
+        errors.whatsapp = "WhatsApp number is required.";
+      } else if (!validateIndianPhone(formData.whatsapp)) {
+        errors.whatsapp = "Enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9.";
+      }
+
+      if (!formData.address.trim()) {
+        errors.address = "House address is required.";
+      } else if (formData.address.trim().length < 10) {
+        errors.address = "House address must be at least 10 characters.";
+      } else if (formData.address.trim().length > 500) {
+        errors.address = "House address cannot exceed 500 characters.";
+      }
+    }
+
+    if (currentStep === 2) {
+      if (!formData.childName.trim()) {
+        errors.childName = "Child's name is required.";
+      } else if (formData.childName.trim().length < 2) {
+        errors.childName = "Child's name must be at least 2 characters.";
+      } else if (formData.childName.trim().length > 100) {
+        errors.childName = "Child's name cannot exceed 100 characters.";
+      }
+
+      if (!formData.gender) {
+        errors.gender = "Please select gender.";
+      }
+
+      if (!formData.dob) {
+        errors.dob = "Date of birth is required.";
+      }
+
+      if (!formData.program) {
+        errors.program = "Please select a program.";
+      }
+    }
+
+    if (currentStep === 3) {
+      if (!formData.hearSource) {
+        errors.hearSource = "Please select how you heard about us.";
+      }
+
+      if (!formData.visitTime) {
+        errors.visitTime = "Please select a preferred campus visit time.";
+      }
+
+      if (formData.notes.trim() && formData.notes.trim().length > 1000) {
+        errors.notes = "Notes cannot exceed 1000 characters.";
+      }
+    }
+
+    setLocalErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (localErrors[name]) {
+      setLocalErrors((prev) => {
+        const next = { ...prev };
+        delete next[name];
+        return next;
+      });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setApiErrors({});
+    setLocalErrors({});
+    setGlobalError("");
+
+    const isValid = validateStep(step);
+    if (!isValid) {
+      setGlobalError("Please fix the validation errors before moving forward.");
+      return;
+    }
+
     if (step < 3) {
       setStep(step + 1);
     } else {
       setSubmitting(true);
-      
-      const text = `*New Admission Enquiry*%0A%0A*Parent:* ${formData.fathersName} / ${formData.mothersName}%0A*Phone:* ${formData.phone}%0A*WhatsApp:* ${formData.whatsapp}%0A*Address:* ${formData.address}%0A%0A*Child:* ${formData.childName}%0A*Gender:* ${formData.gender}%0A*DOB:* ${formData.dob}%0A*Program:* ${formData.program}%0A%0A*Source:* ${formData.hearSource}%0A*Visit Time:* ${formData.visitTime}%0A*Notes:* ${formData.notes}`;
-      
-      const whatsappUrl = `https://api.whatsapp.com/send?phone=918999640602&text=${text}`;
-      window.open(whatsappUrl, "_blank");
-      
+
+      const result = await submitAdmissionForm({
+        fathers_name: formData.fathersName,
+        mothers_name: formData.mothersName,
+        phone: formData.phone,
+        whatsapp: formData.whatsapp,
+        address: formData.address,
+        child_name: formData.childName,
+        gender: formData.gender,
+        dob: formData.dob,
+        program: formData.program,
+        hear_source: formData.hearSource,
+        visit_time: formData.visitTime,
+        notes: formData.notes,
+      });
+
       setSubmitting(false);
-      setSuccess(true);
+
+      if (result.success && result.whatsapp_url) {
+        window.open(result.whatsapp_url, "_blank");
+        setSuccess(true);
+      } else if (result.errors) {
+        setApiErrors(result.errors);
+        setGlobalError("Please fix the errors below.");
+
+        const mappedErrors: Record<string, string> = {};
+        Object.entries(result.errors).forEach(([key, val]) => {
+          const camelKey = key.replace(/_([a-z])/g, (g) => g[1].toUpperCase());
+          mappedErrors[camelKey] = val.join(" ");
+        });
+        setLocalErrors(mappedErrors);
+
+        const step1Keys = ["fathersName", "mothersName", "phone", "whatsapp", "address"];
+        const step2Keys = ["childName", "gender", "dob", "program"];
+
+        if (step1Keys.some(k => mappedErrors[k])) {
+          setStep(1);
+        } else if (step2Keys.some(k => mappedErrors[k])) {
+          setStep(2);
+        }
+      } else {
+        setGlobalError(result.error || "Something went wrong. Please try again.");
+      }
     }
   };
 
@@ -70,6 +208,7 @@ export default function AdmissionPage() {
       notes: ""
     });
     setSuccess(false);
+    setLocalErrors({});
     setStep(1);
   };
 
@@ -197,146 +336,238 @@ export default function AdmissionPage() {
                      </button>
                    </motion.div>
                  ) : (
-                   <motion.form
-                     key={`step-${step}`}
-                     initial={{ opacity: 0, x: 20 }}
-                     animate={{ opacity: 1, x: 0 }}
-                     exit={{ opacity: 0, x: -20 }}
-                     onSubmit={handleSubmit}
-                     className="space-y-6"
-                   >
-                     <h2 className="font-heading font-bold text-3xl text-primary-dark mb-8">
-                       {steps[step-1].title}
-                     </h2>
+                    <motion.form
+                      key={`step-${step}`}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      onSubmit={handleSubmit}
+                      className="space-y-6"
+                      noValidate
+                    >
+                      <h2 className="font-heading font-bold text-3xl text-primary-dark mb-8">
+                        {steps[step-1].title}
+                      </h2>
 
-                     {step === 1 && (
-                        <>
-                         <div className="grid md:grid-cols-2 gap-6">
-                           <div>
-                             <label className="block text-sm font-bold text-gray-600 mb-2">Father&apos;s Name</label>
-                             <input type="text" name="fathersName" value={formData.fathersName} onChange={handleInputChange} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
-                           </div>
-                           <div>
-                             <label className="block text-sm font-bold text-gray-600 mb-2">Mother&apos;s Name</label>
-                             <input type="text" name="mothersName" value={formData.mothersName} onChange={handleInputChange} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
-                           </div>
-                         </div>
-                         <div className="grid md:grid-cols-2 gap-6">
-                           <div>
-                             <label className="block text-sm font-bold text-gray-600 mb-2">Phone Number *</label>
-                             <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
-                           </div>
-                           <div>
-                             <label className="block text-sm font-bold text-gray-600 mb-2">WhatsApp Number *</label>
-                             <input type="tel" name="whatsapp" value={formData.whatsapp} onChange={handleInputChange} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" placeholder="Required for updates" />
-                           </div>
-                         </div>
-                         <div>
-                           <label className="block text-sm font-bold text-gray-600 mb-2">House Address *</label>
-                           <textarea rows={2} name="address" value={formData.address} onChange={handleInputChange} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none resize-none" placeholder="Enter your full residential address"></textarea>
-                         </div>
-                        </>
-                     )}
+                      {step === 1 && (
+                         <>
+                          <div className="grid md:grid-cols-2 gap-6">
+                            <div>
+                              <label className="block text-sm font-bold text-gray-600 mb-2">Father&apos;s Name *</label>
+                              <input 
+                                type="text" 
+                                name="fathersName" 
+                                value={formData.fathersName} 
+                                onChange={handleInputChange} 
+                                className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors ${localErrors.fathersName ? 'border-red-300 focus:ring-red-400' : 'border-gray-200'}`} 
+                              />
+                              {localErrors.fathersName && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.fathersName}</p>}
+                            </div>
+                            <div>
+                              <label className="block text-sm font-bold text-gray-600 mb-2">Mother&apos;s Name</label>
+                              <input 
+                                type="text" 
+                                name="mothersName" 
+                                value={formData.mothersName} 
+                                onChange={handleInputChange} 
+                                className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors ${localErrors.mothersName ? 'border-red-300 focus:ring-red-400' : 'border-gray-200'}`} 
+                              />
+                              {localErrors.mothersName && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.mothersName}</p>}
+                            </div>
+                          </div>
+                          <div className="grid md:grid-cols-2 gap-6">
+                            <div>
+                              <label className="block text-sm font-bold text-gray-600 mb-2">Phone Number *</label>
+                              <input 
+                                type="tel" 
+                                name="phone" 
+                                value={formData.phone} 
+                                onChange={handleInputChange} 
+                                className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors ${localErrors.phone ? 'border-red-300 focus:ring-red-400' : 'border-gray-200'}`} 
+                              />
+                              {localErrors.phone && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.phone}</p>}
+                            </div>
+                            <div>
+                              <label className="block text-sm font-bold text-gray-600 mb-2">WhatsApp Number *</label>
+                              <input 
+                                type="tel" 
+                                name="whatsapp" 
+                                value={formData.whatsapp} 
+                                onChange={handleInputChange} 
+                                className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors ${localErrors.whatsapp ? 'border-red-300 focus:ring-red-400' : 'border-gray-200'}`} 
+                                placeholder="Required for updates" 
+                              />
+                              {localErrors.whatsapp && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.whatsapp}</p>}
+                            </div>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-bold text-gray-600 mb-2">House Address *</label>
+                            <textarea 
+                              rows={2} 
+                              name="address" 
+                              value={formData.address} 
+                              onChange={handleInputChange} 
+                              className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary outline-none resize-none transition-colors ${localErrors.address ? 'border-red-300 focus:ring-red-400' : 'border-gray-200'}`} 
+                              placeholder="Enter your full residential address"
+                            ></textarea>
+                            {localErrors.address && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.address}</p>}
+                          </div>
+                         </>
+                      )}
 
-                     {step === 2 && (
-                        <>
-                         <div className="grid md:grid-cols-2 gap-6">
-                           <div className="md:col-span-1">
-                             <label className="block text-sm font-bold text-gray-600 mb-2">Child&apos;s Full Name</label>
-                             <input type="text" name="childName" value={formData.childName} onChange={handleInputChange} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
-                           </div>
-                           <div>
-                             <label className="block text-sm font-bold text-gray-600 mb-2">Gender</label>
-                             <select name="gender" value={formData.gender} onChange={handleInputChange} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none">
-                               <option value="">Select Gender</option>
-                               <option value="Boy">Boy</option>
-                               <option value="Girl">Girl</option>
-                             </select>
-                           </div>
-                         </div>
-                         <div className="grid md:grid-cols-2 gap-6">
-                           <div>
-                             <label className="block text-sm font-bold text-gray-600 mb-2">Date of Birth</label>
-                             <input type="date" name="dob" value={formData.dob} onChange={handleInputChange} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none" />
-                           </div>
-                           <div>
-                             <label className="block text-sm font-bold text-gray-600 mb-2">Program Applying For</label>
-                             <select name="program" value={formData.program} onChange={handleInputChange} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none">
-                               <option value="">Select an option...</option>
-                               <option value="Playgroup (2-3 yrs)">Playgroup (2-3 yrs)</option>
-                               <option value="Nursery (3-4 yrs)">Nursery (3-4 yrs)</option>
-                               <option value="Junior KG (4-5 yrs)">Junior KG (4-5 yrs)</option>
-                               <option value="Senior KG (5-6 yrs)">Senior KG (5-6 yrs)</option>
-                               <option value="Phonics / Abacus">Phonics / Abacus</option>
-                               <option value="Day-care (Baby sitting)">Day-care (Baby sitting)</option>
-                             </select>
-                           </div>
-                         </div>
-                        </>
-                     )}
+                      {step === 2 && (
+                         <>
+                          <div className="grid md:grid-cols-2 gap-6">
+                            <div className="md:col-span-1">
+                              <label className="block text-sm font-bold text-gray-600 mb-2">Child&apos;s Full Name *</label>
+                              <input 
+                                type="text" 
+                                name="childName" 
+                                value={formData.childName} 
+                                onChange={handleInputChange} 
+                                className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors ${localErrors.childName ? 'border-red-300 focus:ring-red-400' : 'border-gray-200'}`} 
+                              />
+                              {localErrors.childName && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.childName}</p>}
+                            </div>
+                            <div>
+                              <label className="block text-sm font-bold text-gray-600 mb-2">Gender *</label>
+                              <select 
+                                name="gender" 
+                                value={formData.gender} 
+                                onChange={handleInputChange} 
+                                className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors ${localErrors.gender ? 'border-red-300 focus:ring-red-400' : 'border-gray-200'}`}
+                              >
+                                <option value="">Select Gender</option>
+                                <option value="Boy">Boy</option>
+                                <option value="Girl">Girl</option>
+                              </select>
+                              {localErrors.gender && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.gender}</p>}
+                            </div>
+                          </div>
+                          <div className="grid md:grid-cols-2 gap-6">
+                            <div>
+                              <label className="block text-sm font-bold text-gray-600 mb-2">Date of Birth *</label>
+                              <input 
+                                type="date" 
+                                name="dob" 
+                                value={formData.dob} 
+                                onChange={handleInputChange} 
+                                className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors ${localErrors.dob ? 'border-red-300 focus:ring-red-400' : 'border-gray-200'}`} 
+                              />
+                              {localErrors.dob && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.dob}</p>}
+                            </div>
+                            <div>
+                              <label className="block text-sm font-bold text-gray-600 mb-2">Program Applying For *</label>
+                              <select 
+                                name="program" 
+                                value={formData.program} 
+                                onChange={handleInputChange} 
+                                className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors ${localErrors.program ? 'border-red-300 focus:ring-red-400' : 'border-gray-200'}`}
+                              >
+                                <option value="">Select an option...</option>
+                                <option value="Playgroup (2-3 yrs)">Playgroup (2-3 yrs)</option>
+                                <option value="Nursery (3-4 yrs)">Nursery (3-4 yrs)</option>
+                                <option value="Junior KG (4-5 yrs)">Junior KG (4-5 yrs)</option>
+                                <option value="Senior KG (5-6 yrs)">Senior KG (5-6 yrs)</option>
+                                <option value="Phonics / Abacus">Phonics / Abacus</option>
+                                <option value="Day-care (Baby sitting)">Day-care (Baby sitting)</option>
+                              </select>
+                              {localErrors.program && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.program}</p>}
+                            </div>
+                          </div>
+                         </>
+                      )}
 
-                     {step === 3 && (
-                        <>
-                         <div className="grid md:grid-cols-2 gap-6">
-                           <div>
-                             <label className="block text-sm font-bold text-gray-600 mb-2">How did you hear about us?</label>
-                             <select name="hearSource" value={formData.hearSource} onChange={handleInputChange} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none">
-                               <option value="">Select an option...</option>
-                               <option value="Visited website">Visited website</option>
-                               <option value="Neighbour">Neighbour</option>
-                               <option value="Already one student is in our school">Already one student is in our school</option>
-                               <option value="Newspaper">Newspaper</option>
-                               <option value="Instagram">Instagram</option>
-                             </select>
-                           </div>
-                           <div>
-                             <label className="block text-sm font-bold text-gray-600 mb-2">Preferred Campus Visit Time</label>
-                             <select name="visitTime" value={formData.visitTime} onChange={handleInputChange} required className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none">
-                               <option value="">Select a slot...</option>
-                               <option value="Morning (9am - 12pm)">Morning (9am - 12pm)</option>
-                             </select>
-                           </div>
-                         </div>
-                         <div>
-                           <label className="block text-sm font-bold text-gray-600 mb-2">Any additional notes?</label>
-                           <textarea rows={3} name="notes" value={formData.notes} onChange={handleInputChange} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none resize-none"></textarea>
-                         </div>
-                        </>
-                     )}
+                      {step === 3 && (
+                         <>
+                          <div className="grid md:grid-cols-2 gap-6">
+                            <div>
+                              <label className="block text-sm font-bold text-gray-600 mb-2">How did you hear about us? *</label>
+                              <select 
+                                name="hearSource" 
+                                value={formData.hearSource} 
+                                onChange={handleInputChange} 
+                                className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors ${localErrors.hearSource ? 'border-red-300 focus:ring-red-400' : 'border-gray-200'}`}
+                              >
+                                <option value="">Select an option...</option>
+                                <option value="Visited website">Visited website</option>
+                                <option value="Neighbour">Neighbour</option>
+                                <option value="Already one student is in our school">Already one student is in our school</option>
+                                <option value="Newspaper">Newspaper</option>
+                                <option value="Instagram">Instagram</option>
+                              </select>
+                              {localErrors.hearSource && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.hearSource}</p>}
+                            </div>
+                            <div>
+                              <label className="block text-sm font-bold text-gray-600 mb-2">Preferred Campus Visit Time *</label>
+                              <select 
+                                name="visitTime" 
+                                value={formData.visitTime} 
+                                onChange={handleInputChange} 
+                                className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors ${localErrors.visitTime ? 'border-red-300 focus:ring-red-400' : 'border-gray-200'}`}
+                              >
+                                <option value="">Select a slot...</option>
+                                <option value="Morning (9am - 12pm)">Morning (9am - 12pm)</option>
+                              </select>
+                              {localErrors.visitTime && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.visitTime}</p>}
+                            </div>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-bold text-gray-600 mb-2">Any additional notes?</label>
+                            <textarea 
+                              rows={3} 
+                              name="notes" 
+                              value={formData.notes} 
+                              onChange={handleInputChange} 
+                              className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary outline-none resize-none transition-colors ${localErrors.notes ? 'border-red-300 focus:ring-red-400' : 'border-gray-200'}`}
+                            ></textarea>
+                            {localErrors.notes && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.notes}</p>}
+                          </div>
+                         </>
+                      )}
 
-                     <div className="flex gap-4 pt-6 border-t border-gray-100">
-                       {step > 1 && (
-                         <motion.button 
-                           type="button" 
-                           disabled={submitting}
-                           onClick={() => setStep(step - 1)}
-                           className="px-6 py-4 bg-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-200 transition-colors disabled:opacity-50"
-                           whileTap={{ scale: 0.96 }}
-                         >
-                           Back
-                         </motion.button>
+                      {globalError && (
+                         <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700 font-medium">
+                           {globalError}
+                           {apiErrors && Object.entries(apiErrors).map(([field, msgs]) => (
+                             <div key={field} className="mt-1">• <span className="capitalize">{field.replace(/_/g, ' ')}</span>: {msgs.join(', ')}</div>
+                           ))}
+                         </div>
                        )}
-                       <motion.button 
-                         type="submit" 
-                         disabled={submitting}
-                         className="flex-1 bg-primary text-white font-bold py-4 rounded-xl shadow-lg hover:bg-primary-dark transition-all flex items-center justify-center gap-2 disabled:opacity-80"
-                         whileHover={{ scale: 1.02, y: -2 }}
-                         whileTap={{ scale: 0.97 }}
-                       >
-                         {submitting ? (
-                           <>
-                             <Loader2 size={18} className="animate-spin" />
-                             Submitting...
-                           </>
-                         ) : (
-                           <>
-                             {step === 3 ? "Submit Application" : "Next Step"} 
-                             {step < 3 && <ChevronRight size={18} />}
-                           </>
-                         )}
-                       </motion.button>
-                     </div>
-                   </motion.form>
+
+                      <div className="flex gap-4 pt-6 border-t border-gray-100">
+                        {step > 1 && (
+                          <motion.button 
+                            type="button" 
+                            disabled={submitting}
+                            onClick={() => setStep(step - 1)}
+                            className="px-6 py-4 bg-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-200 transition-colors disabled:opacity-50"
+                            whileTap={{ scale: 0.96 }}
+                          >
+                            Back
+                          </motion.button>
+                        )}
+                        <motion.button 
+                          type="submit" 
+                          disabled={submitting}
+                          className="flex-1 bg-primary text-white font-bold py-4 rounded-xl shadow-lg hover:bg-primary-dark transition-all flex items-center justify-center gap-2 disabled:opacity-80"
+                          whileHover={{ scale: 1.02, y: -2 }}
+                          whileTap={{ scale: 0.97 }}
+                        >
+                          {submitting ? (
+                            <>
+                              <Loader2 size={18} className="animate-spin" />
+                              Submitting...
+                            </>
+                          ) : (
+                            <>
+                              {step === 3 ? "Submit Application" : "Next Step"} 
+                              {step < 3 && <ChevronRight size={18} />}
+                            </>
+                          )}
+                        </motion.button>
+                      </div>
+                    </motion.form>
                  )}
                </AnimatePresence>
             </div>

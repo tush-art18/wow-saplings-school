@@ -65,7 +65,7 @@ export default function TestimonialsStrip() {
           name: r.parent_name,
           role: r.child_class,
           content: r.content,
-          img: r.photo || "/parent-1.jpeg",
+          img: r.photo_url || "/parent-1.jpeg",
           location: "KOLHAPUR"
         }));
         setReviews(formatted);
