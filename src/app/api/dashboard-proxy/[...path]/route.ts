@@ -2,10 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 
-async function handleProxy(request: NextRequest, { params }: { params: { path: string[] } }) {
+async function handleProxy(request: NextRequest, { params }: { params: Promise<{ path: string[] }> | { path: string[] } }) {
   try {
     const accessToken = request.cookies.get("access_token")?.value;
-    const path = params.path.join("/");
+    
+    // Await params for Next.js 15+ compatibility
+    const resolvedParams = await params;
+    const path = resolvedParams.path.join("/");
     
     // Parse query parameters
     const searchParams = request.nextUrl.searchParams.toString();

@@ -124,9 +124,13 @@ export default function GalleryPage() {
         setCatName("");
         setCatSlug("");
         fetchData();
+      } else {
+        const err = await res.json();
+        alert(JSON.stringify(err));
       }
     } catch (error) {
       console.error("Failed to create category:", error);
+      alert("Failed to create category due to a network error.");
     }
   };
 
