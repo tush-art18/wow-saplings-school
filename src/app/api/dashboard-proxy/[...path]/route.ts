@@ -64,8 +64,8 @@ async function handleProxy(request: NextRequest, { params }: { params: Promise<{
     });
 
     let data;
-    const contentType = res.headers.get("content-type");
-    if (contentType && contentType.includes("application/json")) {
+    const responseContentType = res.headers.get("content-type");
+    if (responseContentType && responseContentType.includes("application/json")) {
       data = await res.json();
     } else {
       const text = await res.text();

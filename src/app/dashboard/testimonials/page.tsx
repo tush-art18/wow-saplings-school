@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Plus, Trash2, Edit2, X, Star, Eye, EyeOff, CheckCircle } from "lucide-react";
 import Image from "next/image";
+import { compressImage } from "@/lib/image";
 
 interface Testimonial {
   id: number;
@@ -79,6 +80,15 @@ export default function TestimonialsPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    let fileToUpload = photoFile;
+    if (photoFile) {
+      try {
+        fileToUpload = await compressImage(photoFile);
+      } catch (err) {
+        console.error("Compression error, uploading original:", err);
+      }
+    }
+
     const formData = new FormData();
     formData.append("parent_name", parentName);
     formData.append("child_class", childClass);
@@ -87,8 +97,8 @@ export default function TestimonialsPage() {
     formData.append("for_ttc", forTtc ? "true" : "false");
     formData.append("is_visible", isVisible ? "true" : "false");
     
-    if (photoFile) {
-      formData.append("photo", photoFile);
+    if (fileToUpload) {
+      formData.append("photo", fileToUpload);
     }
 
     const url = editingItem

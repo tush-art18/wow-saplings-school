@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { Plus, Trash2, X, Image as ImageIcon, FolderPlus, Grid, Tag } from "lucide-react";
 import Image from "next/image";
 import { getMediaUrl } from "@/lib/api";
+import { compressImage } from "@/lib/image";
 
 interface Category {
   id: number;
@@ -79,13 +80,21 @@ export default function GalleryPage() {
     }
 
     setIsUploading(true);
+    
+    let fileToUpload = photoFile;
+    try {
+      fileToUpload = await compressImage(photoFile);
+    } catch (err) {
+      console.error("Compression error, uploading original:", err);
+    }
+
     const formData = new FormData();
     formData.append("title", photoTitle);
     if (photoCat) formData.append("category", photoCat);
     formData.append("caption", photoCaption);
     formData.append("is_featured", photoIsFeatured ? "true" : "false");
     formData.append("order", photoOrder.toString());
-    formData.append("image", photoFile);
+    formData.append("image", fileToUpload);
 
     try {
       const res = await fetch("/api/dashboard-proxy/gallery/photos/", {
