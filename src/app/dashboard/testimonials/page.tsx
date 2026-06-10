@@ -20,6 +20,7 @@ interface Testimonial {
 export default function TestimonialsPage() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [editingItem, setEditingItem] = useState<Testimonial | null>(null);
 
@@ -127,15 +128,21 @@ export default function TestimonialsPage() {
   const handleDelete = async (id: number) => {
     if (!confirm("Are you sure you want to delete this testimonial?")) return;
 
+    setDeletingId(id);
     try {
       const res = await fetch(`/api/dashboard-proxy/testimonials/${id}/`, {
         method: "DELETE",
       });
       if (res.ok) {
         setTestimonials((prev) => prev.filter((t) => t.id !== id));
+      } else {
+        alert("Failed to delete testimonial. Please try again.");
       }
     } catch (error) {
       console.error("Failed to delete testimonial:", error);
+      alert("Failed to delete testimonial due to a network error.");
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -192,7 +199,7 @@ export default function TestimonialsPage() {
               key={item.id}
               className={`bg-white rounded-[2rem] p-6 shadow-xl border relative flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 ${
                 item.is_visible ? "border-gray-100" : "border-red-100 bg-red-50/10 opacity-75"
-              }`}
+              } ${deletingId === item.id ? "opacity-50 pointer-events-none scale-95" : ""}`}
             >
               {/* Top Details */}
               <div>
@@ -281,9 +288,14 @@ export default function TestimonialsPage() {
                   </button>
                   <button
                     onClick={() => handleDelete(item.id)}
-                    className="bg-gray-50 hover:bg-red-50 text-gray-600 hover:text-red-600 p-2.5 rounded-xl transition-all border border-gray-100"
+                    disabled={deletingId !== null}
+                    className="bg-gray-50 hover:bg-red-50 text-gray-600 hover:text-red-600 p-2.5 rounded-xl transition-all border border-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <Trash2 size={14} />
+                    {deletingId === item.id ? (
+                      <span className="w-3.5 h-3.5 border-2 border-red-500 border-t-transparent rounded-full animate-spin inline-block"></span>
+                    ) : (
+                      <Trash2 size={14} />
+                    )}
                   </button>
                 </div>
               </div>

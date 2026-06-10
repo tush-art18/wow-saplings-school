@@ -63,6 +63,10 @@ async function handleProxy(request: NextRequest, { params }: { params: Promise<{
       body,
     });
 
+    if (res.status === 204 || res.status === 205) {
+      return new Response(null, { status: res.status });
+    }
+
     let data;
     const responseContentType = res.headers.get("content-type");
     if (responseContentType && responseContentType.includes("application/json")) {

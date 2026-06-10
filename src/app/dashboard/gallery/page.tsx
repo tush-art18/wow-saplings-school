@@ -28,6 +28,7 @@ export default function GalleryPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<string>("");
+  const [deletingId, setDeletingId] = useState<number | null>(null);
 
   // Modal States
   const [showPhotoModal, setShowPhotoModal] = useState(false);
@@ -159,15 +160,21 @@ export default function GalleryPage() {
   const handlePhotoDelete = async (id: number) => {
     if (!confirm("Are you sure you want to delete this photo?")) return;
 
+    setDeletingId(id);
     try {
       const res = await fetch(`/api/dashboard-proxy/gallery/photos/${id}/`, {
         method: "DELETE",
       });
       if (res.ok) {
         setPhotos((prev) => prev.filter((p) => p.id !== id));
+      } else {
+        alert("Failed to delete photo. Please try again.");
       }
     } catch (error) {
       console.error("Failed to delete photo:", error);
+      alert("Failed to delete photo due to a network error.");
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -287,7 +294,9 @@ export default function GalleryPage() {
               {filteredPhotos.map((photo) => (
                 <div
                   key={photo.id}
-                  className="bg-white rounded-[2rem] overflow-hidden border border-gray-100 shadow-xl group hover:-translate-y-1 transition-all duration-300 relative flex flex-col justify-between"
+                  className={`bg-white rounded-[2rem] overflow-hidden border border-gray-100 shadow-xl group hover:-translate-y-1 transition-all duration-300 relative flex flex-col justify-between ${
+                    deletingId === photo.id ? "opacity-50 pointer-events-none scale-95" : ""
+                  }`}
                 >
                     <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
                       <Image
@@ -312,12 +321,19 @@ export default function GalleryPage() {
                     )}
 
                     {/* Trash overlay */}
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                    <div className={`absolute inset-0 bg-black/40 transition-opacity flex items-center justify-center gap-3 ${
+                      deletingId === photo.id ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                    }`}>
                       <button
                         onClick={() => handlePhotoDelete(photo.id)}
-                        className="bg-white/95 hover:bg-red-500 text-gray-800 hover:text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all active:scale-90"
+                        disabled={deletingId !== null}
+                        className="bg-white/95 hover:bg-red-500 text-gray-800 hover:text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all active:scale-90 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        <Trash2 size={18} />
+                        {deletingId === photo.id ? (
+                          <span className="w-5 h-5 border-2 border-gray-500 border-t-transparent rounded-full animate-spin"></span>
+                        ) : (
+                          <Trash2 size={18} />
+                        )}
                       </button>
                     </div>
                   </div>
