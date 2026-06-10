@@ -33,9 +33,10 @@ export default function GalleryPage() {
   const [showCatModal, setShowCatModal] = useState(false);
 
   // New Photo Form States
+  const [isUploading, setIsUploading] = useState(false);
   const [photoTitle, setPhotoTitle] = useState("");
-  const [photoCat, setPhotoCat] = useState("");
-  const [photoCaption, setPhotoCaption] = useState("");
+  const [photoCat, setPhotoCat] = useState(""); // Optional
+  const [photoCaption, setPhotoCaption] = useState(""); // Optional
   const [photoIsFeatured, setPhotoIsFeatured] = useState(false);
   const [photoOrder, setPhotoOrder] = useState(0);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
@@ -77,6 +78,7 @@ export default function GalleryPage() {
       return;
     }
 
+    setIsUploading(true);
     const formData = new FormData();
     formData.append("title", photoTitle);
     if (photoCat) formData.append("category", photoCat);
@@ -106,6 +108,8 @@ export default function GalleryPage() {
       }
     } catch (error) {
       console.error("Failed to upload photo:", error);
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -453,9 +457,15 @@ export default function GalleryPage() {
               </button>
               <button
                 type="submit"
-                className="bg-[#2d8c4e] text-white px-6 py-3 rounded-2xl font-black text-sm shadow-md hover:shadow-[#2d8c4e]/20 hover:brightness-105 active:scale-98 transition-all"
+                disabled={isUploading}
+                className="bg-[#2d8c4e] text-white px-6 py-3 rounded-2xl font-black text-sm shadow-md hover:shadow-[#2d8c4e]/20 hover:brightness-105 transition-all active:scale-95 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Upload Photo 🚀
+                {isUploading ? "Uploading to Cloudinary..." : (
+                  <>
+                    <Plus size={18} />
+                    Upload Photo
+                  </>
+                )}
               </button>
             </div>
           </form>
