@@ -24,8 +24,29 @@ export async function DELETE(request: NextRequest, context: { params: Promise<{ 
 
 async function handleProxy(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
   try {
-    const accessToken = request.cookies.get("access_token")?.value;
-    
+    let accessToken = request.cookies.get("access_token")?.value;
+    const refreshToken = request.cookies.get("refresh_token")?.value;
+    let newAccessToken = null;
+
+    // Auto-refresh token if access token is expired/missing but refresh token is present
+    if (!accessToken && refreshToken) {
+      try {
+        const refreshRes = await fetch(`${API_BASE}/auth/token/refresh/`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ refresh: refreshToken }),
+        });
+
+        if (refreshRes.ok) {
+          const refreshData = await refreshRes.json();
+          accessToken = refreshData.access;
+          newAccessToken = refreshData.access;
+        }
+      } catch (err) {
+        console.error("Dashboard proxy auto-token-refresh failed:", err);
+      }
+    }
+
     // Await params for Next.js 15+ compatibility
     const resolvedParams = await params;
     const path = resolvedParams.path.join("/");
@@ -63,20 +84,35 @@ async function handleProxy(request: NextRequest, { params }: { params: Promise<{
       body,
     });
 
+    let response;
     if (res.status === 204 || res.status === 205) {
-      return new Response(null, { status: res.status });
+      response = new NextResponse(null, { status: res.status });
+    } else {
+      let data;
+      const responseContentType = res.headers.get("content-type");
+      if (responseContentType && responseContentType.includes("application/json")) {
+        data = await res.json();
+      } else {
+        const text = await res.text();
+        data = { error: "Backend returned a non-JSON error", details: text.substring(0, 200) };
+      }
+      response = NextResponse.json(data, { status: res.status });
     }
 
-    let data;
-    const responseContentType = res.headers.get("content-type");
-    if (responseContentType && responseContentType.includes("application/json")) {
-      data = await res.json();
-    } else {
-      const text = await res.text();
-      data = { error: "Backend returned a non-JSON error", details: text.substring(0, 200) };
+    // Set refreshed cookie on the response so the browser updates its cookie store
+    if (newAccessToken) {
+      response.cookies.set({
+        name: "access_token",
+        value: newAccessToken,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: 15 * 60, // 15 minutes
+      });
     }
-    
-    return NextResponse.json(data, { status: res.status });
+
+    return response;
   } catch (error: any) {
     console.error("Dashboard BFF proxy error:", error);
     return NextResponse.json(
