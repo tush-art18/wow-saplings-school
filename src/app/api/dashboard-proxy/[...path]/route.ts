@@ -2,7 +2,27 @@ import { NextRequest, NextResponse } from "next/server";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 
-async function handleProxy(request: NextRequest, { params }: { params: Promise<{ path: string[] }> | { path: string[] } }) {
+export async function GET(request: NextRequest, context: { params: Promise<{ path: string[] }> }) {
+  return handleProxy(request, context);
+}
+
+export async function POST(request: NextRequest, context: { params: Promise<{ path: string[] }> }) {
+  return handleProxy(request, context);
+}
+
+export async function PATCH(request: NextRequest, context: { params: Promise<{ path: string[] }> }) {
+  return handleProxy(request, context);
+}
+
+export async function PUT(request: NextRequest, context: { params: Promise<{ path: string[] }> }) {
+  return handleProxy(request, context);
+}
+
+export async function DELETE(request: NextRequest, context: { params: Promise<{ path: string[] }> }) {
+  return handleProxy(request, context);
+}
+
+async function handleProxy(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
   try {
     const accessToken = request.cookies.get("access_token")?.value;
     
@@ -52,24 +72,4 @@ async function handleProxy(request: NextRequest, { params }: { params: Promise<{
       { status: 500 }
     );
   }
-}
-
-export async function GET(request: NextRequest, context: any) {
-  return handleProxy(request, context);
-}
-
-export async function POST(request: NextRequest, context: any) {
-  return handleProxy(request, context);
-}
-
-export async function PATCH(request: NextRequest, context: any) {
-  return handleProxy(request, context);
-}
-
-export async function PUT(request: NextRequest, context: any) {
-  return handleProxy(request, context);
-}
-
-export async function DELETE(request: NextRequest, context: any) {
-  return handleProxy(request, context);
 }

@@ -9,7 +9,10 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 /** Ensures media URLs returned by the backend are absolute URLs so images load properly. */
 export function getMediaUrl(path: string | null): string {
   if (!path) return '';
-  if (path.startsWith('http')) return path;
+  if (path.startsWith('http')) {
+    // Force HTTPS to avoid mixed-content warnings or Next.js protocol mismatch for Cloudinary
+    return path.replace('http://', 'https://');
+  }
   
   // Replace '/api' from API_BASE to get the root URL
   const baseUrl = API_BASE.replace(/\/api$/, '');
