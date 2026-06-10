@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { X, ZoomIn, Info, Image as ImageIcon } from "lucide-react";
 import Image from "next/image";
 import ScrollReveal from "@/components/global/ScrollReveal";
-import { fetchGalleryPhotos, fetchInstagramPosts, GalleryPhoto, InstagramPost } from "@/lib/api";
+import { fetchGalleryPhotos, fetchInstagramPosts, GalleryPhoto, InstagramPost, getMediaUrl } from "@/lib/api";
 
 const Instagram = ({ size = 24, className = "" }: { size?: number; className?: string }) => (
   <svg
