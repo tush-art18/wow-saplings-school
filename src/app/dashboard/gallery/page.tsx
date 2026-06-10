@@ -103,11 +103,19 @@ export default function GalleryPage() {
         setPhotoFile(null);
         fetchData();
       } else {
-        const err = await res.json();
-        alert(JSON.stringify(err));
+        let errText = "Unknown error occurred";
+        try {
+          const err = await res.json();
+          errText = typeof err === 'object' ? JSON.stringify(err, null, 2) : String(err);
+        } catch {
+          errText = `Server returned ${res.status}: ${res.statusText}. ` + 
+                    `This usually means the upload timed out or the backend crashed.`;
+        }
+        alert("Upload Failed: \n" + errText);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to upload photo:", error);
+      alert("Network error: " + error.message);
     } finally {
       setIsUploading(false);
     }

@@ -63,12 +63,20 @@ async function handleProxy(request: NextRequest, { params }: { params: Promise<{
       body,
     });
 
-    const data = await res.json();
+    let data;
+    const contentType = res.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      data = await res.json();
+    } else {
+      const text = await res.text();
+      data = { error: "Backend returned a non-JSON error", details: text.substring(0, 200) };
+    }
+    
     return NextResponse.json(data, { status: res.status });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Dashboard BFF proxy error:", error);
     return NextResponse.json(
-      { error: "Internal server error in dashboard proxy" },
+      { error: "Internal server error in dashboard proxy", details: error.message },
       { status: 500 }
     );
   }
