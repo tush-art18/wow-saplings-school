@@ -72,7 +72,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-4 md:px-8 py-4 ${isSolid ? "md:py-2" : "md:py-6"
+      className={`relative w-full transition-all duration-500 px-4 md:px-8 py-4 ${isSolid ? "md:py-2" : "md:py-6"
         }`}
     >
       <div className={`container mx-auto transition-all duration-500 ${isSolid

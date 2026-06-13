@@ -36,8 +36,10 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
   // Public website layout: wrap with public header/footer/widgets
   return (
     <>
-      <AnnouncementBar />
-      <Navbar />
+      <div className="fixed top-0 left-0 right-0 z-[100] flex flex-col w-full">
+        <AnnouncementBar />
+        <Navbar />
+      </div>
       <main className="flex-1 w-full relative">
         {children}
       </main>
