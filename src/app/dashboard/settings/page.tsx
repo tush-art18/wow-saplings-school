@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { CheckCircle, AlertCircle, Save, Instagram } from "lucide-react";
+import { CheckCircle, AlertCircle, Save, RefreshCw } from "lucide-react";
 
 interface Setting {
   id: number;
@@ -117,7 +117,7 @@ export default function SettingsPage() {
           disabled={syncing || loading}
           className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-5 py-3 rounded-2xl font-black text-sm shadow-md hover:brightness-105 active:scale-98 transition-all flex items-center justify-center gap-2 self-start sm:self-auto disabled:opacity-50"
         >
-          <Instagram size={18} />
+          <RefreshCw size={18} className={syncing ? "animate-spin" : ""} />
           {syncing ? "Syncing..." : "Sync Instagram Feed"}
         </button>
       </div>
