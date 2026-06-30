@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, ZoomIn, Info, Image as ImageIcon } from "lucide-react";
+import { X, ZoomIn, Info, Image as ImageIcon, Play } from "lucide-react";
 import Image from "next/image";
 import ScrollReveal from "@/components/global/ScrollReveal";
 import { fetchGalleryPhotos, fetchInstagramPosts, GalleryPhoto, InstagramPost, getMediaUrl } from "@/lib/api";
@@ -229,7 +229,7 @@ export default function GalleryPage() {
                       className={`relative ${idx % 3 === 0 ? "h-96" : "h-72"} w-full rounded-2xl overflow-hidden group cursor-pointer shadow-sm`}
                     >
                       <Image 
-                        src={post.media_url} 
+                        src={post.media_type === "VIDEO" && post.thumbnail_url ? post.thumbnail_url : post.media_url} 
                         alt="WOW Saplings Instagram Post"
                         fill
                         loading="lazy"
@@ -237,6 +237,14 @@ export default function GalleryPage() {
                         sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                         className="object-cover transform transition-transform duration-700 group-hover:scale-110"
                       />
+                      
+                      {post.media_type === "VIDEO" && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors duration-300">
+                          <div className="bg-white/95 rounded-full p-4 shadow-lg transform group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
+                            <Play size={20} className="text-gray-900 ml-0.5 fill-gray-900" />
+                          </div>
+                        </div>
+                      )}
                       
                       <div className="absolute top-3 right-3 bg-white/90 rounded-full p-2 shadow-sm z-10">
                         <Instagram size={18} className="text-pink-500" />
@@ -277,15 +285,38 @@ export default function GalleryPage() {
                  animate={{ y: 0, opacity: 1 }}
                  className="relative w-full h-[75vh]"
                >
-                 <Image 
-                   src={lightboxOpen.type === "School" ? selectedSchoolPhoto!.img : selectedInstagramPost!.media_url} 
-                   alt="WOW Saplings Gallery"
-                   fill
-                   priority
-                   unoptimized
-                   sizes="100vw"
-                   className="object-contain"
-                 />
+                  {lightboxOpen.type === "School" ? (
+                    <Image 
+                      src={selectedSchoolPhoto!.img} 
+                      alt="WOW Saplings Gallery"
+                      fill
+                      priority
+                      unoptimized
+                      sizes="100vw"
+                      className="object-contain"
+                    />
+                  ) : selectedInstagramPost!.media_type === "VIDEO" ? (
+                    <div className="w-full h-full flex items-center justify-center bg-black rounded-2xl overflow-hidden">
+                      <video 
+                        src={selectedInstagramPost!.media_url} 
+                        controls
+                        autoPlay
+                        loop
+                        playsInline
+                        className="max-w-full max-h-full object-contain"
+                      />
+                    </div>
+                  ) : (
+                    <Image 
+                      src={selectedInstagramPost!.media_url} 
+                      alt="WOW Saplings Gallery"
+                      fill
+                      priority
+                      unoptimized
+                      sizes="100vw"
+                      className="object-contain"
+                    />
+                  )}
                </motion.div>
                <motion.div 
                  initial={{ y: 10, opacity: 0 }}
