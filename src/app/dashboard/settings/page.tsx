@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { CheckCircle, AlertCircle, Save } from "lucide-react";
+import { CheckCircle, AlertCircle, Save, Instagram } from "lucide-react";
 
 interface Setting {
   id: number;
@@ -17,6 +17,31 @@ export default function SettingsPage() {
   const [savingId, setSavingId] = useState<number | null>(null);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [syncing, setSyncing] = useState(false);
+
+  const handleSyncInstagram = async () => {
+    setSyncing(true);
+    setSuccessMsg("");
+    setErrorMsg("");
+
+    try {
+      const res = await fetch("/api/dashboard-proxy/settings/sync-instagram/", {
+        method: "POST",
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setSuccessMsg(`Instagram sync completed: ${data.message}`);
+        setTimeout(() => setSuccessMsg(""), 5000);
+      } else {
+        setErrorMsg(data.message || "Failed to sync Instagram posts. Please check your Instagram credentials.");
+      }
+    } catch (error) {
+      setErrorMsg("Failed to connect to the server.");
+    } finally {
+      setSyncing(false);
+    }
+  };
 
   const fetchSettings = async () => {
     setLoading(true);
@@ -78,13 +103,23 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h2 className="font-heading font-black text-3xl text-primary-dark tracking-wide">
-          Site Settings
-        </h2>
-        <p className="text-gray-500 text-sm font-semibold mt-1">
-          Configure site-wide parameters such as contact phone numbers and announcement alerts.
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h2 className="font-heading font-black text-3xl text-primary-dark tracking-wide">
+            Site Settings
+          </h2>
+          <p className="text-gray-500 text-sm font-semibold mt-1">
+            Configure site-wide parameters such as contact phone numbers and announcement alerts.
+          </p>
+        </div>
+        <button
+          onClick={handleSyncInstagram}
+          disabled={syncing || loading}
+          className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-5 py-3 rounded-2xl font-black text-sm shadow-md hover:brightness-105 active:scale-98 transition-all flex items-center justify-center gap-2 self-start sm:self-auto disabled:opacity-50"
+        >
+          <Instagram size={18} />
+          {syncing ? "Syncing..." : "Sync Instagram Feed"}
+        </button>
       </div>
 
       {/* Messages */}
