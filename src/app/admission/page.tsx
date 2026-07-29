@@ -154,7 +154,7 @@ export default function AdmissionPage() {
         });
         setLocalErrors(mappedErrors);
 
-        const step1Keys = ["fathersName", "mothersName", "phone", "whatsapp", "address"];
+        const step1Keys = ["fathersName", "phone"];
         const step2Keys = ["childName", "gender", "dob", "program"];
 
         if (step1Keys.some(k => mappedErrors[k])) {
@@ -171,10 +171,7 @@ export default function AdmissionPage() {
   const resetForm = () => {
     setFormData({
       fathersName: "",
-      mothersName: "",
       phone: "",
-      whatsapp: "",
-      address: "",
       childName: "",
       gender: "",
       dob: "",
