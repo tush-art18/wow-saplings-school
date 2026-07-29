@@ -69,10 +69,7 @@ export interface SiteSettings {
 
 export interface AdmissionPayload {
   fathers_name: string;
-  mothers_name?: string;
   phone: string;
-  whatsapp: string;
-  address: string;
   child_name: string;
   gender: string;
   dob: string;

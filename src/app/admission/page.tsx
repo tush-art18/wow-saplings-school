@@ -17,10 +17,7 @@ export default function AdmissionPage() {
 
   const [formData, setFormData] = useState({
     fathersName: "",
-    mothersName: "",
     phone: "",
-    whatsapp: "",
-    address: "",
     childName: "",
     gender: "",
     dob: "",
@@ -53,28 +50,10 @@ export default function AdmissionPage() {
         errors.fathersName = "Father's name cannot exceed 100 characters.";
       }
 
-      if (formData.mothersName.trim() && formData.mothersName.trim().length > 100) {
-        errors.mothersName = "Mother's name cannot exceed 100 characters.";
-      }
-
       if (!formData.phone.trim()) {
         errors.phone = "Phone number is required.";
       } else if (!validateIndianPhone(formData.phone)) {
         errors.phone = "Enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9.";
-      }
-
-      if (!formData.whatsapp.trim()) {
-        errors.whatsapp = "WhatsApp number is required.";
-      } else if (!validateIndianPhone(formData.whatsapp)) {
-        errors.whatsapp = "Enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9.";
-      }
-
-      if (!formData.address.trim()) {
-        errors.address = "House address is required.";
-      } else if (formData.address.trim().length < 10) {
-        errors.address = "House address must be at least 10 characters.";
-      } else if (formData.address.trim().length > 500) {
-        errors.address = "House address cannot exceed 500 characters.";
       }
     }
 
@@ -149,10 +128,7 @@ export default function AdmissionPage() {
 
       const result = await submitAdmissionForm({
         fathers_name: formData.fathersName,
-        mothers_name: formData.mothersName,
         phone: formData.phone,
-        whatsapp: formData.whatsapp,
-        address: formData.address,
         child_name: formData.childName,
         gender: formData.gender,
         dob: formData.dob,
@@ -353,29 +329,17 @@ export default function AdmissionPage() {
                          <>
                           <div className="grid md:grid-cols-2 gap-6">
                             <div>
-                              <label className="block text-sm font-bold text-gray-600 mb-2">Father&apos;s Name *</label>
+                              <label className="block text-sm font-bold text-gray-600 mb-2">Father&apos;s / Parent&apos;s Name *</label>
                               <input 
                                 type="text" 
                                 name="fathersName" 
                                 value={formData.fathersName} 
                                 onChange={handleInputChange} 
                                 className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors ${localErrors.fathersName ? 'border-red-300 focus:ring-red-400' : 'border-gray-200'}`} 
+                                placeholder="Enter parent's full name"
                               />
                               {localErrors.fathersName && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.fathersName}</p>}
                             </div>
-                            <div>
-                              <label className="block text-sm font-bold text-gray-600 mb-2">Mother&apos;s Name</label>
-                              <input 
-                                type="text" 
-                                name="mothersName" 
-                                value={formData.mothersName} 
-                                onChange={handleInputChange} 
-                                className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors ${localErrors.mothersName ? 'border-red-300 focus:ring-red-400' : 'border-gray-200'}`} 
-                              />
-                              {localErrors.mothersName && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.mothersName}</p>}
-                            </div>
-                          </div>
-                          <div className="grid md:grid-cols-2 gap-6">
                             <div>
                               <label className="block text-sm font-bold text-gray-600 mb-2">Phone Number *</label>
                               <input 
@@ -384,33 +348,10 @@ export default function AdmissionPage() {
                                 value={formData.phone} 
                                 onChange={handleInputChange} 
                                 className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors ${localErrors.phone ? 'border-red-300 focus:ring-red-400' : 'border-gray-200'}`} 
+                                placeholder="+91 XXXXX XXXXX"
                               />
                               {localErrors.phone && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.phone}</p>}
                             </div>
-                            <div>
-                              <label className="block text-sm font-bold text-gray-600 mb-2">WhatsApp Number *</label>
-                              <input 
-                                type="tel" 
-                                name="whatsapp" 
-                                value={formData.whatsapp} 
-                                onChange={handleInputChange} 
-                                className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary outline-none transition-colors ${localErrors.whatsapp ? 'border-red-300 focus:ring-red-400' : 'border-gray-200'}`} 
-                                placeholder="Required for updates" 
-                              />
-                              {localErrors.whatsapp && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.whatsapp}</p>}
-                            </div>
-                          </div>
-                          <div>
-                            <label className="block text-sm font-bold text-gray-600 mb-2">House Address *</label>
-                            <textarea 
-                              rows={2} 
-                              name="address" 
-                              value={formData.address} 
-                              onChange={handleInputChange} 
-                              className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary outline-none resize-none transition-colors ${localErrors.address ? 'border-red-300 focus:ring-red-400' : 'border-gray-200'}`} 
-                              placeholder="Enter your full residential address"
-                            ></textarea>
-                            {localErrors.address && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.address}</p>}
                           </div>
                          </>
                       )}

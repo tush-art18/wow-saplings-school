@@ -15,10 +15,8 @@ export default function TeacherTrainingPage() {
   const [direction, setDirection] = useState(0);
   const [formData, setFormData] = useState({
     name: "",
-    dob: "",
     phone: "",
-    qualification: "Graduate",
-    address: ""
+    qualification: "Graduate"
   });
   const [localErrors, setLocalErrors] = useState<Record<string, string>>({});
 
@@ -47,20 +45,10 @@ export default function TeacherTrainingPage() {
       errors.name = "Name must be at least 2 characters.";
     }
 
-    if (!formData.dob) {
-      errors.dob = "Date of birth is required.";
-    }
-
     if (!formData.phone.trim()) {
       errors.phone = "Phone number is required.";
     } else if (!validateIndianPhone(formData.phone)) {
       errors.phone = "Enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9.";
-    }
-
-    if (!formData.address.trim()) {
-      errors.address = "Address is required.";
-    } else if (formData.address.trim().length < 10) {
-      errors.address = "Address must be at least 10 characters.";
     }
 
     setLocalErrors(errors);
@@ -338,7 +326,7 @@ export default function TeacherTrainingPage() {
                     const isValid = validateForm();
                     if (!isValid) return;
                     
-                    const text = `*New Teacher Training Enquiry*%0A%0A*Name:* ${formData.name}%0A*DOB:* ${formData.dob}%0A*Phone:* ${formData.phone}%0A*Qualification:* ${formData.qualification}%0A*Address:* ${formData.address}`;
+                    const text = `*New Teacher Training Enquiry*%0A%0A*Name:* ${formData.name}%0A*Phone:* ${formData.phone}%0A*Qualification:* ${formData.qualification}`;
                     const whatsappUrl = `https://api.whatsapp.com/send?phone=918999640602&text=${text}`;
                     window.open(whatsappUrl, "_blank");
                   }} noValidate>
@@ -354,30 +342,17 @@ export default function TeacherTrainingPage() {
                       />
                       {localErrors.name && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.name}</p>}
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-widest">Date of Birth *</label>
-                        <input 
-                          type="date" 
-                          name="dob" 
-                          value={formData.dob}
-                          onChange={e => handleInputChange("dob", e.target.value)}
-                          className={`w-full px-4 py-3 bg-gray-50 rounded-xl border focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm ${localErrors.dob ? 'border-red-300 focus:ring-red-400' : 'border-gray-200'}`} 
-                        />
-                        {localErrors.dob && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.dob}</p>}
-                      </div>
-                      <div>
-                        <label className="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-widest">Phone *</label>
-                        <input 
-                          type="tel" 
-                          name="phone" 
-                          value={formData.phone}
-                          onChange={e => handleInputChange("phone", e.target.value)}
-                          className={`w-full px-4 py-3 bg-gray-50 rounded-xl border focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm ${localErrors.phone ? 'border-red-300 focus:ring-red-400' : 'border-gray-200'}`} 
-                          placeholder="+91 XXXXX" 
-                        />
-                        {localErrors.phone && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.phone}</p>}
-                      </div>
+                    <div>
+                      <label className="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-widest">Phone *</label>
+                      <input 
+                        type="tel" 
+                        name="phone" 
+                        value={formData.phone}
+                        onChange={e => handleInputChange("phone", e.target.value)}
+                        className={`w-full px-4 py-3 bg-gray-50 rounded-xl border focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm ${localErrors.phone ? 'border-red-300 focus:ring-red-400' : 'border-gray-200'}`} 
+                        placeholder="+91 XXXXX" 
+                      />
+                      {localErrors.phone && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.phone}</p>}
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-widest">Qualification</label>
@@ -391,18 +366,6 @@ export default function TeacherTrainingPage() {
                         <option value="Undergraduate">Undergraduate</option>
                         <option value="Post Graduate">Post Graduate</option>
                       </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-widest">Address *</label>
-                      <textarea 
-                        name="address" 
-                        rows={2} 
-                        value={formData.address}
-                        onChange={e => handleInputChange("address", e.target.value)}
-                        className={`w-full px-4 py-3 bg-gray-50 rounded-xl border focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm resize-none ${localErrors.address ? 'border-red-300 focus:ring-red-400' : 'border-gray-200'}`} 
-                        placeholder="Enter full address" 
-                      ></textarea>
-                      {localErrors.address && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.address}</p>}
                     </div>
                     <button type="submit" className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-4 rounded-xl shadow-lg transition-all hover:-translate-y-1 mt-2 text-base flex justify-center items-center gap-2">
                       Apply via WhatsApp 📞

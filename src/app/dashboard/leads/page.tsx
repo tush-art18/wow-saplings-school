@@ -10,9 +10,6 @@ interface Lead {
   name: string;
   phone: string;
   notes: string;
-  mothers_name?: string;
-  whatsapp?: string;
-  address?: string;
   child_name?: string;
   gender?: string;
   dob?: string;
@@ -285,22 +282,6 @@ export default function LeadsPage() {
                   </span>
                   <span className="text-sm font-bold text-gray-800">{selectedLead.phone}</span>
                 </div>
-                {selectedLead.whatsapp && (
-                  <div>
-                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-wider block">
-                      WhatsApp Number
-                    </span>
-                    <span className="text-sm font-bold text-gray-800">{selectedLead.whatsapp}</span>
-                  </div>
-                )}
-                {selectedLead.mothers_name && (
-                  <div>
-                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-wider block">
-                      Mother's Name
-                    </span>
-                    <span className="text-sm font-bold text-gray-800">{selectedLead.mothers_name}</span>
-                  </div>
-                )}
                 {selectedLead.city && (
                   <div>
                     <span className="text-[10px] font-black text-gray-400 uppercase tracking-wider block">

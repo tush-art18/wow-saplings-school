@@ -58,8 +58,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const isDarkPage = pathname === "/teacher-training" || pathname === "/franchise";
-  const isSolid = scrolled || isDarkPage;
+  const isSolid = scrolled;
 
   const navLinks = [
     { name: "Programs", href: "/programs" },
@@ -72,7 +71,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`relative w-full transition-all duration-500 px-4 md:px-8 py-4 ${isSolid ? "md:py-2" : "md:py-6"
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-4 md:px-8 py-4 ${isSolid ? "md:py-2" : "md:py-6"
         }`}
     >
       <div className={`container mx-auto transition-all duration-500 ${isSolid
@@ -113,7 +112,7 @@ export default function Navbar() {
                   href={link.href}
                   className={`font-bold transition-all relative pb-2 group ${pathname === link.href ? "text-primary font-extrabold" : "text-primary-dark/80 hover:text-primary"
                     }`}
-                  style={!scrolled && !isDarkPage ? { textShadow: "0 2px 8px rgba(255, 255, 255, 0.95)" } : {}}
+                  style={!scrolled ? { textShadow: "0 2px 8px rgba(255, 255, 255, 0.95)" } : {}}
                 >
                   {link.name}
                   {/* Underline slides in from left on hover (CSS Transition) */}
