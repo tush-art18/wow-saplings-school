@@ -338,15 +338,6 @@ export default function LeadsPage() {
                       <span className="text-sm font-bold text-gray-800">{selectedLead.hear_source || "N/A"}</span>
                     </div>
                   </div>
-
-                  {selectedLead.address && (
-                    <div className="pt-2">
-                      <span className="text-[10px] font-black text-gray-400 uppercase tracking-wider block">
-                        Address
-                      </span>
-                      <p className="text-xs font-semibold text-gray-700 mt-1 leading-relaxed">{selectedLead.address}</p>
-                    </div>
-                  )}
                 </div>
               )}
 
