@@ -234,7 +234,7 @@ export default function LeadsPage() {
                           <Eye size={16} />
                         </button>
                         <a
-                          href={`https://api.whatsapp.com/send?phone=${lead.whatsapp || lead.phone}`}
+                          href={`https://api.whatsapp.com/send?phone=${lead.phone}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="bg-gray-50 hover:bg-[#25d366]/10 text-gray-600 hover:text-[#25d366] p-2.5 rounded-xl transition-all border border-gray-100"
@@ -397,7 +397,7 @@ export default function LeadsPage() {
                 </div>
 
                 <a
-                  href={`https://api.whatsapp.com/send?phone=${selectedLead.whatsapp || selectedLead.phone}`}
+                  href={`https://api.whatsapp.com/send?phone=${selectedLead.phone}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-[#25d366] text-white px-6 py-3 rounded-2xl font-black text-sm shadow-md hover:shadow-[#25d366]/25 hover:brightness-105 active:scale-98 transition-all flex items-center gap-2 self-end sm:self-center"
