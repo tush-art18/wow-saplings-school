@@ -7,12 +7,14 @@ import ScrollReveal from "@/components/global/ScrollReveal";
 import { CheckCircle2, ChevronDown, Award, Briefcase, GraduationCap, Quote, ChevronLeft, ChevronRight, Clock, Users, BadgeCheck, BookOpen, Brain, LayoutList, Presentation, FlaskConical } from "lucide-react";
 import { fetchTestimonials } from "@/lib/api";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function TeacherTrainingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [alumniImgErrors, setAlumniImgErrors] = useState<Record<number, boolean>>({});
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [privacyAgreed, setPrivacyAgreed] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -367,7 +369,36 @@ export default function TeacherTrainingPage() {
                         <option value="Post Graduate">Post Graduate</option>
                       </select>
                     </div>
-                    <button type="submit" className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-4 rounded-xl shadow-lg transition-all hover:-translate-y-1 mt-2 text-base flex justify-center items-center gap-2">
+
+                    {/* Privacy Policy Checkbox */}
+                    <div className="pt-1">
+                      <label htmlFor="privacy-teacher" className="flex items-start gap-2.5 cursor-pointer group text-xs text-gray-600 select-none">
+                        <input
+                          id="privacy-teacher"
+                          type="checkbox"
+                          checked={privacyAgreed}
+                          onChange={(e) => setPrivacyAgreed(e.target.checked)}
+                          className="mt-0.5 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer accent-primary"
+                        />
+                        <span className="font-medium leading-relaxed">
+                          I agree to the{" "}
+                          <Link 
+                            href="/privacy" 
+                            target="_blank" 
+                            className="text-primary font-bold underline hover:text-primary-dark transition-colors"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            Privacy Policy
+                          </Link>
+                        </span>
+                      </label>
+                    </div>
+
+                    <button 
+                      type="submit" 
+                      disabled={!privacyAgreed}
+                      className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-4 rounded-xl shadow-lg transition-all hover:-translate-y-1 mt-2 text-base flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#25D366] disabled:hover:translate-y-0"
+                    >
                       Apply via WhatsApp 📞
                     </button>
                     <p className="text-xs text-gray-500 text-center font-medium">

@@ -4,10 +4,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Lock, User, AlertCircle } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [privacyAgreed, setPrivacyAgreed] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -115,11 +117,35 @@ export default function LoginPage() {
           </div>
         </div>
 
+        {/* Privacy Policy Checkbox */}
+        <div className="pt-1">
+          <label htmlFor="privacy-login" className="flex items-start gap-2.5 cursor-pointer group text-xs text-gray-600 select-none">
+            <input
+              id="privacy-login"
+              type="checkbox"
+              checked={privacyAgreed}
+              onChange={(e) => setPrivacyAgreed(e.target.checked)}
+              className="mt-0.5 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer accent-primary"
+            />
+            <span className="font-medium leading-relaxed">
+              I agree to the{" "}
+              <Link 
+                href="/privacy" 
+                target="_blank" 
+                className="text-primary font-bold underline hover:text-primary-dark transition-colors"
+                onClick={(e) => e.stopPropagation()}
+              >
+                Privacy Policy
+              </Link>
+            </span>
+          </label>
+        </div>
+
         {/* Submit */}
         <button
           type="submit"
-          disabled={loading}
-          className="w-full bg-primary text-white py-4 rounded-2xl font-black text-base shadow-lg hover:shadow-primary/30 hover:-translate-y-1 active:scale-95 transition-all disabled:opacity-50 mt-2 border-2 border-primary-dark/20"
+          disabled={loading || !privacyAgreed}
+          className="w-full bg-primary text-white py-4 rounded-2xl font-black text-base shadow-lg hover:shadow-primary/30 hover:-translate-y-1 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none mt-2 border-2 border-primary-dark/20"
         >
           {loading ? "Verifying..." : "Sign In 🚀"}
         </button>

@@ -5,11 +5,13 @@ import { motion, AnimatePresence } from "motion/react";
 import { CheckCircle2, TrendingUp, Users, BookOpen, Building, Handshake, MapPin, Send, ChevronDown, Award, PieChart, Star, Loader2, Info } from "lucide-react";
 import ScrollReveal from "@/components/global/ScrollReveal";
 import Image from "next/image";
+import Link from "next/link";
 import { submitFranchiseForm } from "@/lib/api";
 
 export default function FranchisePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [submitting, setSubmitting] = useState(false);
+  const [privacyAgreed, setPrivacyAgreed] = useState(false);
   const [success, setSuccess] = useState(false);
   const [apiErrors, setApiErrors] = useState<Record<string, string[]>>({});
   const [localErrors, setLocalErrors] = useState<Record<string, string>>({});
@@ -323,6 +325,30 @@ export default function FranchisePage() {
                       {localErrors.message && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.message}</p>}
                     </div>
 
+                    {/* Privacy Policy Checkbox */}
+                    <div>
+                      <label htmlFor="privacy-franchise" className="flex items-start gap-3 cursor-pointer group text-xs text-gray-600 select-none">
+                        <input
+                          id="privacy-franchise"
+                          type="checkbox"
+                          checked={privacyAgreed}
+                          onChange={(e) => setPrivacyAgreed(e.target.checked)}
+                          className="mt-0.5 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer accent-primary"
+                        />
+                        <span className="font-medium leading-relaxed">
+                          I agree to the{" "}
+                          <Link 
+                            href="/privacy" 
+                            target="_blank" 
+                            className="text-primary font-bold underline hover:text-primary-dark transition-colors"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            Privacy Policy
+                          </Link>
+                        </span>
+                      </label>
+                    </div>
+
                     {globalError && (
                       <div className="p-4 bg-red-50 border-2 border-red-200 rounded-xl text-sm text-red-700 font-bold">
                         {globalError}
@@ -340,11 +366,11 @@ export default function FranchisePage() {
                       </div>
                     ) : (
                       <motion.button 
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
+                        whileHover={privacyAgreed && !submitting ? { scale: 1.02 } : {}}
+                        whileTap={privacyAgreed && !submitting ? { scale: 0.98 } : {}}
                         type="submit"
-                        disabled={submitting}
-                        className="w-full bg-[#25D366] hover:bg-[#20bd5a] border-b-4 border-[#1da851] text-white font-black py-4 rounded-xl shadow-lg transition-all flex justify-center items-center gap-2 text-lg disabled:opacity-70 disabled:cursor-not-allowed"
+                        disabled={submitting || !privacyAgreed}
+                        className="w-full bg-[#25D366] hover:bg-[#20bd5a] border-b-4 border-[#1da851] text-white font-black py-4 rounded-xl shadow-lg transition-all flex justify-center items-center gap-2 text-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#25D366] disabled:border-gray-300"
                       >
                         {submitting ? (
                           <><Loader2 size={24} className="animate-spin" /> Validating...</>

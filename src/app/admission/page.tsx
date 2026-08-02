@@ -5,12 +5,14 @@ import { motion, AnimatePresence } from "motion/react";
 import { CheckCircle2, ChevronRight, Check, Loader2 } from "lucide-react";
 import ScrollReveal from "@/components/global/ScrollReveal";
 import { submitAdmissionForm } from "@/lib/api";
+import Link from "next/link";
 
 
 export default function AdmissionPage() {
   const [step, setStep] = useState(1);
   const [success, setSuccess] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [privacyAgreed, setPrivacyAgreed] = useState(false);
   const [apiErrors, setApiErrors] = useState<Record<string, string[]>>({});
   const [localErrors, setLocalErrors] = useState<Record<string, string>>({});
   const [globalError, setGlobalError] = useState("");
@@ -461,6 +463,30 @@ export default function AdmissionPage() {
                             ></textarea>
                             {localErrors.notes && <p className="text-red-500 text-xs mt-1 font-bold">{localErrors.notes}</p>}
                           </div>
+
+                          {/* Privacy Policy Checkbox */}
+                          <div className="pt-2">
+                            <label htmlFor="privacy-admission" className="flex items-start gap-3 cursor-pointer group text-sm text-gray-600 select-none">
+                              <input
+                                id="privacy-admission"
+                                type="checkbox"
+                                checked={privacyAgreed}
+                                onChange={(e) => setPrivacyAgreed(e.target.checked)}
+                                className="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer accent-primary"
+                              />
+                              <span className="font-medium leading-snug">
+                                I have read and agree to the{" "}
+                                <Link 
+                                  href="/privacy" 
+                                  target="_blank" 
+                                  className="text-primary font-bold underline hover:text-primary-dark transition-colors"
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  Privacy Policy
+                                </Link>
+                              </span>
+                            </label>
+                          </div>
                          </>
                       )}
 
@@ -487,10 +513,10 @@ export default function AdmissionPage() {
                         )}
                         <motion.button 
                           type="submit" 
-                          disabled={submitting}
-                          className="flex-1 bg-primary text-white font-bold py-4 rounded-xl shadow-lg hover:bg-primary-dark transition-all flex items-center justify-center gap-2 disabled:opacity-80"
-                          whileHover={{ scale: 1.02, y: -2 }}
-                          whileTap={{ scale: 0.97 }}
+                          disabled={submitting || (step === 3 && !privacyAgreed)}
+                          className="flex-1 bg-primary text-white font-bold py-4 rounded-xl shadow-lg hover:bg-primary-dark transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-primary disabled:hover:scale-100"
+                          whileHover={step === 3 && !privacyAgreed ? {} : { scale: 1.02, y: -2 }}
+                          whileTap={step === 3 && !privacyAgreed ? {} : { scale: 0.97 }}
                         >
                           {submitting ? (
                             <>
