@@ -26,7 +26,8 @@ const Instagram = ({ size = 24, className = "" }: { size?: number; className?: s
   </svg>
 );
 
-function InstagramCard({ post, idx, onOpen }: { post: InstagramPost; idx: number; onOpen: () => void }) {
+function InstagramCard({ post, onOpen }: { post: InstagramPost; onOpen: () => void }) {
+  const [hasError, setHasError] = useState(false);
   const mediaSrc = getMediaUrl(post.thumbnail_url || post.media_url);
 
   return (
@@ -36,20 +37,28 @@ function InstagramCard({ post, idx, onOpen }: { post: InstagramPost; idx: number
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.3 }}
-      className="break-inside-avoid"
     >
       <div 
         onClick={onOpen}
-        className={`relative ${idx % 3 === 0 ? "h-96" : "h-72"} w-full rounded-2xl overflow-hidden group cursor-pointer shadow-sm bg-gray-100`}
+        className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden group cursor-pointer shadow-sm bg-gray-900 border border-gray-100"
       >
-        <img 
-          src={mediaSrc} 
-          alt={post.caption ? post.caption.slice(0, 60) : "WOW Saplings Instagram Post"}
-          referrerPolicy="no-referrer"
-          className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110"
-        />
+        {!hasError && mediaSrc ? (
+          <img 
+            src={mediaSrc} 
+            alt={post.caption ? post.caption.slice(0, 60) : "WOW Saplings Instagram Post"}
+            referrerPolicy="no-referrer"
+            onError={() => setHasError(true)}
+            className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110"
+          />
+        ) : (
+          <iframe 
+            src={`${post.permalink.replace(/\/$/, '')}/embed/`}
+            className="w-full h-full border-0 pointer-events-none transform scale-[1.03]"
+            scrolling="no"
+          />
+        )}
         
-        {post.media_type === "VIDEO" && (
+        {post.media_type === "VIDEO" && !hasError && (
           <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors duration-300">
             <div className="bg-white/95 rounded-full p-4 shadow-lg transform group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
               <Play size={20} className="text-gray-900 ml-0.5 fill-gray-900" />
@@ -61,7 +70,7 @@ function InstagramCard({ post, idx, onOpen }: { post: InstagramPost; idx: number
           <Instagram size={18} className="text-pink-500" />
         </div>
 
-        {post.caption && (
+        {post.caption && !hasError && (
           <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
             <p className="text-white text-sm line-clamp-4 font-medium">{post.caption}</p>
           </div>
@@ -70,6 +79,9 @@ function InstagramCard({ post, idx, onOpen }: { post: InstagramPost; idx: number
     </motion.div>
   );
 }
+
+
+
 
 
 export default function GalleryPage() {
@@ -258,13 +270,12 @@ export default function GalleryPage() {
                <p className="text-gray-500">Wait for the backend sync to pull posts from Instagram.</p>
              </div>
           ) : (
-             <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6 space-y-6">
+             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               <AnimatePresence>
-                {instagramPosts.map((post, idx) => (
+                {instagramPosts.map((post) => (
                   <InstagramCard 
                     key={post.id} 
                     post={post} 
-                    idx={idx} 
                     onOpen={() => setLightboxOpen({ type: "Instagram", id: post.id })} 
                   />
                 ))}
