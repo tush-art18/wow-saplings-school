@@ -2,7 +2,7 @@
 
 import ScrollReveal from "@/components/global/ScrollReveal";
 import Link from "next/link";
-import { Shield, Lock, Eye, FileText, ArrowLeft, Mail, Phone, MapPin, Globe, Instagram, Clock } from "lucide-react";
+import { Shield, ArrowLeft, Mail, Phone, MapPin, Clock } from "lucide-react";
 
 export default function PrivacyPolicyPage() {
   return (
