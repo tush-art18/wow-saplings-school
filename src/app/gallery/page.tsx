@@ -331,71 +331,39 @@ export default function GalleryPage() {
                       sizes="100vw"
                       className="object-contain"
                     />
-                  ) : selectedInstagramPost!.media_type === "VIDEO" && selectedInstagramPost!.media_url ? (
-                    <div className="w-full h-full flex items-center justify-center bg-black rounded-2xl overflow-hidden">
-                      <video 
-                        src={getMediaUrl(selectedInstagramPost!.media_url)} 
-                        controls
-                        autoPlay
-                        loop
-                        playsInline
-                        className="max-w-full max-h-full object-contain"
-                      />
-                    </div>
                   ) : (
-                    <div className="relative w-full h-full flex items-center justify-center">
-                      <Image 
-                        src={getMediaUrl(selectedInstagramPost!.thumbnail_url || selectedInstagramPost!.media_url)} 
-                        alt="WOW Saplings Gallery"
-                        fill
-                        priority
-                        unoptimized
-                        referrerPolicy="no-referrer"
-                        sizes="100vw"
-                        className="object-contain"
+                    <div className="w-full h-full max-w-md mx-auto flex items-center justify-center bg-black/60 rounded-3xl overflow-hidden shadow-2xl p-2">
+                      <iframe 
+                        src={`${selectedInstagramPost!.permalink.replace(/\/$/, '')}/embed/`} 
+                        className="w-full h-full min-h-[480px] rounded-2xl border-0 bg-white"
+                        allowFullScreen
+                        scrolling="no"
+                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
                       />
                     </div>
                   )}
                </motion.div>
-               <motion.div 
-                 initial={{ y: 10, opacity: 0 }}
-                 animate={{ y: 0, opacity: 1 }}
-                 transition={{ delay: 0.1 }}
-                 className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent text-white"
-               >
-                  <div className="flex justify-between items-end">
-                    {lightboxOpen.type === "School" ? (
+               {lightboxOpen.type === "School" && (
+                 <motion.div 
+                   initial={{ y: 10, opacity: 0 }}
+                   animate={{ y: 0, opacity: 1 }}
+                   transition={{ delay: 0.1 }}
+                   className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent text-white"
+                 >
+                    <div className="flex justify-between items-end">
                       <div>
                         <div className="text-accent-yellow font-bold text-sm tracking-widest uppercase mb-2">{selectedSchoolPhoto!.cat}</div>
                         <h2 className="font-heading font-bold text-3xl">{selectedSchoolPhoto!.title}</h2>
                         {selectedSchoolPhoto!.caption && <p className="mt-2 text-white/80">{selectedSchoolPhoto!.caption}</p>}
                       </div>
-                    ) : (
-                      <div className="max-w-2xl">
-                        <div className="flex items-center gap-2 text-pink-400 font-bold text-sm tracking-widest uppercase mb-2">
-                           <Instagram size={16} /> Instagram Feed
-                        </div>
-                        <p className="font-medium text-lg text-white/90 line-clamp-3">{selectedInstagramPost!.caption}</p>
+                      <div className="hidden md:flex flex-col items-end gap-3">
+                         <div className="bg-white/20 backdrop-blur-md px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
+                            <Info size={16} /> WOW Saplings Gallery
+                         </div>
                       </div>
-                    )}
-
-                    <div className="hidden md:flex flex-col items-end gap-3">
-                       {lightboxOpen.type === "Instagram" && (
-                         <a 
-                           href={selectedInstagramPost!.permalink} 
-                           target="_blank" 
-                           rel="noreferrer"
-                           className="bg-white text-gray-900 px-5 py-2 rounded-full font-bold hover:bg-gray-100 transition-colors flex items-center gap-2 text-sm"
-                         >
-                           View on Instagram
-                         </a>
-                       )}
-                       <div className="bg-white/20 backdrop-blur-md px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
-                          <Info size={16} /> WOW Saplings Gallery
-                       </div>
                     </div>
-                  </div>
-               </motion.div>
+                 </motion.div>
+               )}
             </div>
           </motion.div>
         )}
