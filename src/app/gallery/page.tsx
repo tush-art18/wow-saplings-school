@@ -339,7 +339,6 @@ export default function GalleryPage() {
                         autoPlay
                         loop
                         playsInline
-                        referrerPolicy="no-referrer"
                         className="max-w-full max-h-full object-contain"
                       />
                     </div>
