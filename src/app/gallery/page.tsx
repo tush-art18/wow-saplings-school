@@ -26,6 +26,76 @@ const Instagram = ({ size = 24, className = "" }: { size?: number; className?: s
   </svg>
 );
 
+function InstagramCard({ post, idx, onOpen }: { post: InstagramPost; idx: number; onOpen: () => void }) {
+  const [imgError, setImgError] = useState(false);
+  const mediaSrc = getMediaUrl(post.thumbnail_url || post.media_url);
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.3 }}
+      className="break-inside-avoid"
+    >
+      <div 
+        onClick={onOpen}
+        className={`relative ${idx % 3 === 0 ? "h-96" : "h-72"} w-full rounded-2xl overflow-hidden group cursor-pointer shadow-sm bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-yellow-500/10 border border-gray-100`}
+      >
+        {mediaSrc && !imgError ? (
+          <Image 
+            src={mediaSrc} 
+            alt={post.caption ? post.caption.slice(0, 50) : "WOW Saplings Instagram Post"}
+            fill
+            loading="lazy"
+            unoptimized
+            referrerPolicy="no-referrer"
+            onError={() => setImgError(true)}
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            className="object-cover transform transition-transform duration-700 group-hover:scale-110"
+          />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-700 via-pink-600 to-amber-500 p-6 flex flex-col justify-between text-white">
+            <div className="flex justify-between items-center">
+              <Instagram size={28} className="text-white" />
+              <span className="text-[11px] bg-white/20 backdrop-blur-md px-3 py-1 rounded-full font-bold uppercase tracking-wider">
+                {post.media_type === "VIDEO" ? "Reel" : "Post"}
+              </span>
+            </div>
+            <p className="text-sm font-medium line-clamp-4 text-white/95 leading-relaxed">
+              {post.caption || "Tap to view this post from our official Instagram feed"}
+            </p>
+            <div className="text-xs font-bold text-yellow-200 flex items-center gap-1">
+              View on Instagram →
+            </div>
+          </div>
+        )}
+        
+        {post.media_type === "VIDEO" && !imgError && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors duration-300">
+            <div className="bg-white/95 rounded-full p-4 shadow-lg transform group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
+              <Play size={20} className="text-gray-900 ml-0.5 fill-gray-900" />
+            </div>
+          </div>
+        )}
+        
+        {!imgError && (
+          <div className="absolute top-3 right-3 bg-white/90 rounded-full p-2 shadow-sm z-10">
+            <Instagram size={18} className="text-pink-500" />
+          </div>
+        )}
+
+        {!imgError && post.caption && (
+          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+            <p className="text-white text-sm line-clamp-4 font-medium">{post.caption}</p>
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
 export default function GalleryPage() {
   const [mainTab, setMainTab] = useState<"School" | "Instagram">("School");
   const [activeCategory, setActiveCategory] = useState("All");
@@ -215,46 +285,12 @@ export default function GalleryPage() {
              <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6 space-y-6">
               <AnimatePresence>
                 {instagramPosts.map((post, idx) => (
-                  <motion.div
-                    key={post.id}
-                    layout
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.3 }}
-                    className="break-inside-avoid"
-                  >
-                    <div 
-                      onClick={() => setLightboxOpen({ type: "Instagram", id: post.id })}
-                      className={`relative ${idx % 3 === 0 ? "h-96" : "h-72"} w-full rounded-2xl overflow-hidden group cursor-pointer shadow-sm`}
-                    >
-                      <Image 
-                        src={getMediaUrl(post.media_type === "VIDEO" && post.thumbnail_url ? post.thumbnail_url : post.media_url)} 
-                        alt="WOW Saplings Instagram Post"
-                        fill
-                        loading="lazy"
-                        unoptimized
-                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                        className="object-cover transform transition-transform duration-700 group-hover:scale-110"
-                      />
-                      
-                      {post.media_type === "VIDEO" && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors duration-300">
-                          <div className="bg-white/95 rounded-full p-4 shadow-lg transform group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
-                            <Play size={20} className="text-gray-900 ml-0.5 fill-gray-900" />
-                          </div>
-                        </div>
-                      )}
-                      
-                      <div className="absolute top-3 right-3 bg-white/90 rounded-full p-2 shadow-sm z-10">
-                        <Instagram size={18} className="text-pink-500" />
-                      </div>
-
-                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
-                         <p className="text-white text-sm line-clamp-4 font-medium">{post.caption}</p>
-                      </div>
-                    </div>
-                  </motion.div>
+                  <InstagramCard 
+                    key={post.id} 
+                    post={post} 
+                    idx={idx} 
+                    onOpen={() => setLightboxOpen({ type: "Instagram", id: post.id })} 
+                  />
                 ))}
               </AnimatePresence>
             </div>
@@ -295,7 +331,7 @@ export default function GalleryPage() {
                       sizes="100vw"
                       className="object-contain"
                     />
-                  ) : selectedInstagramPost!.media_type === "VIDEO" ? (
+                  ) : selectedInstagramPost!.media_type === "VIDEO" && selectedInstagramPost!.media_url ? (
                     <div className="w-full h-full flex items-center justify-center bg-black rounded-2xl overflow-hidden">
                       <video 
                         src={getMediaUrl(selectedInstagramPost!.media_url)} 
@@ -303,19 +339,23 @@ export default function GalleryPage() {
                         autoPlay
                         loop
                         playsInline
+                        referrerPolicy="no-referrer"
                         className="max-w-full max-h-full object-contain"
                       />
                     </div>
                   ) : (
-                    <Image 
-                      src={getMediaUrl(selectedInstagramPost!.media_url)} 
-                      alt="WOW Saplings Gallery"
-                      fill
-                      priority
-                      unoptimized
-                      sizes="100vw"
-                      className="object-contain"
-                    />
+                    <div className="relative w-full h-full flex items-center justify-center">
+                      <Image 
+                        src={getMediaUrl(selectedInstagramPost!.thumbnail_url || selectedInstagramPost!.media_url)} 
+                        alt="WOW Saplings Gallery"
+                        fill
+                        priority
+                        unoptimized
+                        referrerPolicy="no-referrer"
+                        sizes="100vw"
+                        className="object-contain"
+                      />
+                    </div>
                   )}
                </motion.div>
                <motion.div 
@@ -365,3 +405,4 @@ export default function GalleryPage() {
     </div>
   );
 }
+
