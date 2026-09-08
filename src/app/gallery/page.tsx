@@ -229,7 +229,7 @@ export default function GalleryPage() {
                       className={`relative ${idx % 3 === 0 ? "h-96" : "h-72"} w-full rounded-2xl overflow-hidden group cursor-pointer shadow-sm`}
                     >
                       <Image 
-                        src={post.media_type === "VIDEO" && post.thumbnail_url ? post.thumbnail_url : post.media_url} 
+                        src={getMediaUrl(post.media_type === "VIDEO" && post.thumbnail_url ? post.thumbnail_url : post.media_url)} 
                         alt="WOW Saplings Instagram Post"
                         fill
                         loading="lazy"
@@ -298,7 +298,7 @@ export default function GalleryPage() {
                   ) : selectedInstagramPost!.media_type === "VIDEO" ? (
                     <div className="w-full h-full flex items-center justify-center bg-black rounded-2xl overflow-hidden">
                       <video 
-                        src={selectedInstagramPost!.media_url} 
+                        src={getMediaUrl(selectedInstagramPost!.media_url)} 
                         controls
                         autoPlay
                         loop
@@ -308,7 +308,7 @@ export default function GalleryPage() {
                     </div>
                   ) : (
                     <Image 
-                      src={selectedInstagramPost!.media_url} 
+                      src={getMediaUrl(selectedInstagramPost!.media_url)} 
                       alt="WOW Saplings Gallery"
                       fill
                       priority
